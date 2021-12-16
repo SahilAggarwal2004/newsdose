@@ -6,4 +6,4 @@ d) For infinite scroll till the news ends, Harry used another npm module but I w
 
 The points mentioned above justify that I create unique things from what I learn instead of copy pasting.
 
-If not satisfied only by this you can checkout more projects uploaded by me on github.
+Don't forget to checkout more of my projects on github :)
