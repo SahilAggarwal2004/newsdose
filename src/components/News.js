@@ -6,13 +6,6 @@ import PropTypes from 'prop-types'
 // In react class-based components, there are some lifecycle methods which determines the life-cycle of a class component. For study of this, refer https://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/
 export class News extends Component {
 
-    // apikey = "b468883760dc4b46b81236bf0fb88894";
-    // apikey = "5a0a161dfc4249adae708df0c92a7798";
-    // apikey = "18962e076d3f425dae509d3f5ec5e02f";
-    // apikey = "3ffb80c72f1648b4bccfeefc73e25a67";
-    // apikey = "fd7a7de7c91c4120b8e5236e1a54d7ab";
-    apikey = "30073eb57c3d4483b2473117f869f9d6";
-
     // defaultProps and propTypes in class based component
     static defaultProps = {
         country: "in",
@@ -65,10 +58,21 @@ export class News extends Component {
         loadBar.visibility = "visible";
         loadBar.width = "10vw";
         this.setState({ load: true })
-        let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&apiKey=${this.apikey}&category=${this.props.category.toLowerCase()}&page=1&pageSize=${this.props.pageSize}&q=${this.props.query}`;
-        let data = await fetch(url);
+        let url = `http://localhost:5000/`;
+        let response = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                country: this.props.country,
+                category: this.props.category.toLowerCase(),
+                page: 1,
+                pageSize: this.props.pageSize,
+                query: this.props.query
+            })
+        });
         loadBar.width = "15vw";
-        let parsedData = await data.json();
+        let data = await response.json();
+        let parsedData = data.news;
         loadBar.width = "25vw";
         this.setState({
             articles: this.state.articles.concat(parsedData.articles),
@@ -82,9 +86,20 @@ export class News extends Component {
         let page = 1
         while (this.state.articles.length <= parsedData.totalResults - this.props.pageSize) {
             page++
-            let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&apiKey=${this.apikey}&category=${this.props.category.toLowerCase()}&page=${page}&pageSize=${this.props.pageSize}&q=${this.props.query}`;
-            data = await fetch(url);
-            parsedData = await data.json();
+            let url = `http://localhost:5000/`;
+            response = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    country: this.props.country,
+                    category: this.props.category.toLowerCase(),
+                    page: page,
+                    pageSize: this.props.pageSize,
+                    query: this.props.query
+                })
+            });
+            data = await response.json();
+            parsedData = data.news;
             this.setState({
                 articles: this.state.articles.concat(parsedData.articles),
             })
@@ -100,7 +115,7 @@ export class News extends Component {
 
     render() {
         return (
-            <div className="container" style={{marginTop: "70px"}}>
+            <div className="container" style={{ marginTop: "70px" }}>
                 <h3 className="text-center">Top Headlines{this.props.category ? ` - ${this.props.category}` : ""}</h3>
                 <hr />
                 {!this.state.load ?
