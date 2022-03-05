@@ -58,7 +58,7 @@ export class News extends Component {
         loadBar.visibility = "visible";
         loadBar.width = "10vw";
         this.setState({ load: true })
-        let url = `http://localhost:5000/`;
+        let url = process.env.REACT_APP_URL;
         let response = await fetch(url, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -86,7 +86,6 @@ export class News extends Component {
         let page = 1
         while (this.state.articles.length <= parsedData.totalResults - this.props.pageSize) {
             page++
-            let url = `http://localhost:5000/`;
             response = await fetch(url, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
