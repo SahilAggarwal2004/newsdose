@@ -15,18 +15,14 @@ export default class App extends Component { // This is a class based component
   constructor() {
     super()
     this.state = {
-      country: "in",
-      category: "",
+      country: localStorage.getItem('country') || "in",
       query: ""
     }
+    this.categories = ["", "Business", "Entertainment", "Health", "Science", "Sports", "Technology"];
   }
 
   setCoun = country => {
     this.setState({ country })
-  }
-
-  setCat = category => {
-    this.setState({ category })
   }
 
   search = query => {
@@ -48,8 +44,10 @@ export default class App extends Component { // This is a class based component
           }} />
           <Routes>
             {/* here key needs to defined uniquely for all categorized News components with different categories as when we switch to a different endpoint(category), react thinks that there is no need to render News again as its already rendered and does nothing but when we define different keys for different News components, so on changing the endpoint, it identifies that the new News component is different from the current one and it re-renders it with the new props */}
-            <Route path='/science' element={<News country={this.state.country} key={this.state.country + 'science' + this.state.query} category={'Science'} query={this.state.query} />} />
-            <Route path={`/${this.state.category.toLowerCase()}`} element={<News country={this.state.country} key={this.state.country + this.state.category + this.state.query} category={this.state.category} query={this.state.query} />} />
+            {this.categories.map((category)=>{
+              return <Route path={`/${category.toLowerCase()}`} element={<News country={this.state.country} key={this.state.country + category + this.state.query} category={category} query={this.state.query} />} />
+            })}
+            {/* <Route path='/science' element={<News country={this.state.country} key={this.state.country + 'science' + this.state.query} category={'Science'} query={this.state.query} />} /> */}
           </Routes>
         </Router>
       </div>
