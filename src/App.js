@@ -37,7 +37,7 @@ export default class App extends Component { // This is a class based component
           {/* using 'this' keyword, we are using the name identifier of parent class of render() function */}
           <Navbar setCoun={this.setCoun} setCat={this.setCat} search={this.search} />
           <div id="loadBar" className="fixed-top" style={{
-            height: "0.1rem",
+            height: "0.125rem",
             width: "0vw",
             backgroundColor: "red",
             transition: "width 0.25s"

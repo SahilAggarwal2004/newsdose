@@ -9,12 +9,10 @@ export class News extends Component {
     // defaultProps and propTypes in class based component
     static defaultProps = {
         country: "in",
-        pageSize: 99,
         category: ""
     }
     static propTypes = {
         country: PropTypes.string,
-        pageSize: PropTypes.number,
         category: PropTypes.string
     }
 
@@ -65,8 +63,6 @@ export class News extends Component {
             body: JSON.stringify({
                 country: this.props.country,
                 category: this.props.category.toLowerCase(),
-                page: 1,
-                pageSize: this.props.pageSize,
                 query: this.props.query
             })
         });
@@ -83,26 +79,27 @@ export class News extends Component {
             loadBar.visibility = "hidden";
             loadBar.width = "0vw";
         }, 300);
-        let page = 1
-        while (this.state.articles.length <= parsedData.totalResults - this.props.pageSize) {
-            page++
-            response = await fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    country: this.props.country,
-                    category: this.props.category.toLowerCase(),
-                    page: page,
-                    pageSize: this.props.pageSize,
-                    query: this.props.query
-                })
-            });
-            data = await response.json();
-            parsedData = data.news;
-            this.setState({
-                articles: this.state.articles.concat(parsedData.articles),
-            })
-        }
+
+        // below code is only to fetch more articles but right now for our app, maximum 99 articles are enough.
+        // let page = 1
+        // while (this.state.articles.length <= parsedData.totalResults - 99) {
+        //     page++
+        //     response = await fetch(url, {
+        //         method: 'POST',
+        //         headers: { 'Content-Type': 'application/json' },
+        //         body: JSON.stringify({
+        //             country: this.props.country,
+        //             category: this.props.category.toLowerCase(),
+        //             page: page,
+        //             query: this.props.query
+        //         })
+        //     });
+        //     data = await response.json();
+        //     parsedData = data.news;
+        //     this.setState({
+        //         articles: this.state.articles.concat(parsedData.articles),
+        //     })
+        // }
     }
 
     // prev = async () => { // If a function is being used jsx code (inside or outside render()), that function should be either arrow function like this function or that funnction should be bound to the constructor() like next() to avoid errors
