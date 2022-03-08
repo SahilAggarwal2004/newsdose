@@ -3,14 +3,9 @@ import { Link } from "react-router-dom";
 
 export class Navbar extends Component {
 
-    countries = ["ar_Argentina", "at_Austria", "au_Australia", "be_Belgium", "bg_Bulgaria", "br_Brazil", "ca_Canada", "cn_China", "co_Colombia", "cu_Cuba", "cz_Czech Republic", "eg_Egypt", "ae_Emirates (UAE)", "fr_France", "de_Germany", "gr_Greece", "hk_Hong Kong", "hu_Hungary", "in_India", "id_Indonesia", "ie_Ireland", "il_Israel", "it_Italy", "jp_Japan", "kr_Korea", "lv_Latvia", "lt_Lithuania", "my_Malaysia", "mx_Mexico", "ma_Morocco", "ng_Nigeria", "nl_Netherlands", "nz_New Zealand", "no_Norway", "ph_Philippines", "pl_Poland", "pt_Portugal", "ro_Romania", "ru_Russia", "sa_Saudi Arabia", "rs_Serbia", "sg_Singapore", "sk_Slovakia", "si_Slovenia", "za_South Africa", "se_Sweden", "ch_Switzerland", "tw_Taiwan", "th_Thailand", "tr_Turkey", "ua_Ukraine", "gb_United Kingdom", "us_United States", "ve_Venezuela"]
+    countries = ["au_Australia", "ca_Canada", "in_India", "ie_Ireland", "my_Malaysia", "ng_Nigeria", "nz_New Zealand", "ph_Philippines", "sa_Saudi Arabia", "sg_Singapore", "za_South Africa", "gb_United Kingdom", "us_United States"]
 
     categories = ["", "Business", "Entertainment", "Health", "Science", "Sports", "Technology"]
-
-    submit = event => {
-        event.preventDefault()
-        this.props.search(document.querySelector('input').value)
-    }
 
     render() {
         return (
@@ -30,20 +25,21 @@ export class Navbar extends Component {
                                     </li>)
                             })}
                         </ul>
-                        <select className="form-select w-auto" aria-label="Default select example" defaultValue={localStorage.getItem('country') || "in"} onChange={() => {
-                            this.props.setCoun(document.querySelector("select").value);
-                            localStorage.setItem('country', document.querySelector("select").value)
-                        }} style={{ marginRight: "0.5rem" }}>
-                            {this.countries.map(element => {
-                                return (
-                                    <option value={element.split('_')[0]} key={element.split('_')[0]}>{element.split('_')[1]}</option>
-                                )
-                            })}
-                        </select>
-                        <form className="d-flex w-auto" onSubmit={this.submit}>
-                            <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                            <button className="btn btn-outline-primary" type="submit">Search</button>
-                        </form>
+                        <div className='d-flex'>
+                            <select className="form-select w-auto" aria-label="Default select example" defaultValue={localStorage.getItem('country') || "in"} onChange={() => {
+                                this.props.setCoun(document.querySelector("select").value);
+                                localStorage.setItem('country', document.querySelector("select").value)
+                            }} style={{ marginRight: "0.5rem" }}>
+                                {this.countries.map(element => {
+                                    return (
+                                        <option value={element.split('_')[0]} key={element.split('_')[0]}>{element.split('_')[1]}</option>
+                                    )
+                                })}
+                            </select>
+                            <input className="form-control me-2 ps-1" type="search" placeholder="Search" aria-label="Search" onChange={event => {
+                                this.props.search(event.target.value)
+                            }} />
+                        </div>
                     </div>
                 </div>
             </nav >
