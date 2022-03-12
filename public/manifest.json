@@ -1,6 +1,8 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "NewsDose",
+  "name": "NewsDose - Get your daily dose of news for free!",
+  "description": "NewsDose is a news app which can be used to grab quick daily news bites for free. If you are interested in news, weather, politics and sports news, then NewsDose is for you!",
+  "author": "Sahil Aggarwal",
   "icons": [
     {
       "src": "favicon.ico",
@@ -8,14 +10,8 @@
       "type": "image/x-icon"
     },
     {
-      "src": "logo192.png",
-      "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "logo512.png",
-      "type": "image/png",
-      "sizes": "512x512"
+      "src": "logo.png",
+      "type": "image/png"
     }
   ],
   "start_url": ".",
