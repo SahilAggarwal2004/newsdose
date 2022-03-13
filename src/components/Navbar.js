@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 export class Navbar extends Component {
 
     countries = ["au_Australia", "ca_Canada", "in_India", "ie_Ireland", "my_Malaysia", "ng_Nigeria", "nz_New Zealand", "ph_Philippines", "sa_Saudi Arabia", "sg_Singapore", "za_South Africa", "gb_United Kingdom", "us_United States"]
-
     categories = ["", "Business", "Entertainment", "Health", "Science", "Sports", "Technology"]
 
     render() {
@@ -21,7 +20,11 @@ export class Navbar extends Component {
                             {this.categories.map((element) => {
                                 return (
                                     <li className="nav-item" key={element}>
-                                        <Link className="nav-link" aria-current="page" to={`/${element.toLowerCase()}`}>{element ? element : "Home"}</Link>
+                                        <Link className="nav-link" aria-current="page" to={`/${element.toLowerCase()}`}>
+                                            <button className='btn shadow-none nav-link p-0' data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+                                                {element ? element : "Home"}
+                                            </button>
+                                        </Link>
                                     </li>)
                             })}
                         </ul>

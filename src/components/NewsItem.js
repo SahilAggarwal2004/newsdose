@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import newsImg from '../news.jpg'
 
 export class NewsItem extends Component {
     render() {
@@ -7,7 +8,7 @@ export class NewsItem extends Component {
         return (
             <div className="card m-3" style={{ paddingBottom: "2rem" }}>
                 <span className="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger border">{source}</span>
-                <img src={imgUrl ? imgUrl : "https://cdn.pixabay.com/photo/2016/02/01/00/56/news-1172463__480.jpg"} className="card-img-top" alt="News" style={{ height: "12rem" }} />
+                <img src={imgUrl ? imgUrl : newsImg} onError={event => { event.target.src = newsImg }} className="card-img-top" alt="News" style={{ height: "12rem" }} />
                 <div className="card-body">
                     <hr />
                     <h5 className="card-title">{title}</h5>

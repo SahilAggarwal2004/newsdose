@@ -35,7 +35,7 @@ export class News extends Component {
         loadBar.visibility = "visible";
         loadBar.width = "10vw";
         this.setState({ load: true })
-        let url = process.env.REACT_APP_URL;
+        let url = process.env.REACT_APP_LOCALURL;
         let response = await fetch(url, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
