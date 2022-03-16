@@ -41,7 +41,7 @@ export class News extends Component {
         let parsedData = JSON.parse(sessionStorage.getItem(`news${this.props.country}${this.props.category}`))
         if (!parsedData) {
             try {
-                let url = process.env.REACT_APP_LOCALURL;
+                let url = process.env.REACT_APP_URL;
                 let response = await fetch(url, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
