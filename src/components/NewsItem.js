@@ -6,7 +6,7 @@ export class NewsItem extends Component {
         let { title, description, imgUrl, newsUrl, author, date, source } = this.props // setting props in class-based component. props is passed to NewsItem class from News component and then accessed in render() function using 'this' keyword.
         // let {} = props could also be used in function based component without 'this' by accepting props as parameter.
         return (
-            <div className="card m-3" style={{ paddingBottom: "2rem" }}>
+            <div className="card mt-4 mb-3" style={{ paddingBottom: "2rem" }}>
                 <span className="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger border">{source}</span>
                 <img src={imgUrl ? imgUrl : newsImg} onError={event => { event.target.src = newsImg }} className="card-img-top" alt="News" style={{ height: "12rem" }} />
                 <div className="card-body">

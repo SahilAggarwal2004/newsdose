@@ -44,10 +44,9 @@ export class News extends Component {
                 category: this.props.category.toLowerCase()
             })
         });
-        loadBar.width = "15vw";
         let data = await response.json();
         let parsedData = data.news;
-        loadBar.width = "25vw";
+        loadBar.width = "33vw";
         this.setState({
             articles: this.state.articles.concat(parsedData.articles),
             news: this.state.news.concat(parsedData.articles),
@@ -84,22 +83,20 @@ export class News extends Component {
 
     render() {
         return (
-            <div className="container" style={{ marginTop: "70px" }}>
+            <div style={{ marginTop: "70px" }}>
                 <h3 className="text-center">Top Headlines{this.props.category ? ` - ${this.props.category}` : ""}</h3>
                 <hr />
                 {!this.state.load ?
-                    <>
-                        <div className="row">
-                            {this.state.news.length ? this.state.news.map(element => {
-                                return (
-                                    <div className="col-md-4 d-flex" key={element.url}>
-                                        <NewsItem title={element.title} description={element.description} imgUrl={element.urlToImage} newsUrl={element.url} author={element.author} date={element.publishedAt} source={element.source.name} />
-                                    </div>
-                                )
-                            })
-                                : <div className="text-center">Seems like there is no news related to <strong>{this.props.query}</strong></div>}
-                        </div>
-                    </>
+                    <div className="row mx-4 py-2 gx-4">
+                        {this.state.news.length ? this.state.news.map(element => {
+                            return (
+                                <div className="col-md-4 d-flex" key={element.url}>
+                                    <NewsItem title={element.title} description={element.description} imgUrl={element.urlToImage} newsUrl={element.url} author={element.author} date={element.publishedAt} source={element.source.name} />
+                                </div>
+                            )
+                        })
+                            : <div className="text-center">Seems like there is no news related to <strong>{this.props.query}</strong></div>}
+                    </div>
                     : <Load />}
             </div>)
     }

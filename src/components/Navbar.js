@@ -2,9 +2,15 @@ import React, { Component } from 'react'
 import { Link } from "react-router-dom";
 
 export class Navbar extends Component {
-
+    state = { width: window.outerWidth, height: window.outerHeight };
     countries = ["au_Australia", "ca_Canada", "in_India", "ie_Ireland", "my_Malaysia", "ng_Nigeria", "nz_New Zealand", "ph_Philippines", "sa_Saudi Arabia", "sg_Singapore", "za_South Africa", "gb_United Kingdom", "us_United States"]
     categories = ["", "Business", "Entertainment", "Health", "Science", "Sports", "Technology"]
+
+    componentDidMount() {
+        window.addEventListener('resize', () => {
+            this.setState({ width: window.outerWidth, height: window.outerHeight });
+        });
+    }
 
     render() {
         return (
@@ -16,12 +22,12 @@ export class Navbar extends Component {
                         <span className="navbar-toggler-icon"></span>
                     </button>
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+                        <ul className="navbar-nav pe-3 me-auto mb-2 mb-lg-0">
                             {this.categories.map((element) => {
                                 return (
                                     <li className="nav-item" key={element}>
                                         <Link className="nav-link" aria-current="page" to={`/${element.toLowerCase()}`}>
-                                            <button className='btn shadow-none nav-link p-0' data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+                                            <button className='btn shadow-none nav-link p-0' data-bs-toggle='collapse' data-bs-target={this.state.width > 991 ? '' : "#navbarSupportedContent"}>
                                                 {element ? element : "Home"}
                                             </button>
                                         </Link>
@@ -39,7 +45,7 @@ export class Navbar extends Component {
                                     )
                                 })}
                             </select>
-                            <input className="form-control me-2 ps-1" type="search" placeholder="Search" aria-label="Search" onChange={event => {
+                            <input className="form-control ps-1" type="search" placeholder="Search" aria-label="Search" onChange={event => {
                                 this.props.search(event.target.value)
                             }} />
                         </div>
