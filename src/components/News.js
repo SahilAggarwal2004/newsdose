@@ -36,6 +36,7 @@ export class News extends Component {
         loadBar.visibility = "visible";
         loadBar.width = "10vw";
         this.setState({ load: true })
+        let data = null;
         let parsedData = JSON.parse(sessionStorage.getItem(`news${this.props.country}${this.props.category}`))
         if (!parsedData) {
             let url = process.env.REACT_APP_URL;
@@ -48,7 +49,7 @@ export class News extends Component {
                 })
             });
             loadBar.width = "33vw";
-            let data = await response.json();
+            data = await response.json();
             if (data.success) {
                 parsedData = data.news;
                 sessionStorage.setItem(`news${this.props.country}${this.props.category}`, JSON.stringify(parsedData))
