@@ -58,7 +58,7 @@ export class News extends Component {
             articles: this.state.articles.concat(parsedData?.articles),
             news: this.state.news.concat(parsedData?.articles),
             load: false,
-            error: data.error
+            error: data?.error
         })
         loadBar.width = "100vw";
         setTimeout(() => {
