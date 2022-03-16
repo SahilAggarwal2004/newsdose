@@ -24,7 +24,8 @@ export class News extends Component {
         this.state = {
             articles: [],
             news: [],
-            load: false
+            load: false,
+            error: false
         }
 
         document.title = `NewsDose - ${props.category ? props.category : "Get your daily dose of news for free!"}`;
@@ -35,22 +36,29 @@ export class News extends Component {
         loadBar.visibility = "visible";
         loadBar.width = "10vw";
         this.setState({ load: true })
-        let url = process.env.REACT_APP_URL;
-        let response = await fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                country: this.props.country,
-                category: this.props.category.toLowerCase()
-            })
-        });
-        let data = await response.json();
-        let parsedData = data.news;
-        loadBar.width = "33vw";
+        let parsedData = JSON.parse(sessionStorage.getItem(`news${this.props.country}${this.props.category}`))
+        if (!parsedData) {
+            let url = process.env.REACT_APP_URL;
+            let response = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    country: this.props.country,
+                    category: this.props.category.toLowerCase()
+                })
+            });
+            loadBar.width = "33vw";
+            let data = await response.json();
+            if (data.success) {
+                parsedData = data.news;
+                sessionStorage.setItem(`news${this.props.country}${this.props.category}`, JSON.stringify(parsedData))
+            }
+        }
         this.setState({
-            articles: this.state.articles.concat(parsedData.articles),
-            news: this.state.news.concat(parsedData.articles),
-            load: false
+            articles: this.state.articles.concat(parsedData?.articles),
+            news: this.state.news.concat(parsedData?.articles),
+            load: false,
+            error: data.error
         })
         loadBar.width = "100vw";
         setTimeout(() => {
@@ -95,7 +103,12 @@ export class News extends Component {
                                 </div>
                             )
                         })
-                            : <div className="text-center">Seems like there is no news related to <strong>{this.props.query}</strong></div>}
+                            : this.props.query ? <div className="text-center">
+                                Seems like there is no news related to
+                                <strong>{this.props.query}</strong>
+                            </div> : <div>
+                                {this.state.error ? this.state.error : 'Unable to fetch! Try again later...'}
+                            </div>}
                     </div>
                     : <Load />}
             </div>)
