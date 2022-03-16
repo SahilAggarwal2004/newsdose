@@ -32,27 +32,31 @@ export class News extends Component {
     }
 
     async componentDidMount() {
+        window.scrollTo(0, 0)
         let loadBar = document.getElementById("loadBar").style
         loadBar.visibility = "visible";
-        loadBar.width = "10vw";
+        loadBar.width = "33vw";
         this.setState({ load: true })
         let data = null;
         let parsedData = JSON.parse(sessionStorage.getItem(`news${this.props.country}${this.props.category}`))
         if (!parsedData) {
-            let url = process.env.REACT_APP_URL;
-            let response = await fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    country: this.props.country,
-                    category: this.props.category.toLowerCase()
-                })
-            });
-            loadBar.width = "33vw";
-            data = await response.json();
-            if (data.success) {
-                parsedData = data.news;
-                sessionStorage.setItem(`news${this.props.country}${this.props.category}`, JSON.stringify(parsedData))
+            try {
+                let url = process.env.REACT_APP_LOCALURL;
+                let response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        country: this.props.country,
+                        category: this.props.category.toLowerCase()
+                    })
+                });
+                data = await response.json();
+                if (data.success) {
+                    parsedData = data.news;
+                    sessionStorage.setItem(`news${this.props.country}${this.props.category}`, JSON.stringify(parsedData))
+                }
+            } catch {
+                data = { error: 'Unable to fetch! Try again later...' }
             }
         }
         this.setState({
@@ -70,7 +74,6 @@ export class News extends Component {
 
     componentDidUpdate(previous) {
         if (this.props.query !== previous.query) {
-            console.log(this.props.query)
             if (this.props.query) {
                 const query = this.props.query.toLowerCase();
                 let result = [];
@@ -96,8 +99,8 @@ export class News extends Component {
                 <h3 className="text-center">Top Headlines{this.props.category ? ` - ${this.props.category}` : ""}</h3>
                 <hr />
                 {!this.state.load ?
-                    <div className="row mx-4 py-2 gx-4">
-                        {this.state.news.length ? this.state.news.map(element => {
+                    <div className="panel row mx-3 py-2 gx-4">
+                        {this.state.news?.[0] ? this.state.news.map(element => {
                             return (
                                 <div className="col-md-4 d-flex" key={element.url}>
                                     <NewsItem title={element.title} description={element.description} imgUrl={element.urlToImage} newsUrl={element.url} author={element.author} date={element.publishedAt} source={element.source.name} />
@@ -107,8 +110,8 @@ export class News extends Component {
                             : this.props.query ? <div className="text-center">
                                 Seems like there is no news related to
                                 <strong>{this.props.query}</strong>
-                            </div> : <div>
-                                {this.state.error ? this.state.error : 'Unable to fetch! Try again later...'}
+                            </div> : <div className="text-center">
+                                {this.state.error}
                             </div>}
                     </div>
                     : <Load />}
