@@ -4,8 +4,6 @@ import NewsItem from './NewsItem'
 import PropTypes from 'prop-types'
 
 export class News extends Component {
-
-    // defaultProps and propTypes in class based component
     static defaultProps = {
         country: localStorage.getItem('country') || 'in',
         category: '',
