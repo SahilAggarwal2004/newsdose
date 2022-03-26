@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import newsImg from '../news.jpg'
+import newsImg from '../news.webp'
 
 export class NewsItem extends Component {
     render() {
