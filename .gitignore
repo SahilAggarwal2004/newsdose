@@ -19,7 +19,8 @@
 .env.production.local
 
 # personal
-/src/components/News_comments.js
+/src/classComponents
+/src/classApp.js
 
 npm-debug.log*
 yarn-debug.log*
