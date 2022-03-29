@@ -1,10 +1,8 @@
-import React, { useEffect, useState, useContext } from 'react'
-import Context from '../context/Context'
+import React, { useEffect, useState } from 'react'
 import newsImg from '../news.webp'
 
 export default function NewsItem(props) {
-    const { title, description, imgUrl, newsUrl, author, date, source, category } = props
-    const { setNews } = useContext(Context)
+    const { title, description, imgUrl, newsUrl, author, date, source } = props
     const [bookmark, setBookmark] = useState('far')
 
     function checkBookmark() {
@@ -60,7 +58,6 @@ export default function NewsItem(props) {
         localStorage.setItem('news', JSON.stringify(news))
         event.target.classList.toggle('far')
         event.target.classList.toggle('fas')
-        if (category === 'Saved') setTimeout(() => setNews(news), 0)
     }
 
     useEffect(() => {
