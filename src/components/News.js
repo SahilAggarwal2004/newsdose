@@ -33,6 +33,7 @@ export default function News(props) {
         // eslint-disable-next-line
     }, [query])
 
+    document.title = category ? `${category} | NewsDose` : 'NewsDose - Get your daily dose of news for free!'
 
     return (
         <div style={{ marginTop: "70px" }}>

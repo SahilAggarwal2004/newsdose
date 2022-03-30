@@ -17,3 +17,7 @@
 img {
     object-fit: cover;
 }
+
+i {
+    transform: scale(1.15);
+}
