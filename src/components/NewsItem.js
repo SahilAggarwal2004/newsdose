@@ -72,7 +72,7 @@ export default function NewsItem(props) {
         <div className="card mt-4 mb-3" style={{ paddingBottom: "2rem" }}>
             <span className="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger border">{source}</span>
             <a href={newsUrl} target="_blank" rel="noreferrer" className="text-black">
-                <img src={imgUrl ? imgUrl : newsImg} onError={event => { event.target.src = newsImg }} className="card-img-top" alt="News" style={{ height: "12rem" }} />
+                <img src={imgUrl ? imgUrl : newsImg} onError={event => { event.target.src = newsImg }} loading='lazy' className="card-img-top" alt="News" style={{ height: "12rem" }} />
             </a>
             <div className="card-body">
                 <hr />
