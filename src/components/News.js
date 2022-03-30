@@ -37,7 +37,7 @@ export default function News(props) {
 
     return (
         <div style={{ marginTop: "70px" }}>
-            <h3 className="text-center">Top Headlines{category ? ` - ${category}` : ""}</h3>
+            <h1 className="text-center fs-3">Top Headlines{category ? ` - ${category}` : ""}</h1>
             <hr />
             {!load[0] ? <div className="panel row mx-3 py-2 gx-4">
                 {news?.length ? news.map(element => {

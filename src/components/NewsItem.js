@@ -71,13 +71,17 @@ export default function NewsItem(props) {
     return (
         <div className="card mt-4 mb-3" style={{ paddingBottom: "2rem" }}>
             <span className="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger border">{source}</span>
-            <img src={imgUrl ? imgUrl : newsImg} onError={event => { event.target.src = newsImg }} className="card-img-top" alt="News" style={{ height: "12rem" }} />
+            <a href={newsUrl} target="_blank" rel="noreferrer" className="text-black">
+                <img src={imgUrl ? imgUrl : newsImg} onError={event => { event.target.src = newsImg }} className="card-img-top" alt="News" style={{ height: "12rem" }} />
+            </a>
             <div className="card-body">
                 <hr />
-                <h5 className="card-title">{title}</h5>
-                <hr />
-                <p className="card-text">{description}</p>
-                <p className="card-text"><small className="text-muted">Published {author ? `by ${author}` : ""} on {new Date(date).toLocaleString()}</small></p>
+                <a href={newsUrl} target="_blank" rel="noreferrer" className="text-black text-decoration-none">
+                    <h5 className="card-title">{title}</h5>
+                    <hr />
+                    <p className="card-text">{description}</p>
+                </a>
+                <p className="card-text mt-2"><small className="text-muted">Published {author ? `by ${author}` : ""} on {new Date(date).toLocaleString()}</small></p>
                 <div className='position-absolute' style={{ bottom: "1rem" }}>
                     <i role='button' className="fas fa-volume me-3 p-1" onClick={speech} />
                     <i role='button' className={`${bookmark} fa-bookmark me-3 p-1`} onClick={saveNews} />
