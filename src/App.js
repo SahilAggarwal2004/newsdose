@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import News from './components/News';
 import { useContext } from 'react';
 import Context from './context/Context';
+import Modal from './components/Modal';
 
 function App() {
     const { country, load } = useContext(Context)
@@ -17,6 +18,7 @@ function App() {
                 backgroundColor: "red",
                 transition: "width 0.25s"
             }} />
+            <Modal />
             <Routes>
                 <Route path='/' element={<News category='' key={country} />} />
                 <Route path='/business' element={<News category='Business' key={`${country}business`} />} />

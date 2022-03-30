@@ -9,6 +9,7 @@ const State = (props) => {
     const [news, setNews] = useState([])
     const [load, setLoad] = useState([false, 'hidden', '0'])
     const [error, setError] = useState(false)
+    const [shareUrl, setShareUrl] = useState(null)
 
     async function fetchData(category) {
         setLoad([true, 'visible', '33vw'])
@@ -45,7 +46,7 @@ const State = (props) => {
     }
 
     return (
-        <Context.Provider value={{ categories, country, setCountry, query, setQuery, articles, setArticles, news, setNews, fetchData, load, setLoad, error }}>
+        <Context.Provider value={{ categories, country, setCountry, query, setQuery, articles, setArticles, news, setNews, fetchData, load, setLoad, error, shareUrl, setShareUrl }}>
             {props.children}
         </Context.Provider>
     )

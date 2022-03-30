@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import Context from '../context/Context'
 import newsImg from '../news.webp'
 
 export default function NewsItem(props) {
     const { title, description, imgUrl, newsUrl, author, date, source } = props
+    const { setShareUrl } = useContext(Context)
     const [bookmark, setBookmark] = useState('far')
 
     function checkBookmark() {
@@ -79,7 +81,7 @@ export default function NewsItem(props) {
                 <div className='position-absolute' style={{ bottom: "1rem" }}>
                     <i role='button' className="fas fa-volume me-2 p-1" onClick={speech} />
                     <i role='button' className={`${bookmark} fa-bookmark me-2 p-1`} onClick={saveNews} />
-                    {/* <i role='button' className="fas fa-share-alt me-2 p-1" /> */}
+                    <i role='button' className="fas fa-share-alt me-2 p-1" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={() => setShareUrl(newsUrl)} />
                     <a href={newsUrl} target="_blank" rel="noreferrer" className="text-black">
                         <i role='button' className="fas fa-info-square p-1" />
                     </a>
