@@ -3,7 +3,7 @@ import Context from '../context/Context'
 
 export default function NewsItem(props) {
     let { title, description, imgUrl, newsUrl, author, date, source } = props
-    let newsImg = 'https://newsdoseweb.netlify.app/news.webp'
+    let newsImg = `${process.env.REACT_APP_URL}media/news.webp`
     newsImg = `//images.weserv.nl/?url=${newsImg}&maxage=1y`;
     imgUrl = `//images.weserv.nl/?url=${imgUrl}&maxage=1d&output=webp&q=25`;
     const { setShareUrl } = useContext(Context)
