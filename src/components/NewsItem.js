@@ -1,9 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react'
 import Context from '../context/Context'
-import newsImg from '../news.webp'
 
 export default function NewsItem(props) {
-    const { title, description, imgUrl, newsUrl, author, date, source } = props
+    let { title, description, imgUrl, newsUrl, author, date, source } = props
+    let newsImg = 'https://newsdoseweb.netlify.app/news.webp'
+    newsImg = `//images.weserv.nl/?url=${newsImg}&maxage=1y`;
+    imgUrl = `//images.weserv.nl/?url=${imgUrl}&maxage=1d&output=webp&q=25`;
     const { setShareUrl } = useContext(Context)
     const [bookmark, setBookmark] = useState('far')
 
