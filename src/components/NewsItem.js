@@ -9,8 +9,12 @@ export default function NewsItem(props) {
     const newsImg = 'https://images.weserv.nl/?url=https://newsdoseweb.herokuapp.com/media/news.webp&width=450&height=300&maxage=1y&q=50';
     let imgUrlWeserv;
     if (navigator.connection?.effectiveType) {
-        navigator.connection.effectiveType.includes('4') ? imgUrlWeserv = imgUrl :
-            imgUrlWeserv = (imgUrl?.match(/http/g) || []).length > 1 ? newsImg : `https://images.weserv.nl/?url=${imgUrl}&width=450&height=300&maxage=1d&output=webp&q=25`;
+        if (navigator.connection.effectiveType.includes('2')) {
+            imgUrlWeserv = (imgUrl?.match(/http/g) || []).length > 1 ? newsImg : `https://images.weserv.nl/?url=${imgUrl}&width=450&height=300&maxage=1d&output=webp&q=5`
+        }
+        else {
+            imgUrlWeserv = (imgUrl?.match(/http/g) || []).length > 1 ? newsImg : `https://images.weserv.nl/?url=${imgUrl}&width=450&height=300&maxage=1d&output=webp&q=25`
+        }
     }
 
     function checkBookmark() {
