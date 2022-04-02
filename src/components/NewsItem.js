@@ -28,7 +28,7 @@ export default function NewsItem(props) {
     let speechId = null;
     function speech(event) {
         const speaking = speechSynthesis.speaking;
-        const clickId = title;
+        const clickId = event.target.id;
         const newSpeech = () => {
             event.target.classList.remove('fa-volume')
             event.target.classList.add('fa-volume-mute')
@@ -95,7 +95,7 @@ export default function NewsItem(props) {
                 </a>
                 <p className="card-text mt-2"><small className="text-muted">Published {author ? `by ${author}` : ""} on {new Date(date).toLocaleString()}</small></p>
                 <div className='position-absolute' style={{ bottom: "1rem" }}>
-                    <i role='button' className="fas fa-volume me-3 p-1" onClick={speech} />
+                    <i id={title} role='button' className="fas fa-volume me-3 p-1" onClick={speech} />
                     <i role='button' className={`${bookmark} fa-bookmark me-3 p-1`} onClick={saveNews} />
                     <i role='button' className="fas fa-share-alt me-3 p-1" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={() => setShareUrl(newsUrl)} />
                     <a href={newsUrl} target="_blank" rel="noreferrer" className="text-black">
