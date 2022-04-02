@@ -3,10 +3,15 @@ import Context from '../context/Context'
 
 export default function NewsItem(props) {
     const { title, description, imgUrl, newsUrl, author, date, source } = props
-    const newsImg = `https://images.weserv.nl/?url=https://newsdoseweb.herokuapp.com/media/news.webp&width=450&height=300&maxage=1y&q=50`;
-    const imgUrlWeserv = (imgUrl?.match(/http/g) || []).length > 1 ? newsImg : `https://images.weserv.nl/?url=${imgUrl}&width=450&height=300&maxage=1d&output=webp&q=25`;
     const { setShareUrl } = useContext(Context)
     const [bookmark, setBookmark] = useState('far')
+
+    const newsImg = 'https://images.weserv.nl/?url=https://newsdoseweb.herokuapp.com/media/news.webp&width=450&height=300&maxage=1y&q=50';
+    let imgUrlWeserv;
+    if (navigator.connection?.effectiveType) {
+        navigator.connection.effectiveType.includes('4') ? imgUrlWeserv = imgUrl :
+            imgUrlWeserv = (imgUrl?.match(/http/g) || []).length > 1 ? newsImg : `https://images.weserv.nl/?url=${imgUrl}&width=450&height=300&maxage=1d&output=webp&q=25`;
+    }
 
     function checkBookmark() {
         let count = 0
