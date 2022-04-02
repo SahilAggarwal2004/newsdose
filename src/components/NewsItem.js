@@ -2,10 +2,9 @@ import React, { useContext, useEffect, useState } from 'react'
 import Context from '../context/Context'
 
 export default function NewsItem(props) {
-    let { title, description, imgUrl, newsUrl, author, date, source } = props
-    let newsImg = `${process.env.REACT_APP_URL}media/news.webp`
-    newsImg = `https://images.weserv.nl/?url=${newsImg}&width=450&height=300&maxage=1y&q=50`;
-    imgUrl = `https://images.weserv.nl/?url=${imgUrl}&width=450&height=300&maxage=1d&output=webp&q=25`;
+    const { title, description, imgUrl, newsUrl, author, date, source } = props
+    const newsImg = `https://images.weserv.nl/?url=https://newsdoseweb.herokuapp.com/media/news.webp&width=450&height=300&maxage=1y&q=50`;
+    const imgUrlWeserv = (imgUrl?.match(/http/g) || []).length > 1 ? newsImg : `https://images.weserv.nl/?url=${imgUrl}&width=450&height=300&maxage=1d&output=webp&q=25`;
     const { setShareUrl } = useContext(Context)
     const [bookmark, setBookmark] = useState('far')
 
@@ -75,9 +74,7 @@ export default function NewsItem(props) {
             <span className="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger border">{source}</span>
             <a href={newsUrl} target="_blank" rel="noreferrer" className="text-black">
                 <div style={{ height: "13rem" }}>
-                    <img src={imgUrl ? imgUrl : newsImg} onError={event => event.target.src !== newsImg ? event.target.src = newsImg :
-                        event.target.src = 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcRk73PWOqEH8E7G1iQetw1OMjTeG7mADuOhx6etr4nZm0zsGg1v'
-                    } loading='lazy' className="card-img-top h-100" alt='' />
+                    <img src={imgUrl ? imgUrlWeserv : newsImg} onError={event => event.target.src = newsImg} loading='lazy' className="card-img-top h-100" alt='' />
                 </div>
             </a>
             <div className="card-body">
