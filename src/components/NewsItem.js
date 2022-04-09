@@ -1,10 +1,15 @@
+/* eslint-disable */
 import React, { useContext, useEffect, useState } from 'react'
 import Context from '../context/Context'
+import { BsFillInfoSquareFill } from 'react-icons/bs'
+import { FaShareAlt, FaRegBookmark, FaBookmark } from 'react-icons/fa'
+import { HiVolumeUp, HiVolumeOff } from 'react-icons/hi'
 
 export default function NewsItem(props) {
     const { title, description, imgUrl, newsUrl, author, date, source } = props
     const { setShareUrl } = useContext(Context)
-    const [bookmark, setBookmark] = useState('far')
+    const [volume, setVolume] = useState(<HiVolumeUp role='button' className="scale me-4 p-1" onClick={speech} />)
+    const [bookmark, setBookmark] = useState(<FaRegBookmark role='button' className='scale me-4 p-1' onClick={saveNews} />)
 
     const newsImg = 'https://images.weserv.nl/?url=https://newsdoseweb.herokuapp.com/media/news.webp&width=450&height=300&maxage=1y&q=50';
     let imgUrlWeserv;
@@ -26,21 +31,18 @@ export default function NewsItem(props) {
     }
 
     let speechId = null;
-    function speech(event) {
+    function speech() { handleSpeech(title) }
+    function handleSpeech(clickId) {
         const speaking = speechSynthesis.speaking;
-        const clickId = event.target.id;
         const newSpeech = () => {
-            event.target.classList.remove('fa-volume')
-            event.target.classList.add('fa-volume-mute')
-            const text = title + '. ' + description;
             speechId = clickId;
+            const text = title + '. ' + description;
+            setVolume(<HiVolumeOff role='button' className="scale me-4 p-1" onClick={speech} />)
             const utterance = new SpeechSynthesisUtterance(text.replace(/\s/g, ' '))
             speechSynthesis.speak(utterance)
             utterance.onend = () => {
-                const elementClass = document.getElementById(clickId).classList
-                elementClass.add('fa-volume')
-                elementClass.remove('fa-volume-mute')
                 speechId = null
+                setVolume(<HiVolumeUp role='button' className="scale me-4 p-1" onClick={speech} />)
             }
         }
 
@@ -53,29 +55,26 @@ export default function NewsItem(props) {
             newSpeech()
             return
         }
-        event.target.classList.add('fa-volume')
-        event.target.classList.remove('fa-volume-mute')
         speechId = null;
+        setVolume(<HiVolumeUp role='button' className="scale me-4 p-1" onClick={speech} />)
     }
 
-    function saveNews(event) {
+    function saveNews() {
         let news = JSON.parse(localStorage.getItem('news'))
         if (!news) news = { articles: [] }
         const isBoomarked = checkBookmark()
         if (isBoomarked) {
-            news.articles = news.articles.filter(element => { return element.title !== title })
+            news.articles = news.articles.filter(element => { return element.title !== title }); setBookmark(<FaRegBookmark role='button' className='scale me-4 p-1' onClick={saveNews} />)
         } else {
-            news.articles.push({ title, description, urlToImage: imgUrl, url: newsUrl, author, publishedAt: date, source: { name: source } })
+            news.articles.push({ title, description, urlToImage: imgUrl, url: newsUrl, author, publishedAt: date, source: { name: source } });
+            setBookmark(<FaBookmark role='button' className='scale me-4 p-1' onClick={saveNews} />)
         }
         localStorage.setItem('news', JSON.stringify(news))
-        event.target.classList.toggle('far')
-        event.target.classList.toggle('fas')
     }
 
     useEffect(() => {
         const isBoomarked = checkBookmark()
-        if (isBoomarked) setBookmark('fas')
-        // eslint-disable-next-line
+        if (isBoomarked) setBookmark(<FaBookmark role='button' className='scale me-4 p-1' onClick={saveNews} />)
     }, [])
 
     return (
@@ -94,12 +93,14 @@ export default function NewsItem(props) {
                     <p className="card-text">{description}</p>
                 </a>
                 <p className="card-text mt-2"><small className="text-muted">Published {author ? `by ${author}` : ""} on {new Date(date).toLocaleString()}</small></p>
-                <div className='position-absolute' style={{ bottom: "1rem" }}>
-                    <i id={title} role='button' className="fas fa-volume me-3 p-1" onClick={speech} />
-                    <i role='button' className={`${bookmark} fa-bookmark me-3 p-1`} onClick={saveNews} />
-                    <i role='button' className="fas fa-share-alt me-3 p-1" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={() => setShareUrl(newsUrl)} />
+                <div className='position-absolute d-flex align-items-center m-1' style={{ bottom: "1rem" }}>
+                    <a>{volume}</a>
+                    <a>{bookmark}</a>
+                    <a>
+                        <FaShareAlt role='button' className="scale me-4 p-1" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={() => setShareUrl(newsUrl)} />
+                    </a>
                     <a href={newsUrl} target="_blank" rel="noreferrer" className="text-black">
-                        <i role='button' className="fas fa-info-square p-1" />
+                        <BsFillInfoSquareFill role='button' className="scale p-1" />
                     </a>
                 </div>
             </div>
