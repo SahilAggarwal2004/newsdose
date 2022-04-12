@@ -4,12 +4,14 @@ import Load from './Load';
 import NewsItem from './NewsItem'
 
 export default function News(props) {
-    const { query, news, setNews, articles, fetchData, load, error } = useContext(Context)
+    const { query, setQuery, news, setNews, articles, fetchData, load, error } = useContext(Context)
     const { category } = props
 
     useEffect(() => {
         window.scrollTo(0, 0)
-        fetchData(category)
+        fetchData(category, true)
+
+        return () => setQuery('')
         // eslint-disable-next-line
     }, [])
 
@@ -18,10 +20,10 @@ export default function News(props) {
             const substr = query.toLowerCase();
             let result = [];
             articles.forEach(element => {
-                const title = element.title ? element.title.toLowerCase() : ''
-                const description = element.description ? element.description.toLowerCase() : ''
-                const author = element.author ? element.author.toLowerCase() : ''
-                const source = element.source.name ? element.source.name.toLowerCase() : ''
+                const title = element.title?.toLowerCase() || ''
+                const description = element.description?.toLowerCase() || ''
+                const author = element.author?.toLowerCase() || ''
+                const source = element.source?.name?.toLowerCase() || ''
                 if (title.includes(substr) || description.includes(substr) || author.includes(substr) || source.includes(substr)) {
                     result.push(element)
                 }
