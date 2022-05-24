@@ -4,7 +4,7 @@ import Context from '../context/Context';
 
 export default function Navbar() {
     const countries = ["au_Australia", "ca_Canada", "in_India", "ie_Ireland", "my_Malaysia", "ng_Nigeria", "nz_New Zealand", "ph_Philippines", "sa_Saudi Arabia", "sg_Singapore", "za_South Africa", "gb_United Kingdom", "us_United States"]
-    const { categories, setCountry, query, setQuery } = useContext(Context)
+    const { categories, country, setCountry, query, setQuery } = useContext(Context)
     const [width, setWidth] = useState(window.outerWidth)
     // const [height, setHeight] = useState(window.outerHeight)
 
@@ -33,10 +33,7 @@ export default function Navbar() {
                         })}
                     </ul>
                     <div className='d-flex'>
-                        <select className="form-select w-auto me-2" aria-label="Choose country" defaultValue={localStorage.getItem('country') || "in"} onChange={() => {
-                            setCountry(document.querySelector("select").value);
-                            localStorage.setItem('country', document.querySelector("select").value)
-                        }}>
+                        <select className="form-select w-auto me-2" aria-label="Choose country" defaultValue={country} onChange={() => setCountry(document.querySelector("select").value)}>
                             {countries.map(element => {
                                 return (
                                     <option value={element.split('_')[0]} key={element.split('_')[0]}>{element.split('_')[1]}</option>

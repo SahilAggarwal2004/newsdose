@@ -1,10 +1,11 @@
 import axios from "axios";
-import React, { useState } from "react";
+import { useState } from "react";
+import { useStorage } from "../hooks";
 import Context from "./Context";
 
 const State = (props) => {
     const categories = ["", "Business", "Entertainment", "Health", "Science", "Sports", "Technology", "Saved"]
-    const [country, setCountry] = useState(localStorage.getItem('country') || 'in')
+    const [country, setCountry] = useStorage('country', 'in')
     const [query, setQuery] = useState('')
     const [articles, setArticles] = useState([])
     const [news, setNews] = useState([])
@@ -16,12 +17,8 @@ const State = (props) => {
         let parsedData;
         if (retryOnError) {
             parsedData = { articles: [], error: 'Unable to fetch news! Retrying...' }
-            setTimeout(() => {
-                fetchData(category, false)
-            }, 2500);
-        } else {
-            parsedData = JSON.parse(localStorage.getItem(`news${country}${category}`)) || { articles: [], error: 'Unable to fetch news! Try again later...' }
-        }
+            setTimeout(() => fetchData(category, false), 2500);
+        } else parsedData = JSON.parse(localStorage.getItem(`news${country}${category}`)) || { articles: [], error: 'Unable to fetch news! Try again later...' }
         return parsedData
     }
 
@@ -29,7 +26,7 @@ const State = (props) => {
         setLoad([true, 'visible', '33vw'])
         let parsedData = JSON.parse(sessionStorage.getItem(`news${country}${category}`))
         if (!parsedData) {
-            if (category === 'Saved') { parsedData = JSON.parse(localStorage.getItem('news')) }
+            if (category === 'Saved') parsedData = JSON.parse(localStorage.getItem('news'))
             else {
                 try {
                     const { data } = await axios({
@@ -52,13 +49,11 @@ const State = (props) => {
             setLoad([true, 'visible', '100vw'])
             setError(parsedData?.error)
         }, 0);
-        setTimeout(() => {
-            setLoad([false, 'hidden', '0vw'])
-        }, 300);
+        setTimeout(() => setLoad([false, 'hidden', '0vw']), 300);
     }
 
     return (
-        <Context.Provider value={{ categories, country, setCountry, query, setQuery, articles, setArticles, news, setNews, fetchData, load, setLoad, error, shareUrl, setShareUrl }}>
+        <Context.Provider value={{ categories, country, setCountry, query, setQuery, articles, news, setNews, fetchData, load, setLoad, error, shareUrl, setShareUrl }}>
             {props.children}
         </Context.Provider>
     )

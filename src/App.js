@@ -8,6 +8,7 @@ import Modal from './components/Modal';
 
 function App() {
     const { country, load } = useContext(Context)
+
     return (
         <Router>
             <Navbar />
