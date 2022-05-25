@@ -9,7 +9,7 @@ export function useStorage(key, initialValue, options = { local: true, session: 
         let item;
         if (local) item = window.localStorage.getItem(key);
         else if (session) item = window.sessionStorage.getItem(key);
-        return item ? JSON.parse(item) : initialValue
+        return item ? (item instanceof Object ? JSON.parse(item) : item) : initialValue
     });
 
     // Return a wrapped version of useState's setter function that ...
