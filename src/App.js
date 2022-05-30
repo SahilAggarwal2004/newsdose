@@ -14,8 +14,8 @@ function App() {
             <Navbar />
             <div className="fixed-top" style={{
                 height: "0.125rem",
-                width: load[2],
-                visibility: load[1],
+                width: load[1],
+                visibility: load[0],
                 backgroundColor: "red",
                 transition: "width 0.25s"
             }} />
@@ -28,7 +28,7 @@ function App() {
                 <Route path='/science' element={<News category='Science' key={`${country}science`} />} />
                 <Route path='/sports' element={<News category='Sports' key={`${country}sports`} />} />
                 <Route path='/technology' element={<News category='Technology' key={`${country}technology`} />} />
-                <Route path='/saved' element={<News category='Saved' key='saved' saved={true} />} />
+                <Route path='/saved' element={<News category='Saved' key='saved' />} />
             </Routes>
         </Router>
     );
