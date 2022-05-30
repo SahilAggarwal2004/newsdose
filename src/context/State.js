@@ -48,7 +48,7 @@ const State = (props) => {
                             setPage(page => page + 1)
                         } else if (data.success === false) parsedData = await fetchAgain(category, retryOnError)
                         else if (data.success === 'ended') setEnd(true)
-                    } catch (error) { console.log(error); parsedData = await fetchAgain(category, retryOnError) }
+                    } catch { parsedData = await fetchAgain(category, retryOnError) }
                 }
             }
         }
