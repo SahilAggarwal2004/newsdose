@@ -19,13 +19,11 @@ const State = props => {
     function updateData(category, parsedData, storedData) {
         let { articles, maxResults } = parsedData || {}
         const storedNews = storedData?.articles || []
-        const newsToEdit = storedNews.concat(articles || [])
-        const newsToStore = { status: "ok", totalResults: newsToEdit.length, maxResults, articles: newsToEdit }
+        const newsToSet = storedNews.concat(articles || [])
+        setNews(newsToSet)
+        const newsToStore = { status: "ok", totalResults: newsToSet.length, maxResults, articles: newsToSet }
         sessionStorage.setItem(`news${country}${category}`, JSON.stringify(newsToStore))
         localStorage.setItem(`news${country}${category}`, JSON.stringify(newsToStore))
-        let newsToSet = []
-        newsToEdit.forEach(article => { if (!JSON.stringify(newsToSet).includes(article.url)) newsToSet.push(article) })
-        setNews(newsToSet)
         setLoad(['visible', '100vw'])
         setError(parsedData?.error)
         setTimeout(() => setLoad(['hidden', '0vw']), 300);
