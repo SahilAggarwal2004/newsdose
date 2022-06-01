@@ -1,17 +1,16 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from "react-router-dom";
-import Context from '../context/Context';
+import { useNewsContext } from '../context/State';
 
 export default function Navbar() {
     const countries = ["au_Australia", "ca_Canada", "in_India", "ie_Ireland", "my_Malaysia", "ng_Nigeria", "nz_New Zealand", "ph_Philippines", "sa_Saudi Arabia", "sg_Singapore", "za_South Africa", "gb_United Kingdom", "us_United States"]
-    const { categories, country, setCountry, query, setQuery, setPage, setArticles, setNews } = useContext(Context)
+    const { categories, country, setCountry, query, setQuery, setPage, setNews } = useNewsContext()
     const [width, setWidth] = useState(window.outerWidth)
 
     useEffect(() => { window.addEventListener('resize', () => setWidth(window.outerWidth)); }, [])
 
     function resetNews() {
         setPage(1)
-        setArticles([])
         setNews([])
     }
 
@@ -38,9 +37,7 @@ export default function Navbar() {
                                 )
                             })}
                         </select>
-                        <input className="form-control ps-1" type="search" placeholder="Search" aria-label="Search" value={query} onChange={event => {
-                            setQuery(event.target.value)
-                        }} />
+                        <input className="form-control ps-1" type="search" placeholder="Search" aria-label="Search" value={query} onChange={event => setQuery(event.target.value)} />
                     </div>
                 </div>
             </div>

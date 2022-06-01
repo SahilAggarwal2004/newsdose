@@ -1,13 +1,13 @@
 /* eslint-disable */
-import React, { useContext, useEffect, useState } from 'react'
-import Context from '../context/Context'
+import React, { useEffect, useState } from 'react'
 import { BsFillInfoSquareFill } from 'react-icons/bs'
 import { FaShareAlt, FaRegBookmark, FaBookmark } from 'react-icons/fa'
 import { HiVolumeUp, HiVolumeOff } from 'react-icons/hi'
+import { useNewsContext } from '../context/State'
 
 export default function NewsItem(props) {
     const { title, description, imgUrl, newsUrl, author, date, source } = props
-    const { setShareUrl } = useContext(Context)
+    const { setShareUrl } = useNewsContext()
     const [volume, setVolume] = useState(<HiVolumeUp role='button' className="scale me-4 p-1" onClick={speech} />)
     const [bookmark, setBookmark] = useState(<FaRegBookmark role='button' className='scale me-4 p-1' onClick={saveNews} />)
 

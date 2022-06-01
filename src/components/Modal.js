@@ -1,9 +1,9 @@
-import React, { useContext } from 'react'
-import Context from '../context/Context';
+import React from 'react'
 import { FacebookIcon, FacebookShareButton, LinkedinIcon, LinkedinShareButton, RedditIcon, RedditShareButton, TelegramIcon, TelegramShareButton, TwitterIcon, TwitterShareButton, WhatsappIcon } from 'react-share';
+import { useNewsContext } from '../context/State';
 
 export default function Modal() {
-    const { shareUrl } = useContext(Context);
+    const { shareUrl } = useNewsContext()
     const title = 'News shared via NewsDose. Visit now for more: https://newsdoseweb.netlify.app/'
     const share = `${shareUrl}%0a%0a${title}`
     const shareWhatsapp = `whatsapp://send?text=${share}`
