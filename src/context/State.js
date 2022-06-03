@@ -44,9 +44,10 @@ const State = props => {
         if (category === 'Saved') parsedData = JSON.parse(localStorage.getItem('news'))
         else {
             storedData = JSON.parse(sessionStorage.getItem(`news${country}${category}`))
-            if (!storedData || storedData.totalResults < storedData.maxResults || type !== 'reload') {
+            const { totalResults, maxResults } = storedData || { totalResults: 0, maxResults: 1 }
+            if (totalResults < maxResults && (!storedData || type !== 'reload')) {
                 let updatedPage;
-                storedData ? updatedPage = Math.ceil(storedData.totalResults / 21) + 1 : updatedPage = page
+                storedData ? updatedPage = Math.ceil(totalResults / 21) + 1 : updatedPage = page
                 try {
                     const { data } = await axios({
                         url: process.env.REACT_APP_URL,
