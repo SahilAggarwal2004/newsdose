@@ -17,10 +17,10 @@ const State = props => {
     const [shareUrl, setShareUrl] = useState(null)
 
     function updateData(category, parsedData, storedData) {
-        let { articles, maxResults } = parsedData || {}
         const storedNews = storedData?.articles || []
-        const newsToSet = storedNews.concat(articles || [])
+        const newsToSet = storedNews.concat(parsedData?.articles || [])
         setNews(newsToSet)
+        const maxResults = parsedData?.maxResults || storedData?.maxResults
         const newsToStore = { status: "ok", totalResults: newsToSet.length, maxResults, articles: newsToSet }
         sessionStorage.setItem(`news${country}${category}`, JSON.stringify(newsToStore))
         localStorage.setItem(`news${country}${category}`, JSON.stringify(newsToStore))
@@ -66,7 +66,7 @@ const State = props => {
     }
 
     return (
-        <Context.Provider value={{ categories, country, setCountry, query, setQuery, news, setNews, fetchData, load, setLoad, error, shareUrl, setShareUrl, end, setEnd, setPage }}>
+        <Context.Provider value={{ categories, country, setCountry, query, setQuery, news, setNews, fetchData, load, error, shareUrl, setShareUrl, end, setEnd, setPage }}>
             {props.children}
         </Context.Provider>
     )
