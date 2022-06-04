@@ -92,7 +92,7 @@ export default function NewsItem(props) {
                     <hr />
                     <p className="card-text">{description}</p>
                 </a>
-                <p className="card-text mt-2"><small className="text-muted">Published {author ? `by ${author}` : ""} on {new Date(date).toLocaleString()}</small></p>
+                <p className="card-text mt-2"><small className="text-muted">Published {author && `by ${author}`} on {new Date(date).toLocaleString()}</small></p>
                 <div className='position-absolute d-flex align-items-center m-1' style={{ bottom: "1rem" }}>
                     <a>{volume}</a>
                     <a>{bookmark}</a>

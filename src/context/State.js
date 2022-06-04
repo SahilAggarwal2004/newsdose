@@ -6,7 +6,7 @@ import Context from "./Context";
 export const useNewsContext = () => useContext(Context);
 
 const State = props => {
-    const categories = ["", "Business", "Entertainment", "Health", "Science", "Sports", "Technology", "Saved"]
+    const categories = ["", "business", "entertainment", "health", "science", "sports", "technology", "saved"]
     const [country, setCountry] = useStorage('country', 'in')
     const [query, setQuery] = useState('')
     const [page, setPage] = useState(1)
@@ -19,11 +19,13 @@ const State = props => {
     function updateData(category, parsedData, storedData) {
         const storedNews = storedData?.articles || []
         const newsToSet = storedNews.concat(parsedData?.articles || [])
-        setNews(newsToSet)
-        const maxResults = parsedData?.maxResults || storedData?.maxResults
-        const newsToStore = { status: "ok", totalResults: newsToSet.length, maxResults, articles: newsToSet }
-        sessionStorage.setItem(`news${country}${category}`, JSON.stringify(newsToStore))
-        localStorage.setItem(`news${country}${category}`, JSON.stringify(newsToStore))
+        if (newsToSet.length) {
+            setNews(newsToSet)
+            const maxResults = parsedData?.maxResults || storedData?.maxResults
+            const newsToStore = { status: "ok", totalResults: newsToSet.length, maxResults, articles: newsToSet }
+            sessionStorage.setItem(`news${country}${category}`, JSON.stringify(newsToStore))
+            localStorage.setItem(`news${country}${category}`, JSON.stringify(newsToStore))
+        }
         setLoad(['visible', '100vw'])
         setError(parsedData?.error)
         setTimeout(() => setLoad(['hidden', '0vw']), 300);
@@ -41,11 +43,12 @@ const State = props => {
     async function fetchData(category, retryOnError, type = 'reload') {
         setLoad(['visible', '33vw'])
         let parsedData, storedData
-        if (category === 'Saved') parsedData = JSON.parse(localStorage.getItem('news'))
+        if (category === 'saved') parsedData = JSON.parse(localStorage.getItem('news'))
         else {
             storedData = JSON.parse(sessionStorage.getItem(`news${country}${category}`))
             const { totalResults, maxResults } = storedData || { totalResults: 0, maxResults: 1 }
-            if (totalResults < maxResults && (!storedData || type !== 'reload')) {
+            if (totalResults === maxResults) setEnd(true)
+            else if (!storedData || type !== 'reload') {
                 let updatedPage;
                 storedData ? updatedPage = Math.ceil(totalResults / 21) + 1 : updatedPage = page
                 try {
@@ -53,13 +56,12 @@ const State = props => {
                         url: process.env.REACT_APP_URL,
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        data: { country, category: category.toLowerCase(), page: updatedPage }
+                        data: { country, category, page: updatedPage }
                     })
-                    if (data.success === true) {
+                    if (data.success) {
                         parsedData = data.news
                         setPage(page => page + 1)
-                    } else if (data.success === false) parsedData = await fetchAgain(category, retryOnError)
-                    else if (data.success === 'ended') setEnd(true)
+                    } else parsedData = await fetchAgain(category, retryOnError)
                 } catch { parsedData = await fetchAgain(category, retryOnError) }
             }
         }
