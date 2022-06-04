@@ -56,7 +56,7 @@ const State = props => {
                         url: process.env.REACT_APP_URL,
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        data: { country, category, page: updatedPage }
+                        data: { country, category: category || 'general', page: updatedPage }
                     })
                     if (data.success) {
                         parsedData = data.news
