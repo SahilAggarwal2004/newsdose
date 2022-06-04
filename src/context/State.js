@@ -1,13 +1,15 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import axios from "axios";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useStorage } from "../hooks";
 import Context from "./Context";
 
 export const useNewsContext = () => useContext(Context);
 
 const State = props => {
+    const [country, setCountry] = useStorage('country', { method: 'auto', code: '' })
+    const countries = { au: "Australia", ca: "Canada", in: "India", ie: "Ireland", my: "Malaysia", ng: "Nigeria", nz: "New Zealand", ph: "Philippines", sa: "Saudi Arabia", sg: "Singapore", za: "South Africa", gb: "United Kingdom", us: "United States" }
     const categories = ["", "business", "entertainment", "health", "science", "sports", "technology", "saved"]
-    const [country, setCountry] = useStorage('country', 'in')
     const [query, setQuery] = useState('')
     const [page, setPage] = useState(1)
     const [news, setNews] = useState([])
@@ -16,6 +18,16 @@ const State = props => {
     const [error, setError] = useState(false)
     const [shareUrl, setShareUrl] = useState(null)
 
+    useEffect(() => {
+        if (country.method !== 'auto') return
+        fetch(process.env.REACT_APP_LOCATION)
+            .then(response => response.json())
+            .then(({ country: code }) => {
+                code = code.toLowerCase()
+                countries[code] ? setCountry({ method: 'auto', code }) : setCountry({ method: 'auto', code: 'in' });
+            })
+    }, [country.method])
+
     function updateData(category, parsedData, storedData) {
         const storedNews = storedData?.articles || []
         const newsToSet = storedNews.concat(parsedData?.articles || [])
@@ -23,8 +35,8 @@ const State = props => {
             setNews(newsToSet)
             const maxResults = parsedData?.maxResults || storedData?.maxResults
             const newsToStore = { status: "ok", totalResults: newsToSet.length, maxResults, articles: newsToSet }
-            sessionStorage.setItem(`news${country}${category}`, JSON.stringify(newsToStore))
-            localStorage.setItem(`news${country}${category}`, JSON.stringify(newsToStore))
+            sessionStorage.setItem(`news${country.code}${category}`, JSON.stringify(newsToStore))
+            localStorage.setItem(`news${country.code}${category}`, JSON.stringify(newsToStore))
         }
         setLoad(['visible', '100vw'])
         setError(parsedData?.error)
@@ -36,7 +48,7 @@ const State = props => {
         if (retryOnError) {
             parsedData = { articles: [], error: 'Unable to fetch news! Retrying...' }
             setTimeout(() => fetchData(category, false), 2500);
-        } else parsedData = JSON.parse(localStorage.getItem(`news${country}${category}`)) || { articles: [], error: 'Unable to fetch news! Try again later...' }
+        } else parsedData = JSON.parse(localStorage.getItem(`news${country.code}${category}`)) || { articles: [], error: 'Unable to fetch news! Try again later...' }
         return parsedData
     }
 
@@ -45,7 +57,7 @@ const State = props => {
         let parsedData, storedData
         if (category === 'saved') parsedData = JSON.parse(localStorage.getItem('news'))
         else {
-            storedData = JSON.parse(sessionStorage.getItem(`news${country}${category}`))
+            storedData = JSON.parse(sessionStorage.getItem(`news${country.code}${category}`))
             const { totalResults, maxResults } = storedData || { totalResults: 0, maxResults: 1 }
             if (totalResults === maxResults) setEnd(true)
             else if (!storedData || type !== 'reload') {
@@ -56,7 +68,7 @@ const State = props => {
                         url: process.env.REACT_APP_URL,
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        data: { country, category: category || 'general', page: updatedPage }
+                        data: { country: country.code, category: category || 'general', page: updatedPage }
                     })
                     if (data.success) {
                         parsedData = data.news
@@ -69,7 +81,7 @@ const State = props => {
     }
 
     return (
-        <Context.Provider value={{ categories, country, setCountry, query, setQuery, news, setNews, fetchData, load, error, shareUrl, setShareUrl, end, setEnd, setPage }}>
+        <Context.Provider value={{ countries, categories, country, setCountry, query, setQuery, news, setNews, fetchData, load, error, shareUrl, setShareUrl, end, setEnd, setPage }}>
             {props.children}
         </Context.Provider>
     )

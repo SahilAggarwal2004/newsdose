@@ -6,14 +6,15 @@ import Load from './Load';
 import NewsItem from './NewsItem'
 
 export default function News({ category }) {
-    const { query, news: fullNews, fetchData, error, end, setEnd, load } = useNewsContext()
+    const { country, query, news: fullNews, fetchData, error, end, setEnd, load } = useNewsContext()
     const news = fullNews.filter(queryFilter)
 
     useEffect(() => {
+        if (!country.code) return
         window.scrollTo(0, 0)
         setEnd(false)
         fetchData(category, true)
-    }, [])
+    }, [country])
 
     function queryFilter(element) {
         if (!query) return element

@@ -19,7 +19,7 @@ function App() {
         }} />
         <Modal />
         <Routes>
-            {categories.map(category => <Route key={category} path={`/${category}`} element={<News category={category} key={category === 'saved' ? category : country + category} />} />)}
+            {categories.map(category => <Route key={category} path={`/${category}`} element={<News category={category} key={category === 'saved' ? category : country.code + category} />} />)}
         </Routes>
     </Router>
 }
