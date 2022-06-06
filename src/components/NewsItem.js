@@ -5,8 +5,7 @@ import { FaShareAlt, FaRegBookmark, FaBookmark } from 'react-icons/fa'
 import { HiVolumeUp, HiVolumeOff } from 'react-icons/hi'
 import { useNewsContext } from '../context/State'
 
-export default function NewsItem(props) {
-    const { title, description, imgUrl, newsUrl, author, date, source } = props
+export default function NewsItem({ title, description, imgUrl, newsUrl, author, date, source }) {
     const { setShareUrl } = useNewsContext()
     const [volume, setVolume] = useState(<HiVolumeUp role='button' className="scale me-4 p-1" onClick={speech} />)
     const [bookmark, setBookmark] = useState(<FaRegBookmark role='button' className='scale me-4 p-1' onClick={saveNews} />)

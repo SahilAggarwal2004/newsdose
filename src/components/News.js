@@ -14,7 +14,7 @@ export default function News({ category }) {
         window.scrollTo(0, 0)
         setEnd(false)
         fetchData(category, true)
-    }, [country])
+    }, [country.code])
 
     function queryFilter(element) {
         if (!query) return element

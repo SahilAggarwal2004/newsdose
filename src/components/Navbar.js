@@ -21,11 +21,11 @@ export default function Navbar() {
         let method = '', code = '';
         const value = event.target.value
         value === 'auto' ? method = value : code = value
-        setCountry({ method, code })
-        if (code !== autoCountry) {
+        if (code !== country.code) {
             setPage(1)
             setNews([])
         }
+        setCountry({ method, code })
     }
 
     return (
