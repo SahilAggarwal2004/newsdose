@@ -7,7 +7,9 @@ import NewsItem from './NewsItem'
 
 export default function News({ category }) {
     const { country, query, news: fullNews, fetchData, error, end, setEnd, load } = useNewsContext()
+    console.time('1')
     const news = fullNews.filter(queryFilter)
+    console.timeEnd('1')
 
     useEffect(() => {
         if (!country.code) return
@@ -19,11 +21,8 @@ export default function News({ category }) {
     function queryFilter(element) {
         if (!query) return element
         const substr = query.toLowerCase();
-        const title = element.title?.toLowerCase() || ''
-        const description = element.description?.toLowerCase() || ''
-        const author = element.author?.toLowerCase() || ''
-        const source = element.source?.name?.toLowerCase() || ''
-        if (title.includes(substr) || description.includes(substr) || author.includes(substr) || source.includes(substr)) return element
+        const { title, description, author, source: { name } } = element
+        if ([title, description, author, name].join('~~').toLowerCase().includes(substr)) return element
     }
 
     document.title = category ? `${category.charAt(0).toUpperCase() + category.slice(1)} | NewsDose` : 'NewsDose - Get your daily dose of news for free!'
