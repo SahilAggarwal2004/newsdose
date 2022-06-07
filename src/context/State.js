@@ -66,7 +66,6 @@ const State = props => {
                 try {
                     const { data } = await axios({
                         url: process.env.REACT_APP_URL,
-                        method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         data: { country: country.code, category: category || 'general', page: updatedPage }
                     })

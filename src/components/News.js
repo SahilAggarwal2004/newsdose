@@ -7,9 +7,7 @@ import NewsItem from './NewsItem'
 
 export default function News({ category }) {
     const { country, query, news: fullNews, fetchData, error, end, setEnd, load } = useNewsContext()
-    console.time('1')
     const news = fullNews.filter(queryFilter)
-    console.timeEnd('1')
 
     useEffect(() => {
         if (!country.code) return
