@@ -9,8 +9,7 @@ export const useNewsContext = () => useContext(Context);
 const State = props => {
     const [country, setCountry] = useStorage('country', { method: 'auto', code: '' })
     const countries = { au: "Australia", ca: "Canada", in: "India", ie: "Ireland", my: "Malaysia", ng: "Nigeria", nz: "New Zealand", ph: "Philippines", sa: "Saudi Arabia", sg: "Singapore", za: "South Africa", gb: "United Kingdom", us: "United States" }
-    const categories = ["", "business", "entertainment", "health", "science", "sports", "technology", "saved"]
-    const [query, setQuery] = useState('')
+    const categories = ["", "business", "entertainment", "health", "science", "sports", "technology", "search", "saved"]
     const [page, setPage] = useState(1)
     const [news, setNews] = useState([])
     const [load, setLoad] = useState(['hidden', '0'])
@@ -81,7 +80,7 @@ const State = props => {
     }
 
     return (
-        <Context.Provider value={{ countries, categories, country, setCountry, query, setQuery, news, setNews, fetchData, load, error, shareUrl, setShareUrl, end, setEnd, setPage }}>
+        <Context.Provider value={{ countries, categories, country, setCountry, news, setNews, fetchData, load, setLoad, error, setError, shareUrl, setShareUrl, end, setEnd, setPage }}>
             {props.children}
         </Context.Provider>
     )

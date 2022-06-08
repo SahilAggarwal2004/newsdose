@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export function useStorage(key, initialValue, options = { local: true, session: false }) {
     const { local, session } = options
@@ -22,4 +22,13 @@ export function useStorage(key, initialValue, options = { local: true, session: 
         }
     };
     return [storedValue, setValue];
+}
+
+export function useDebounce(value, delay = 750) {
+    const [debouncedValue, setDebouncedValue] = useState(value);
+    useEffect(() => {
+        const handler = setTimeout(() => setDebouncedValue(value), delay);
+        return () => { clearTimeout(handler) }
+    }, [value, delay])
+    return debouncedValue
 }

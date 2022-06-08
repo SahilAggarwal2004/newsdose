@@ -21,3 +21,55 @@ img {
 .scale {
     transform: scale(2.25);
 }
+
+.grid {
+    padding-top: 4px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    place-items: center;
+}
+
+.grid h1 {
+    grid-column-start: 2;
+}
+
+.grid input {
+    place-self: end;
+    max-width: 75%;
+}
+
+@media (max-width: 991px) {
+    nav ul {
+        grid-template-columns: 1fr 1fr 1fr !important;
+    }
+
+    nav select {
+        margin: 6px auto;
+    }
+}
+
+@media (max-width: 767px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .grid h1 {
+        grid-column-start: 1;
+        padding-bottom: 12px;
+    }
+
+    .grid input {
+        place-self: center;
+    }
+}
+
+@media (max-width: 575px) {
+    nav ul {
+        grid-template-columns: 1fr 1fr !important;
+    }
+
+    nav .saved {
+        grid-column-start: 1;
+        grid-column-end: 3;
+    }
+}

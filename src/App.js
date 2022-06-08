@@ -1,8 +1,8 @@
-import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar';
 import News from './components/News';
 import Modal from './components/Modal';
+import Search from './components/Search';
 import { useNewsContext } from './context/State';
 
 function App() {
@@ -19,7 +19,7 @@ function App() {
         }} />
         <Modal />
         <Routes>
-            {categories.map(category => <Route key={category} path={`/${category}`} element={<News category={category} key={category === 'saved' ? category : country.code + category} />} />)}
+            {categories.map(category => <Route key={category} path={`/${category}`} element={category === 'search' ? <Search /> : <News category={category} key={category === 'saved' ? category : country.code + category} />} />)}
         </Routes>
     </Router>
 }
