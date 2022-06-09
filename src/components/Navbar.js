@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useNewsContext } from '../context/State';
 
 export default function Navbar() {
-    const { countries, categories, country, setCountry, setPage, setNews } = useNewsContext()
+    const { countries, categories, country, setCountry, resetNews } = useNewsContext()
     const [width, setWidth] = useState(window.outerWidth)
     const location = useLocation();
     const autoCountry = country.method === 'auto' && countries[country.code] ? ` (${countries[country.code]})` : ''
@@ -11,20 +11,13 @@ export default function Navbar() {
 
     useEffect(() => { window.addEventListener('resize', () => setWidth(window.outerWidth)); }, [])
 
-    function resetNews(newCategory) {
-        if (location.pathname === '/' + newCategory) return
-        setPage(1)
-        setNews([])
-    }
+    function updateCategory(newCategory) { if (location.pathname !== '/' + newCategory) resetNews() }
 
     function updateCountry(event) {
         let method = '', code = '';
         const value = event.target.value
         value === 'auto' ? method = value : code = value
-        if (code !== country.code) {
-            setPage(1)
-            setNews([])
-        }
+        if (code !== country.code) resetNews()
         setCountry({ method, code })
     }
 
@@ -37,7 +30,7 @@ export default function Navbar() {
                 </button>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav d-grid d-lg-flex me-auto mt-2 mb-2 mt-lg-0 mb-lg-0">
-                        {categories.map(category => <li className={`nav-item text-center ${category}`} key={category} onClick={() => resetNews(category)}>
+                        {categories.map(category => <li className={`nav-item text-center ${category}`} key={category} onClick={() => updateCategory(category)}>
                             <Link className="nav-link d-inline-block w-auto" aria-current="page" to={`/${category}`}>
                                 <button className='btn shadow-none nav-link p-0 text-capitalize' data-bs-toggle='collapse' data-bs-target={width <= 991 && "#navbarSupportedContent"}>{category || "Home"}</button>
                             </Link>

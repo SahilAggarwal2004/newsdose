@@ -24,7 +24,7 @@ export function useStorage(key, initialValue, options = { local: true, session: 
     return [storedValue, setValue];
 }
 
-export function useDebounce(value, delay = 750) {
+export function useDebounce(value, delay = 800) {
     const [debouncedValue, setDebouncedValue] = useState(value);
     useEffect(() => {
         const handler = setTimeout(() => setDebouncedValue(value), delay);

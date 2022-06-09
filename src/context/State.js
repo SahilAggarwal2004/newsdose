@@ -12,6 +12,7 @@ const State = props => {
     const categories = ["", "business", "entertainment", "health", "science", "sports", "technology", "search", "saved"]
     const [page, setPage] = useState(1)
     const [news, setNews] = useState([])
+    const [searchNews, setSearchNews] = useState([])
     const [load, setLoad] = useState(['hidden', '0'])
     const [end, setEnd] = useState(false)
     const [error, setError] = useState(false)
@@ -27,19 +28,26 @@ const State = props => {
             })
     }, [country.method])
 
+    function resetNews() {
+        setPage(1)
+        setNews([])
+        setSearchNews([])
+        setLoad(['hidden', '0'])
+        setEnd(false)
+        setError(false)
+    }
+
     function updateData(category, parsedData, storedData) {
+        const { articles, maxResults, error } = parsedData || {}
         const storedNews = storedData?.articles || []
-        const newsToSet = storedNews.concat(parsedData?.articles || [])
-        if (newsToSet.length) {
+        if (articles?.length) {
+            const newsToSet = storedNews.concat(articles)
             setNews(newsToSet)
-            const maxResults = parsedData?.maxResults || storedData?.maxResults
             const newsToStore = { status: "ok", totalResults: newsToSet.length, maxResults, articles: newsToSet }
             sessionStorage.setItem(`news${country.code}${category}`, JSON.stringify(newsToStore))
             localStorage.setItem(`news${country.code}${category}`, JSON.stringify(newsToStore))
-        }
-        setLoad(['visible', '100vw'])
-        setError(parsedData?.error)
-        setTimeout(() => setLoad(['hidden', '0vw']), 300);
+        } else setNews(storedNews)
+        setError(error)
     }
 
     function fetchAgain(category, retryOnError) {
@@ -61,7 +69,7 @@ const State = props => {
             if (totalResults === maxResults) setEnd(true)
             else if (!storedData || type !== 'reload') {
                 let updatedPage;
-                storedData ? updatedPage = Math.ceil(totalResults / 21) + 1 : updatedPage = page
+                storedData ? updatedPage = Math.ceil(totalResults / 24) + 1 : updatedPage = page
                 try {
                     const { data } = await axios({
                         url: process.env.REACT_APP_URL,
@@ -77,10 +85,12 @@ const State = props => {
             }
         }
         updateData(category, parsedData, storedData)
+        setLoad(['visible', '100vw'])
+        setTimeout(() => setLoad(['hidden', '0vw']), 300);
     }
 
     return (
-        <Context.Provider value={{ countries, categories, country, setCountry, news, setNews, fetchData, load, setLoad, error, setError, shareUrl, setShareUrl, end, setEnd, setPage }}>
+        <Context.Provider value={{ countries, categories, country, setCountry, news, setNews, searchNews, setSearchNews, fetchData, load, setLoad, error, setError, shareUrl, setShareUrl, end, setEnd, setPage, resetNews }}>
             {props.children}
         </Context.Provider>
     )
