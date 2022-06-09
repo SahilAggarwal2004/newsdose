@@ -1,13 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useNewsContext } from '../context/State';
+import { useStorage } from '../hooks';
 import Loader from './Loader';
 import NewsItem from './NewsItem'
 
 export default function News({ category }) {
     const { country, news: fullNews, fetchData, error, end, setEnd, load } = useNewsContext()
-    const [query, setQuery] = useState('')
+    const [query, setQuery] = useStorage('query', '', { local: false, session: true })
     const news = fullNews.filter(queryFilter)
 
     useEffect(() => {
@@ -38,10 +39,10 @@ export default function News({ category }) {
                     <NewsItem title={element.title} description={element.description} imgUrl={element.urlToImage} newsUrl={element.url} author={element.author} date={element.publishedAt} source={element.source.name} />
                 </div>) : category === 'saved' ? <div className="text-center">
                     You haven't saved any news till now!
-                </div> : query ? <div className="text-center">
+                </div> : query && load[0] === 'hidden' && country.code ? <div className="text-center">
                     Seems like there is no news related to <strong>{query}</strong>
-                </div> : <div className="text-center">{error}</div>}
-            </InfiniteScroll>
-        </div>
+                </div> : load[0] === 'hidden' && country.code && <div className="text-center">{error}</div>}
+            </InfiniteScroll >
+        </div >
     )
 }

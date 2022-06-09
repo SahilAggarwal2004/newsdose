@@ -3,14 +3,14 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { useNewsContext } from '../context/State'
-import { useDebounce } from '../hooks'
+import { useDebounce, useStorage } from '../hooks'
 import Loader from './Loader'
 import NewsItem from './NewsItem'
 
 export default function Search() {
     const { categories, country, load, setLoad, error, setError, searchNews, setSearchNews, page, setPage, resetNews } = useNewsContext()
     const [category, setCategory] = useState('')
-    const [search, setSearch] = useState('')
+    const [search, setSearch] = useStorage('query', '', { local: false, session: true })
     const [end, setEnd] = useState(false)
     const query = useDebounce(search)
 
