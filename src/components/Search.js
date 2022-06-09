@@ -9,7 +9,7 @@ import NewsItem from './NewsItem'
 
 export default function Search() {
     const { categories, country, load, setLoad, error, setError, searchNews, setSearchNews, page, setPage, resetNews } = useNewsContext()
-    const [category, setCategory] = useState('')
+    const [category, setCategory] = useState('all')
     const [search, setSearch] = useStorage('query', '', { local: false, session: true })
     const [end, setEnd] = useState(false)
     const query = useDebounce(search)
