@@ -67,7 +67,7 @@ export default function Search() {
         <div className='container-fluid d-sm-flex justify-content-center pt-1'>
             <input className="form-control ps-1 w-auto mx-auto mb-2 m-sm-0 me-sm-3" type="search" placeholder="Search" aria-label="Search" value={search} onChange={updateQuery} />
             <select className="form-select w-auto mx-auto m-sm-0 text-capitalize" aria-label="Choose category" value={category} onChange={updateCategory}>
-                <option value={'all'}>All</option>
+                <option value='all'>All</option>
                 {categories.map(element => {
                     if (element === 'search' || element === 'saved') return null
                     return <option value={element} key={element}>{element || 'General'}</option>
