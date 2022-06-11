@@ -42,7 +42,7 @@ export default function News({ category }) {
                     You haven't saved any news till now!
                 </div> : query && load[0] === 'hidden' && country.code ? <div className="text-center">
                     Seems like there is no news related to <strong>{query}</strong>
-                </div> : load[0] === 'hidden' && country.code && <div className="text-center">{error}</div>}
+                </div> : load[0] === 'hidden' && country.code && error ? <div className="text-center">{error}</div> : load[0] === 'hidden' && <Loader />}
             </InfiniteScroll >
         </div >
     )
