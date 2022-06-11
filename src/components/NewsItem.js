@@ -11,14 +11,10 @@ export default function NewsItem({ title, description, imgUrl, newsUrl, author, 
     const [bookmark, setBookmark] = useState(<FaRegBookmark role='button' className='scale me-4 p-1' onClick={saveNews} />)
 
     const newsImg = 'https://images.weserv.nl/?url=https://newsdoseweb.herokuapp.com/media/news.webp&width=450&height=300&maxage=1y&q=50';
-    let imgUrlWeserv;
-    if (navigator.connection?.effectiveType) {
-        if (navigator.connection.effectiveType.includes('2')) {
-            imgUrlWeserv = (imgUrl?.match(/http/g) || []).length > 1 ? newsImg : `https://images.weserv.nl/?url=${imgUrl}&width=450&height=300&maxage=1d&output=webp&q=5`
-        }
-        else {
-            imgUrlWeserv = (imgUrl?.match(/http/g) || []).length > 1 ? newsImg : `https://images.weserv.nl/?url=${imgUrl}&width=450&height=300&maxage=1d&output=webp&q=25`
-        }
+    let imgUrlWeserv = newsImg
+    if (imgUrl?.match(/https/g)?.length == 1) {
+        const connectionSpeed = navigator.connection?.effectiveType
+        imgUrlWeserv = `https://images.weserv.nl/?url=${imgUrl}&width=450&height=300&maxage=1d&output=webp&q=${connectionSpeed?.includes('2') ? 5 : connectionSpeed?.includes('3') ? 10 : 25}`
     }
 
     function checkBookmark() {
@@ -44,16 +40,9 @@ export default function NewsItem({ title, description, imgUrl, newsUrl, author, 
                 setVolume(<HiVolumeUp role='button' className="scale me-4 p-1" onClick={speech} />)
             }
         }
-
-        if (!speaking) {
-            newSpeech()
-            return
-        }
+        if (!speaking) return newSpeech()
         speechSynthesis.cancel()
-        if (speechId !== clickId) {
-            newSpeech()
-            return
-        }
+        if (speechId !== clickId) return newSpeech()
         speechId = null;
         setVolume(<HiVolumeUp role='button' className="scale me-4 p-1" onClick={speech} />)
     }
@@ -63,9 +52,10 @@ export default function NewsItem({ title, description, imgUrl, newsUrl, author, 
         if (!news) news = { articles: [] }
         const isBoomarked = checkBookmark()
         if (isBoomarked) {
-            news.articles = news.articles.filter(element => { return element.title !== title }); setBookmark(<FaRegBookmark role='button' className='scale me-4 p-1' onClick={saveNews} />)
+            news.articles = news.articles.filter(element => { return element.title !== title })
+            setBookmark(<FaRegBookmark role='button' className='scale me-4 p-1' onClick={saveNews} />)
         } else {
-            news.articles.push({ title, description, urlToImage: imgUrl, url: newsUrl, author, publishedAt: date, source: { name: source } });
+            news.articles.push({ title, description, urlToImage: imgUrl, url: newsUrl, author, publishedAt: date, source: { name: source } })
             setBookmark(<FaBookmark role='button' className='scale me-4 p-1' onClick={saveNews} />)
         }
         localStorage.setItem('news', JSON.stringify(news))
@@ -76,33 +66,29 @@ export default function NewsItem({ title, description, imgUrl, newsUrl, author, 
         if (isBoomarked) setBookmark(<FaBookmark role='button' className='scale me-4 p-1' onClick={saveNews} />)
     }, [])
 
-    return (
-        <div className="card mt-4 mb-3" style={{ paddingBottom: "2rem" }}>
-            <span className="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger border">{source}</span>
-            <a href={newsUrl} target="_blank" rel="noreferrer" className="text-black">
-                <div style={{ height: "13rem" }}>
-                    <img src={imgUrl ? imgUrlWeserv : newsImg} onError={event => event.target.src = newsImg} loading='lazy' className="card-img-top h-100" alt='' />
-                </div>
-            </a>
-            <div className="card-body">
-                <hr />
-                <a href={newsUrl} target="_blank" rel="noreferrer" className="text-black text-decoration-none">
-                    <h5 className="card-title">{title}</h5>
-                    <hr />
-                    <p className="card-text">{description}</p>
-                </a>
-                <p className="card-text mt-2"><small className="text-muted">Published {author && `by ${author}`} on {new Date(date).toLocaleString()}</small></p>
-                <div className='position-absolute d-flex align-items-center m-1' style={{ bottom: "1rem" }}>
-                    <a>{volume}</a>
-                    <a>{bookmark}</a>
-                    <a>
-                        <FaShareAlt role='button' className="scale me-4 p-1" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={() => setShareUrl(newsUrl)} />
-                    </a>
-                    <a href={newsUrl} target="_blank" rel="noreferrer" className="text-black">
-                        <BsFillInfoSquareFill role='button' className="scale p-1" />
-                    </a>
-                </div>
+    return <div className="card mt-4 mb-3" style={{ paddingBottom: "2rem" }}>
+        <span className="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger border">{source}</span>
+        <a href={newsUrl} target="_blank" rel="noreferrer" className="text-black">
+            <div style={{ height: "13rem" }}>
+                <img src={imgUrlWeserv} onError={event => event.target.src = newsImg} loading='lazy' className="card-img-top h-100" alt='' />
             </div>
-        </div >
-    )
+        </a>
+        <div className="card-body">
+            <hr />
+            <a href={newsUrl} target="_blank" rel="noreferrer" className="text-black text-decoration-none">
+                <h5 className="card-title">{title}</h5>
+                <hr />
+                <p className="card-text">{description}</p>
+            </a>
+            <p className="card-text mt-2"><small className="text-muted">Published {author && `by ${author}`} on {new Date(date).toLocaleString()}</small></p>
+            <div className='position-absolute d-flex align-items-center m-1' style={{ bottom: "1rem" }}>
+                <a>{volume}</a>
+                <a>{bookmark}</a>
+                <a><FaShareAlt role='button' className="scale me-4 p-1" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={() => setShareUrl(newsUrl)} /></a>
+                <a href={newsUrl} target="_blank" rel="noreferrer" className="text-black">
+                    <BsFillInfoSquareFill role='button' className="scale p-1" />
+                </a>
+            </div>
+        </div>
+    </div >
 }
