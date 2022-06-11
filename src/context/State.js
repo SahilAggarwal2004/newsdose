@@ -20,12 +20,9 @@ const State = props => {
 
     useEffect(() => {
         if (country.method !== 'auto') return
-        fetch(process.env.REACT_APP_LOCATION)
+        fetch(process.env.REACT_APP_URL + 'location')
             .then(response => response.json())
-            .then(({ country: code }) => {
-                code = code.toLowerCase()
-                countries[code] ? setCountry({ method: 'auto', code }) : setCountry({ method: 'auto', code: 'in' });
-            })
+            .then(({ code }) => countries[code] ? setCountry({ method: 'auto', code }) : setCountry({ method: 'auto', code: 'in' }))
     }, [country.method])
 
     function resetNews() {
