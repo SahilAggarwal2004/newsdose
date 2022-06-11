@@ -21,9 +21,10 @@ const State = props => {
 
     useEffect(() => {
         if (country.method !== 'auto') return
-        fetch(process.env.REACT_APP_URL + 'location')
+        fetch('https://feeds.intoday.in/geocheck') // process.env.REACT_APP_URL + 'location'
             .then(response => response.json())
-            .then(({ code }) => {
+            .then(({ country_code }) => {
+                const code = country_code?.toLowerCase()
                 countries[code] ? setCountry({ method: 'auto', code }) : setCountry({ method: 'auto', code: 'in' })
                 setFetchedIfAuto(true)
             })
