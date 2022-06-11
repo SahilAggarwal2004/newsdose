@@ -10,6 +10,7 @@ const State = props => {
     const [country, setCountry] = useStorage('country', { method: 'auto', code: '' })
     const countries = { au: "Australia", ca: "Canada", in: "India", ie: "Ireland", my: "Malaysia", ng: "Nigeria", nz: "New Zealand", ph: "Philippines", sa: "Saudi Arabia", sg: "Singapore", za: "South Africa", gb: "United Kingdom", us: "United States" }
     const categories = ["", "business", "entertainment", "health", "science", "sports", "technology", "search", "saved"]
+    const [ip, setIp] = useState()
     const [page, setPage] = useState(1)
     const [news, setNews] = useState([])
     const [searchNews, setSearchNews] = useState([])
@@ -20,10 +21,11 @@ const State = props => {
 
     useEffect(() => {
         if (country.method !== 'auto') return
-        fetch(process.env.REACT_APP_URL + 'location')
+        if (ip) fetch(process.env.REACT_APP_URL + 'location', { headers: { ip } })
             .then(response => response.json())
             .then(({ code }) => countries[code] ? setCountry({ method: 'auto', code }) : setCountry({ method: 'auto', code: 'in' }))
-    }, [country.method])
+        else fetch('https://api64.ipify.org?format=json').then(response => response.json()).then(({ ip }) => setIp(ip))
+    }, [ip, country.method])
 
     function resetNews() {
         setPage(1)
