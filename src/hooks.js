@@ -7,8 +7,8 @@ export function useStorage(key, initialValue, options = { local: true, session: 
     const [storedValue, setStoredValue] = useState(() => {
         if (typeof window === "undefined") return initialValue
         let item;
-        if (local) item = window.localStorage.getItem(key);
-        else if (session) item = window.sessionStorage.getItem(key);
+        if (session) item = window.sessionStorage.getItem(key);
+        else if (local) item = window.localStorage.getItem(key);
         return item ? JSON.parse(item) : initialValue
     });
 

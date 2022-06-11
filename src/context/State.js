@@ -7,9 +7,10 @@ import Context from "./Context";
 export const useNewsContext = () => useContext(Context);
 
 const State = props => {
-    const [country, setCountry] = useStorage('country', { method: 'auto', code: '' })
     const countries = { au: "Australia", ca: "Canada", in: "India", ie: "Ireland", my: "Malaysia", ng: "Nigeria", nz: "New Zealand", ph: "Philippines", sa: "Saudi Arabia", sg: "Singapore", za: "South Africa", gb: "United Kingdom", us: "United States" }
     const categories = ["", "business", "entertainment", "health", "science", "sports", "technology", "search", "saved"]
+    const [country, setCountry] = useStorage('country', { method: 'auto', code: '' })
+    const [fetchedIfAuto, setFetchedIfAuto] = useState(false)
     const [page, setPage] = useState(1)
     const [news, setNews] = useState([])
     const [searchNews, setSearchNews] = useState([])
@@ -22,7 +23,10 @@ const State = props => {
         if (country.method !== 'auto') return
         fetch(process.env.REACT_APP_URL + 'location')
             .then(response => response.json())
-            .then(({ code }) => countries[code] ? setCountry({ method: 'auto', code }) : setCountry({ method: 'auto', code: 'in' }))
+            .then(({ code }) => {
+                countries[code] ? setCountry({ method: 'auto', code }) : setCountry({ method: 'auto', code: 'in' })
+                setFetchedIfAuto(true)
+            })
     }, [country.method])
 
     function resetNews() {
@@ -87,7 +91,7 @@ const State = props => {
     }
 
     return (
-        <Context.Provider value={{ countries, categories, country, setCountry, news, setNews, searchNews, setSearchNews, fetchData, load, setLoad, error, setError, shareUrl, setShareUrl, end, setEnd, setPage, resetNews }}>
+        <Context.Provider value={{ countries, categories, country, setCountry, news, setNews, searchNews, setSearchNews, fetchData, load, setLoad, error, setError, shareUrl, setShareUrl, end, setEnd, setPage, resetNews, fetchedIfAuto }}>
             {props.children}
         </Context.Provider>
     )
