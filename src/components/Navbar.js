@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useLocation } from "react-router-dom";
-import { useNewsContext } from '../context/State';
+import { useNewsContext } from '../context/ContextProvider';
 
 export default function Navbar() {
     const { countries, categories, country, setCountry, resetNews } = useNewsContext()

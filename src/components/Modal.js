@@ -1,6 +1,6 @@
 import React from 'react'
 import { FacebookIcon, FacebookShareButton, LinkedinIcon, LinkedinShareButton, RedditIcon, RedditShareButton, TelegramIcon, TelegramShareButton, TwitterIcon, TwitterShareButton, WhatsappIcon } from 'react-share';
-import { useNewsContext } from '../context/State';
+import { useNewsContext } from '../context/ContextProvider';
 
 export default function Modal() {
     const { shareUrl } = useNewsContext()

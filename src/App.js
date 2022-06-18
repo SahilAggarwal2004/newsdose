@@ -3,7 +3,7 @@ import Navbar from './components/Navbar';
 import News from './components/News';
 import Modal from './components/Modal';
 import Search from './components/Search';
-import { useNewsContext } from './context/State';
+import { useNewsContext } from './context/ContextProvider';
 
 function App() {
     const { country, load, categories } = useNewsContext()

@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import axios from "axios";
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect, createContext } from "react";
 import { useStorage } from "../hooks";
-import Context from "./Context";
 
+const Context = createContext()
 export const useNewsContext = () => useContext(Context);
 
-const State = props => {
+const ContextProvider = props => {
     const countries = { au: "Australia", ca: "Canada", in: "India", ie: "Ireland", my: "Malaysia", ng: "Nigeria", nz: "New Zealand", ph: "Philippines", sa: "Saudi Arabia", sg: "Singapore", za: "South Africa", gb: "United Kingdom", us: "United States" }
     const categories = ["", "business", "entertainment", "health", "science", "sports", "technology", "search", "saved"]
     const [country, setCountry] = useStorage('country', { method: 'auto', code: '' })
@@ -98,4 +98,4 @@ const State = props => {
     )
 }
 
-export default State;
+export default ContextProvider;

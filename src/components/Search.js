@@ -2,7 +2,7 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
-import { useNewsContext } from '../context/State'
+import { useNewsContext } from '../context/ContextProvider'
 import { useDebounce, useStorage } from '../hooks'
 import Loader from './Loader'
 import NewsItem from './NewsItem'

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { BsFillInfoSquareFill } from 'react-icons/bs'
 import { FaShareAlt, FaRegBookmark, FaBookmark } from 'react-icons/fa'
 import { HiVolumeUp, HiVolumeOff } from 'react-icons/hi'
-import { useNewsContext } from '../context/State'
+import { useNewsContext } from '../context/ContextProvider'
 
 export default function NewsItem({ title, description, imgUrl, newsUrl, author, date, source }) {
     const { setShareUrl } = useNewsContext()
