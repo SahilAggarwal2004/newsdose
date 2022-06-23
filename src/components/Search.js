@@ -8,19 +8,29 @@ import Loader from './Loader'
 import NewsItem from './NewsItem'
 
 export default function Search() {
-    const { categories, country, load, setLoad, error, setError, searchNews, setSearchNews, page, setPage, resetNews } = useNewsContext()
-    const [category, setCategory] = useState('all')
+    const { categories, country, load, setLoad, error, setError, searchNews, setSearchNews, page, setPage, resetNews, fetchedIfAuto } = useNewsContext()
+    const [category, setCategory] = useStorage('category', 'all', { local: false, session: true })
     const [search, setSearch] = useStorage('query', '', { local: false, session: true })
+    const [date, setDate] = useStorage('date', '', { local: false, session: true })
     const [end, setEnd] = useState(false)
     const query = useDebounce(search)
+    const now = new Date();
+    const maxDate = now.toLocaleDateString('en-ca');
+    now.setDate(now.getDate() - 15);
+    const minDate = now.toLocaleDateString('en-ca');
 
-    function updateQuery(event) {
-        setSearch(event.target.value)
+    function updateQuery({ target }) {
+        setSearch(target.value)
         resetNews()
     }
 
-    function updateCategory(event) {
-        setCategory(event.target.value)
+    function updateCategory({ target }) {
+        setCategory(target.value)
+        resetNews()
+    }
+
+    function updateDate({ target }) {
+        setDate(target.value)
         resetNews()
     }
 
@@ -31,13 +41,13 @@ export default function Search() {
             const newsToSet = storedNews.concat(articles)
             setSearchNews(newsToSet)
             const newsToStore = { status: "ok", totalResults: newsToSet.length, maxResults, articles: newsToSet }
-            sessionStorage.setItem(`search${country.code}${category}${query}`, JSON.stringify(newsToStore))
+            sessionStorage.setItem(`search${country.code}${category}${query}${date}`, JSON.stringify(newsToStore))
         } else setSearchNews(storedNews)
     }
 
     async function searchBackend(type = 'reload') {
         setLoad(['visible', '33vw'])
-        let parsedData, storedData = JSON.parse(sessionStorage.getItem(`search${country.code}${category}${query}`))
+        let parsedData, storedData = JSON.parse(sessionStorage.getItem(`search${country.code}${category}${query}${date}`))
         const { totalResults, maxResults } = storedData || { totalResults: 0, maxResults: 1 }
         if (totalResults === maxResults) setEnd(true)
         else if (!storedData || type !== 'reload') {
@@ -48,7 +58,7 @@ export default function Search() {
                     url: process.env.REACT_APP_URL + 'search',
                     method: 'post',
                     headers: { 'Content-Type': 'application/json' },
-                    data: { country: country.code, category: category || 'general', query, page: updatedPage }
+                    data: { country: country.code, category: category || 'general', query, page: updatedPage, date }
                 })
                 if (data.success) {
                     parsedData = data.news
@@ -61,11 +71,17 @@ export default function Search() {
         setTimeout(() => setLoad(['hidden', '0vw']), 300);
     }
 
-    useEffect(() => { if (query?.length >= 3) searchBackend() }, [query, country.code, category])
+    useEffect(() => {
+        if (!country.code) return
+        if (country.method === 'auto' && !fetchedIfAuto) return
+        setEnd(false)
+        if (query?.length >= 3) searchBackend()
+    }, [query, country.code, category, date, fetchedIfAuto])
 
     return <div style={{ marginTop: "70px" }}>
         <div className='container-fluid d-sm-flex justify-content-center pt-1'>
-            <input className="form-control ps-1 w-auto mx-auto mb-2 m-sm-0 me-sm-3" type="search" placeholder="Search" aria-label="Search" value={search} onChange={updateQuery} />
+            <input className="form-control w-auto mx-auto mb-2 m-sm-0 me-sm-3" type="search" placeholder="Search" aria-label="Search" value={search} onChange={updateQuery} />
+            <input className="form-control w-auto mx-auto mb-2 m-sm-0 me-sm-3" type="date" value={date} onChange={updateDate} min={minDate} max={maxDate} />
             <select className="form-select w-auto mx-auto m-sm-0 text-capitalize" aria-label="Choose category" value={category} onChange={updateCategory}>
                 <option value='all'>All</option>
                 {categories.map(element => {
@@ -75,10 +91,12 @@ export default function Search() {
             </select>
         </div>
 
-        <InfiniteScroll className="panel row mx-3 py-2 gx-4" next={() => searchBackend('new')} hasMore={!end} loader={load[0] === 'visible' && <Loader />} endMessage={searchNews.length && <p className='text-center fw-bold'>Yay! You have seen it all</p>} dataLength={searchNews.length}>
+        <InfiniteScroll className="panel row mt-3 mx-3 py-2 gx-4" next={() => searchBackend('new')} hasMore={!end} loader={load[0] === 'visible' && <Loader />} endMessage={searchNews.length && <p className='text-center fw-bold'>Yay! You have seen it all</p>} dataLength={searchNews.length}>
             {searchNews.length ? searchNews.map(element => <div className="col-sm-6 col-lg-4 d-flex" key={element.url}>
                 <NewsItem title={element.title} description={element.description} imgUrl={element.urlToImage} newsUrl={element.url} author={element.author} date={element.publishedAt} source={element.source.name} />
-            </div>) : query && query.length < 3 && load[0] === 'hidden' && country.code ? <div className="text-center">
+            </div>) : !query && load[0] === 'hidden' && country.code ? <div className="text-center">
+                Enter query to search for news...
+            </div> : query && query.length < 3 && load[0] === 'hidden' && country.code ? <div className="text-center">
                 Please search for at least 3 characters!
             </div> : load[0] === 'hidden' && country.code && <div className="text-center">{error}</div>}
         </InfiniteScroll>
