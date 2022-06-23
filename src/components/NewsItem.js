@@ -80,7 +80,7 @@ export default function NewsItem({ title, description, imgUrl, newsUrl, author, 
                 <hr />
                 <p className="card-text">{description}</p>
             </a>
-            <p className="card-text mt-2"><small className="text-muted">Published {author && `by ${author}`} on {new Date(date).toLocaleString('en-ca')}</small></p>
+            <p className="card-text mt-2"><small className="text-muted">Published {author && `by ${author}`} on {new Date(date).toUTCString()}</small></p>
             <div className='position-absolute d-flex align-items-center m-1' style={{ bottom: "1rem" }}>
                 <a>{volume}</a>
                 <a>{bookmark}</a>
