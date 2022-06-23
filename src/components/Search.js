@@ -81,7 +81,10 @@ export default function Search() {
     return <div style={{ marginTop: "70px" }}>
         <div className='container-fluid d-sm-flex justify-content-center pt-1'>
             <input className="form-control w-auto mx-auto mb-2 m-sm-0 me-sm-3" type="search" placeholder="Search" aria-label="Search" value={search} onChange={updateQuery} />
-            <input className="form-control w-auto mx-auto mb-2 m-sm-0 me-sm-3" type="date" value={date} onChange={updateDate} min={minDate} max={maxDate} />
+            <div className='d-flex align-items-center justify-content-center w-auto mx-auto mb-2 m-sm-0 me-sm-3'>
+                <label htmlFor='date' className='me-1 d-sm-none'>Date: </label>
+                <input id='date' className="form-control w-auto" type="date" value={date} onChange={updateDate} min={minDate} max={maxDate} />
+            </div>
             <select className="form-select w-auto mx-auto m-sm-0 text-capitalize" aria-label="Choose category" value={category} onChange={updateCategory}>
                 <option value='all'>All</option>
                 {categories.map(element => {
