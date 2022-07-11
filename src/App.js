@@ -1,9 +1,15 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar';
-import News from './components/News';
 import Modal from './components/Modal';
 import Search from './components/Search';
+import Loader from './components/Loader';
+// import News from './components/News';
+// import Offline from './components/Offline';
 import { useNewsContext } from './context/ContextProvider';
+import { lazy, Suspense } from 'react';
+
+const News = lazy(() => import('./components/News'));
+const Offline = lazy(() => import('./components/Offline'));
 
 function App() {
     const { country, load, categories } = useNewsContext()
@@ -18,8 +24,10 @@ function App() {
             transition: "width 0.25s"
         }} />
         <Modal />
+        <Suspense fallback={<Loader />}></Suspense>
         <Routes>
             {categories.map(category => <Route key={category} path={`/${category}`} element={category === 'search' ? <Search /> : <News category={category} key={category === 'saved' ? category : country.code + category} />} />)}
+            <Route path="/offline" element={<Offline />} />
         </Routes>
     </Router>
 }
