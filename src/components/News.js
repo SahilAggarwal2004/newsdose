@@ -7,12 +7,12 @@ import Loader from './Loader';
 import NewsItem from './NewsItem'
 
 export default function News({ category }) {
-    const { isOnline, country, news: fullNews, fetchData, error, end, setEnd, load, fetchedIfAuto } = useNewsContext()
+    const { country, news: fullNews, fetchData, error, end, setEnd, load, fetchedIfAuto } = useNewsContext()
     const [query, setQuery] = useStorage('query', '', { local: false, session: true })
     const news = fullNews.filter(queryFilter)
 
     useEffect(() => {
-        if (isOnline) {
+        if (navigator.onLine) {
             if (!country.code) return
             if (country.method === 'auto' && !fetchedIfAuto) return
         }

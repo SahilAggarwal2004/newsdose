@@ -9,7 +9,6 @@ export const useNewsContext = () => useContext(Context);
 const ContextProvider = props => {
     const countries = { au: "Australia", ca: "Canada", in: "India", ie: "Ireland", my: "Malaysia", ng: "Nigeria", nz: "New Zealand", ph: "Philippines", sa: "Saudi Arabia", sg: "Singapore", za: "South Africa", gb: "United Kingdom", us: "United States" }
     const categories = ["", "business", "entertainment", "health", "science", "sports", "technology", "search", "saved"]
-    const [isOnline, setOnline] = useState(navigator.onLine);
     const [country, setCountry] = useStorage('country', { method: 'auto', code: '' })
     const [fetchedIfAuto, setFetchedIfAuto] = useState(false)
     const [page, setPage] = useState(1)
@@ -65,11 +64,15 @@ const ContextProvider = props => {
     async function fetchData(category, retryOnError, type = 'reload') {
         setLoad(['visible', '33vw'])
         let parsedData, storedData
-        if (category === 'saved') parsedData = JSON.parse(localStorage.getItem('news'))
+        if (category === 'saved') {
+            parsedData = JSON.parse(localStorage.getItem('news'))
+            setEnd(true)
+        }
         else {
             storedData = JSON.parse(sessionStorage.getItem(`news${country.code}${category}`))
             const { totalResults, maxResults } = storedData || { totalResults: 0, maxResults: 1 }
-            if (totalResults === maxResults) setEnd(true)
+            if (!navigator.onLine) parsedData = fetchAgain(category, false)
+            else if (totalResults === maxResults) setEnd(true)
             else if (!storedData || type !== 'reload') {
                 let updatedPage;
                 storedData ? updatedPage = Math.ceil(totalResults / 24) + 1 : updatedPage = page
@@ -92,11 +95,9 @@ const ContextProvider = props => {
         setTimeout(() => setLoad(['hidden', '0vw']), 300);
     }
 
-    return (
-        <Context.Provider value={{ countries, categories, isOnline, setOnline, country, setCountry, news, setNews, searchNews, setSearchNews, fetchData, load, setLoad, error, setError, shareUrl, setShareUrl, end, setEnd, setPage, resetNews, fetchedIfAuto }}>
-            {props.children}
-        </Context.Provider>
-    )
+    return <Context.Provider value={{ countries, categories, country, setCountry, news, setNews, searchNews, setSearchNews, fetchData, load, setLoad, error, setError, shareUrl, setShareUrl, end, setEnd, setPage, resetNews, fetchedIfAuto }}>
+        {props.children}
+    </Context.Provider>
 }
 
 export default ContextProvider;

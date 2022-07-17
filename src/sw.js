@@ -2,24 +2,30 @@
 import { clientsClaim } from 'workbox-core'
 import { precacheAndRoute } from 'workbox-precaching'
 import { registerRoute, setDefaultHandler } from 'workbox-routing'
-import { CacheFirst, NetworkFirst, NetworkOnly, StaleWhileRevalidate } from 'workbox-strategies'
+import { CacheFirst, NetworkFirst, StaleWhileRevalidate } from 'workbox-strategies'
 import { CacheableResponsePlugin } from 'workbox-cacheable-response'
 import { ExpirationPlugin } from 'workbox-expiration'
 import { offlineFallback } from 'workbox-recipes'
+import { nanoid } from 'nanoid'
 
 clientsClaim() // This should be at the top of the service worker
 self.skipWaiting()
 
-const urlsToCache = (self.__WB_MANIFEST || []).concat(['/', '/business', '/entertainment', '/health', '/science', '/sports', '/technology', '/saved'])
+const revision = nanoid()
+const urlsToCache = (self.__WB_MANIFEST || []).concat([
+    { url: '/', revision },
+    { url: '/business', revision },
+    { url: '/entertainment', revision },
+    { url: '/health', revision },
+    { url: '/science', revision },
+    { url: '/sports', revision },
+    { url: '/technology', revision },
+    { url: '/saved', revision }
+])
 precacheAndRoute(urlsToCache)
 
-setDefaultHandler(new NetworkOnly())
+setDefaultHandler(new NetworkFirst())
 offlineFallback({ pageFallback: '/offline' });
-
-registerRoute(({ url }) => url.href.includes(process.env.REACT_APP_URL), new NetworkFirst({
-    cacheName: 'news',
-    plugins: [new CacheableResponsePlugin({ statuses: [200] })]
-}))
 
 registerRoute(({ url, request }) => url.origin.includes('images.weserv.nl') || request.destination === 'image', new CacheFirst({
     cacheName: 'images',

@@ -1,13 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { useNewsContext } from '../context/ContextProvider';
 
 export default function Offline() {
     const redirect = useNavigate();
-    const { isOnline } = useNewsContext()
 
-    useEffect(() => { if (isOnline) redirect('/dashboard') }, [isOnline])
+    useEffect(() => { if (navigator.onLine) redirect('/dashboard') }, [navigator.onLine])
 
     document.title = 'You are Offline'
 
