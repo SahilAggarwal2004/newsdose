@@ -95,7 +95,7 @@ export default function Search() {
         </div>
 
         <InfiniteScroll className="panel row mt-3 mx-3 py-2 gx-4" next={() => searchBackend('new')} hasMore={!end} loader={load[0] === 'visible' && <Loader />} endMessage={searchNews.length && <p className='text-center fw-bold'>Yay! You have seen it all</p>} dataLength={searchNews.length}>
-            {searchNews.length ? searchNews.map(element => <div className="col-sm-6 col-lg-4 d-flex" key={element.url}>
+            {Boolean(searchNews.length) ? searchNews.map(element => <div className="col-sm-6 col-lg-4 d-flex" key={element.url}>
                 <NewsItem title={element.title} description={element.description} imgUrl={element.urlToImage} newsUrl={element.url} author={element.author} date={element.publishedAt} source={element.source.name} />
             </div>) : !query && load[0] === 'hidden' && country.code ? <div className="text-center">
                 Enter query to search for news...
