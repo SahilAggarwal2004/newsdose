@@ -47,7 +47,7 @@ export default function Search() {
 
     async function searchBackend(type = 'reload') {
         setLoad(['visible', '33vw'])
-        let parsedData, storedData = JSON.parse(sessionStorage.getItem(`search${country.code}${category}${query}${date}`))
+        let storedData = JSON.parse(sessionStorage.getItem(`search${country.code}${category}${query}${date}`))
         const { totalResults, maxResults } = storedData || { totalResults: 0, maxResults: 1 }
         if (totalResults === maxResults) setEnd(true)
         else if (!storedData || type !== 'reload') {
@@ -61,7 +61,7 @@ export default function Search() {
                     data: { country: country.code, category: category || 'general', query, page: updatedPage, date }
                 })
                 if (data.success) {
-                    parsedData = data.news
+                    var parsedData = data.news
                     setPage(page => page + 1)
                 }
             } catch (error) { setError(error.response.data?.error || 'Unable to fetch news! Try again later...') }

@@ -19,8 +19,7 @@ export default function NewsItem({ title, description, imgUrl, newsUrl, author, 
 
     function checkBookmark() {
         let count = 0
-        let news = JSON.parse(localStorage.getItem('news'))
-        if (!news) news = { articles: [] }
+        const news = JSON.parse(localStorage.getItem('news')) || { articles: [] }
         news.articles.forEach(element => { if (title === element?.title) count++ });
         return Boolean(count)
     }
@@ -48,8 +47,7 @@ export default function NewsItem({ title, description, imgUrl, newsUrl, author, 
     }
 
     function saveNews() {
-        let news = JSON.parse(localStorage.getItem('news'))
-        if (!news) news = { articles: [] }
+        const news = JSON.parse(localStorage.getItem('news')) || { articles: [] }
         const isBoomarked = checkBookmark()
         if (isBoomarked) {
             news.articles = news.articles.filter(element => { return element.title !== title })
