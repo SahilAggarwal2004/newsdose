@@ -5,10 +5,11 @@ import { FaShareAlt, FaRegBookmark, FaBookmark } from 'react-icons/fa'
 import { HiVolumeUp, HiVolumeOff } from 'react-icons/hi'
 import { useNewsContext } from '../context/ContextProvider'
 
-export default function NewsItem({ title, description, imgUrl, newsUrl, author, date, source }) {
+export default function NewsItem({ title, description, imgUrl, newsUrl, author, date, source, dateFormat }) {
     const { setShareUrl } = useNewsContext()
     const [volume, setVolume] = useState(<HiVolumeUp role='button' className="scale me-4 p-1" onClick={speech} />)
     const [bookmark, setBookmark] = useState(<FaRegBookmark role='button' className='scale me-4 p-1' onClick={saveNews} />)
+    const showDate = dateFormat === 'UTC' ? new Date(date).toUTCString : new Date(date).toLocaleString()
 
     const newsImg = 'https://images.weserv.nl/?url=https://newsdoseweb.herokuapp.com/media/news.webp&width=450&height=300&maxage=1y&q=50';
     let imgUrlWeserv = newsImg
@@ -78,7 +79,7 @@ export default function NewsItem({ title, description, imgUrl, newsUrl, author, 
                 <hr />
                 <p className="card-text">{description}</p>
             </a>
-            <p className="card-text mt-2"><small className="text-muted">Published {author && `by ${author}`} on {new Date(date).toUTCString()}</small></p>
+            <p className="card-text mt-2"><small className="text-muted">Published {author && `by ${author}`} on {showDate}</small></p>
             <div className='position-absolute d-flex align-items-center m-1' style={{ bottom: "1rem" }}>
                 <a>{volume}</a>
                 <a>{bookmark}</a>
