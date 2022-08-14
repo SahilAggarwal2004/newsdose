@@ -9,7 +9,7 @@ export default function NewsItem({ title, description, imgUrl, newsUrl, author, 
     const { setShareUrl } = useNewsContext()
     const [volume, setVolume] = useState(<HiVolumeUp role='button' className="scale me-4 p-1" onClick={speech} />)
     const [bookmark, setBookmark] = useState(<FaRegBookmark role='button' className='scale me-4 p-1' onClick={saveNews} />)
-    const showDate = dateFormat === 'UTC' ? new Date(date).toUTCString : new Date(date).toLocaleString()
+    const showDate = dateFormat === 'UTC' ? new Date(date).toUTCString() : new Date(date).toLocaleString()
 
     const newsImg = 'https://images.weserv.nl/?url=https://newsdoseweb.herokuapp.com/media/news.webp&width=450&height=300&maxage=1y&q=50';
     let imgUrlWeserv = newsImg
