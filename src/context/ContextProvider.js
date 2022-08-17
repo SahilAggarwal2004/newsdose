@@ -67,8 +67,7 @@ const ContextProvider = props => {
         if (category === 'saved') {
             parsedData = JSON.parse(localStorage.getItem('news'))
             setEnd(true)
-        }
-        else {
+        } else {
             var storedData = JSON.parse(sessionStorage.getItem(`news${country.code}${category}`))
             const { totalResults, maxResults } = storedData || { totalResults: 0, maxResults: 1 }
             if (!navigator.onLine) parsedData = fetchAgain(category, false)
