@@ -4,7 +4,8 @@ import { BsFillInfoSquareFill } from 'react-icons/bs'
 import { FaShareAlt } from 'react-icons/fa'
 import { useNewsContext } from '../context/ContextProvider'
 import Bookmark from './Bookmark'
-import Speech from './Speech'
+import Speech from 'react-text-to-speech';
+import { HiVolumeOff, HiVolumeUp } from 'react-icons/hi'
 
 export default function NewsItem(props) {
     const { title, description, imgUrl, newsUrl, author, date, source, dateFormat } = props
@@ -34,11 +35,17 @@ export default function NewsItem(props) {
             </a>
             <p className="card-text mt-2"><small className="text-muted">Published {author && `by ${author}`} on {showDate}</small></p>
             <div className='position-absolute d-flex align-items-center m-1' style={{ bottom: "1rem" }}>
-                <Speech id={title} text={`${title}. ${description ? description : ''}`} />
-                <Bookmark {...props} />
-                <a><FaShareAlt role='button' className="scale me-4 p-1" data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={() => setShareUrl(newsUrl)} /></a>
-                <a href={newsUrl} target="_blank" rel="noreferrer" className="text-black">
-                    <BsFillInfoSquareFill role='button' className="scale p-1" />
+                <span className="scale me-3 p-1">
+                    <Speech id={title} text={`${title}. ${description ? description : ''}`} startBtn={<HiVolumeUp />} stopBtn={<HiVolumeOff />} />
+                </span>
+                <span className="scale me-3 p-1">
+                    <Bookmark {...props} />
+                </span>
+                <span className="scale me-3 p-1">
+                    <FaShareAlt role='button' data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={() => setShareUrl(newsUrl)} />
+                </span>
+                <a href={newsUrl} target="_blank" rel="noreferrer" className="text-black scale p-1">
+                    <BsFillInfoSquareFill />
                 </a>
             </div>
         </div>

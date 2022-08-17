@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { FaBookmark, FaRegBookmark } from 'react-icons/fa';
 
 export default function Bookmark({ title, description, imgUrl, newsUrl, author, date, source }) {
-    const [bookmark, setBookmark] = useState(<FaRegBookmark className='scale me-4 p-1' />)
+    const [bookmark, setBookmark] = useState(<FaRegBookmark />)
 
     function checkBookmark() {
         const news = JSON.parse(localStorage.getItem('news'))?.articles || []
@@ -20,17 +20,17 @@ export default function Bookmark({ title, description, imgUrl, newsUrl, author, 
         const isBoomarked = checkBookmark()
         if (isBoomarked) {
             news.articles = news.articles.filter(element => element.title !== title)
-            setBookmark(<FaRegBookmark className='scale me-4 p-1' />)
+            setBookmark(<FaRegBookmark />)
         } else {
             news.articles.push({ title, description, urlToImage: imgUrl, url: newsUrl, author, publishedAt: date, source: { name: source } })
-            setBookmark(<FaBookmark className='scale me-4 p-1' />)
+            setBookmark(<FaBookmark />)
         }
         localStorage.setItem('news', JSON.stringify(news))
     }
 
     useEffect(() => {
         const isBoomarked = checkBookmark()
-        if (isBoomarked) setBookmark(<FaBookmark className='scale me-4 p-1' />)
+        if (isBoomarked) setBookmark(<FaBookmark />)
     }, [])
 
     return <a role='button' onClick={saveNews}>{bookmark}</a>
