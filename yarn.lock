@@ -7377,10 +7377,10 @@ react-share@^4.4.0:
     classnames "^2.2.5"
     jsonp "^0.2.1"
 
-react-text-to-speech@^0.1.4-beta:
-  version "0.1.4-beta"
-  resolved "https://registry.yarnpkg.com/react-text-to-speech/-/react-text-to-speech-0.1.4-beta.tgz#82042c34890c96e743321f9f4766574d0515d77e"
-  integrity sha512-onEPoDZQJdOAmZesJU4ui4NtEDFPjtsEIRKJ3dk+U95DmHYj6UgWDfUrjwEbuZYEOomrJ3y6SoEJBTg08u+gvA==
+react-text-to-speech@^0.1.6-beta:
+  version "0.1.6-beta"
+  resolved "https://registry.yarnpkg.com/react-text-to-speech/-/react-text-to-speech-0.1.6-beta.tgz#71a9911fe03ec6e9080c7a3419659a8569be2130"
+  integrity sha512-yImIHQhMO9OSHgejdFEZoXfHE6ZRg2t+hZEHQzc4XVTEdioaflO5UX4S2dbk4dX8E5tNVbRnw9aZwMelKuXLwQ==
 
 react@^18.2.0:
   version "18.2.0"
