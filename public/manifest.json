@@ -29,7 +29,45 @@
       "purpose": "maskable"
     }
   ],
-  "start_url": ".",
+  "start_url": "/",
+  "shortcuts": [
+    {
+      "name": "Home",
+      "url": "/"
+    },
+    {
+      "name": "Business news",
+      "url": "/business"
+    },
+    {
+      "name": "Entertainment news",
+      "url": "/entertainment"
+    },
+    {
+      "name": "Health news",
+      "url": "/health"
+    },
+    {
+      "name": "Science news",
+      "url": "/science"
+    },
+    {
+      "name": "Sports news",
+      "url": "/sports"
+    },
+    {
+      "name": "Technology news",
+      "url": "/technology"
+    },
+    {
+      "name": "Search news",
+      "url": "/search"
+    },
+    {
+      "name": "Saved news",
+      "url": "/saved"
+    }
+  ],
   "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#ffffff"
