@@ -36,30 +36,6 @@
       "url": "/"
     },
     {
-      "name": "Business news",
-      "url": "/business"
-    },
-    {
-      "name": "Entertainment news",
-      "url": "/entertainment"
-    },
-    {
-      "name": "Health news",
-      "url": "/health"
-    },
-    {
-      "name": "Science news",
-      "url": "/science"
-    },
-    {
-      "name": "Sports news",
-      "url": "/sports"
-    },
-    {
-      "name": "Technology news",
-      "url": "/technology"
-    },
-    {
       "name": "Search news",
       "url": "/search"
     },
