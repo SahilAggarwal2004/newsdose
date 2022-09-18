@@ -16,7 +16,7 @@ export default function Search() {
     const query = useDebounce(search)
     const now = new Date();
     const maxDate = now.toLocaleDateString('en-ca');
-    now.setDate(now.getDate() - 13);
+    now.setDate(now.getDate() - 6);
     const minDate = now.toLocaleDateString('en-ca');
 
     function updateQuery({ target }) {
