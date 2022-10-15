@@ -12,9 +12,9 @@ export default function NewsItem(props) {
     const { setShareUrl } = useNewsContext()
     const showDate = dateFormat === 'UTC' ? new Date(date).toUTCString() : new Date(date).toLocaleString()
 
-    const newsImg = 'https://images.weserv.nl/?url=https://newsdoseweb.herokuapp.com/media/news.webp&width=450&height=300&maxage=1y&q=50';
-    let imgUrlWeserv = newsImg
-    if (imgUrl?.match(/https/g)?.length === 1) {
+    const newsImg = '/news.webp';
+    if (imgUrl?.match(/http/g)?.length !== 1) var imgUrlWeserv = newsImg
+    else {
         const connectionSpeed = navigator.connection?.effectiveType
         imgUrlWeserv = `https://images.weserv.nl/?url=${imgUrl}&width=450&height=300&maxage=1d&output=webp&q=${connectionSpeed?.includes('2') ? 5 : connectionSpeed?.includes('3') ? 10 : 25}`
     }

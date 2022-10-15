@@ -1,41 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset
-      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
-  <loc>https://newsdoseweb.netlify.app/</loc>
-  <lastmod>2022-04-04T06:17:49+00:00</lastmod>
+<loc>https://newsdoseweb.netlify.app/</loc>
+<lastmod>2022-10-14T15:52:01+00:00</lastmod>
 </url>
 <url>
-  <loc>https://newsdoseweb.netlify.app/business</loc>
-  <lastmod>2022-04-04T06:17:49+00:00</lastmod>
+<loc>https://newsdoseweb.netlify.app/search</loc>
+<lastmod>2022-10-14T15:52:01+00:00</lastmod>
 </url>
 <url>
-  <loc>https://newsdoseweb.netlify.app/entertainment</loc>
-  <lastmod>2022-04-04T06:17:49+00:00</lastmod>
+<loc>https://newsdoseweb.netlify.app/business</loc>
+<lastmod>2022-10-14T15:52:01+00:00</lastmod>
 </url>
 <url>
-  <loc>https://newsdoseweb.netlify.app/health</loc>
-  <lastmod>2022-04-04T06:17:49+00:00</lastmod>
+<loc>https://newsdoseweb.netlify.app/entertainment</loc>
+<lastmod>2022-10-14T15:52:01+00:00</lastmod>
 </url>
 <url>
-  <loc>https://newsdoseweb.netlify.app/science</loc>
-  <lastmod>2022-04-04T06:17:49+00:00</lastmod>
+<loc>https://newsdoseweb.netlify.app/health</loc>
+<lastmod>2022-10-14T15:52:01+00:00</lastmod>
 </url>
 <url>
-  <loc>https://newsdoseweb.netlify.app/sports</loc>
-  <lastmod>2022-04-04T06:17:49+00:00</lastmod>
+<loc>https://newsdoseweb.netlify.app/science</loc>
+<lastmod>2022-10-14T15:52:01+00:00</lastmod>
 </url>
 <url>
-  <loc>https://newsdoseweb.netlify.app/technology</loc>
-  <lastmod>2022-04-04T06:17:49+00:00</lastmod>
+<loc>https://newsdoseweb.netlify.app/sports</loc>
+<lastmod>2022-10-14T15:52:01+00:00</lastmod>
 </url>
 <url>
-  <loc>https://newsdoseweb.netlify.app/saved</loc>
-  <lastmod>2022-04-04T06:17:49+00:00</lastmod>
+<loc>https://newsdoseweb.netlify.app/technology</loc>
+<lastmod>2022-10-14T15:52:01+00:00</lastmod>
 </url>
-
-
+<url>
+<loc>https://newsdoseweb.netlify.app/saved</loc>
+<lastmod>2022-10-14T15:52:01+00:00</lastmod>
+</url>
 </urlset>
