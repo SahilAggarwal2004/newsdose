@@ -20,7 +20,8 @@ const urlsToCache = (self.__WB_MANIFEST || []).concat([
     { url: '/science', revision },
     { url: '/sports', revision },
     { url: '/technology', revision },
-    { url: '/saved', revision }
+    { url: '/saved', revision },
+    { url: '/news.webp', revision }
 ])
 precacheAndRoute(urlsToCache)
 
@@ -31,7 +32,7 @@ registerRoute(({ url, request }) => url.origin.includes('images.weserv.nl') || r
     cacheName: 'images',
     plugins: [
         new CacheableResponsePlugin({ statuses: [200] }),
-        new ExpirationPlugin({ maxAgeSeconds: 30 * 24 * 60 * 60 })
+        new ExpirationPlugin({ maxAgeSeconds: 7 * 24 * 60 * 60 })
     ]
 }))
 
