@@ -2,7 +2,7 @@
 import { clientsClaim } from 'workbox-core'
 import { precacheAndRoute } from 'workbox-precaching'
 import { registerRoute, setDefaultHandler } from 'workbox-routing'
-import { CacheFirst, NetworkOnly, StaleWhileRevalidate } from 'workbox-strategies'
+import { CacheFirst, StaleWhileRevalidate } from 'workbox-strategies'
 import { CacheableResponsePlugin } from 'workbox-cacheable-response'
 import { ExpirationPlugin } from 'workbox-expiration'
 import { offlineFallback } from 'workbox-recipes'
@@ -43,5 +43,3 @@ registerRoute(({ request }) => request.destination === 'style', new StaleWhileRe
     cacheName: 'styles',
     plugins: [new CacheableResponsePlugin({ statuses: [200] })]
 }))
-
-registerRoute(({ url }) => url.origin === 'cloudnotes.onrender.com', new NetworkOnly())

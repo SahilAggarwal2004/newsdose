@@ -40,10 +40,10 @@ const ContextProvider = props => {
     }
 
     function updateData(category, parsedData, storedData) {
-        const { articles, maxResults, error } = parsedData || {}
+        const { articles, maxResults, local, error } = parsedData || {}
         const storedNews = storedData?.articles || []
         if (articles?.length) {
-            const newsToSet = storedNews.concat(articles)
+            const newsToSet = local ? articles : storedNews.concat(articles)
             setNews(newsToSet)
             const newsToStore = { status: "ok", totalResults: newsToSet.length, maxResults, articles: newsToSet }
             sessionStorage.setItem(`news${country.code}${category}`, JSON.stringify(newsToStore))
@@ -56,8 +56,11 @@ const ContextProvider = props => {
         let parsedData;
         if (retryOnError) {
             parsedData = { articles: [], error: 'Unable to fetch news! Retrying...' }
-            setTimeout(() => fetchData(category, false), 2500);
-        } else parsedData = JSON.parse(localStorage.getItem(`news${country.code}${category}`)) || { articles: [], error: 'Unable to fetch news! Try again later...' }
+            setTimeout(() => fetchData(category, false), 2000);
+        } else {
+            parsedData = JSON.parse(localStorage.getItem(`news${country.code}${category}`)) || { articles: [], error: 'Unable to fetch news! Try again later...' }
+            parsedData = { ...parsedData, local: true }
+        }
         return parsedData
     }
 
