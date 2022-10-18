@@ -21,20 +21,17 @@ const urlsToCache = (self.__WB_MANIFEST || []).concat([
     { url: '/sports', revision },
     { url: '/technology', revision },
     { url: '/search', revision },
-    { url: '/saved', revision },
-    { url: '/news.webp', revision }
+    { url: '/saved', revision }
 ])
 precacheAndRoute(urlsToCache)
 
 setDefaultHandler(new StaleWhileRevalidate())
-offlineFallback({ pageFallback: '/offline' });
+offlineFallback({
+    pageFallback: '/offline',
+    imageFallback: '/news.webp'
+});
 
-registerRoute(({ url }) => url.pathname === '/news.webp', new CacheFirst({
-    cacheName: 'image',
-    plugins: [new CacheableResponsePlugin({ statuses: [200] })]
-}))
-
-registerRoute(({ url, request }) => url.pathname !== '/news.webp' && (url.origin.includes('images.weserv.nl') || request.destination === 'image'), new CacheFirst({
+registerRoute(({ url, request }) => url.origin.includes('images.weserv.nl') || request.destination === 'image', new CacheFirst({
     cacheName: 'images',
     plugins: [
         new CacheableResponsePlugin({ statuses: [200] }),
