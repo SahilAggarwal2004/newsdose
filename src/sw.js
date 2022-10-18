@@ -44,4 +44,4 @@ registerRoute(({ request }) => request.destination === 'style', new StaleWhileRe
     plugins: [new CacheableResponsePlugin({ statuses: [200] })]
 }))
 
-registerRoute(({ url }) => url.origin.includes('cloudnotes.onrender.com'), new NetworkOnly())
+registerRoute(({ url }) => url.origin === 'cloudnotes.onrender.com', new NetworkOnly())
