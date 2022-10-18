@@ -20,6 +20,7 @@ const urlsToCache = (self.__WB_MANIFEST || []).concat([
     { url: '/science', revision },
     { url: '/sports', revision },
     { url: '/technology', revision },
+    { url: '/search', revision },
     { url: '/saved', revision },
     { url: '/news.webp', revision }
 ])
