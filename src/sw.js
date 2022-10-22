@@ -2,7 +2,7 @@
 import { clientsClaim } from 'workbox-core'
 import { precacheAndRoute } from 'workbox-precaching'
 import { registerRoute, setDefaultHandler } from 'workbox-routing'
-import { CacheFirst, StaleWhileRevalidate } from 'workbox-strategies'
+import { CacheFirst, NetworkFirst, StaleWhileRevalidate } from 'workbox-strategies'
 import { CacheableResponsePlugin } from 'workbox-cacheable-response'
 import { ExpirationPlugin } from 'workbox-expiration'
 import { offlineFallback } from 'workbox-recipes'
@@ -22,7 +22,7 @@ const urlsToCache = (self.__WB_MANIFEST || []).concat([
     { url: '/technology', revision },
     { url: '/search', revision },
     { url: '/saved', revision }
-])
+]).filter(({ url }) => url !== '/manifest.json')
 precacheAndRoute(urlsToCache)
 
 setDefaultHandler(new StaleWhileRevalidate())
@@ -30,6 +30,11 @@ offlineFallback({
     pageFallback: '/offline',
     imageFallback: '/news.webp'
 });
+
+registerRoute(({ url }) => url.pathname === '/manifest.json', new NetworkFirst({
+    cacheName: 'manifest',
+    plugins: [new CacheableResponsePlugin({ statuses: [200] })]
+}))
 
 registerRoute(({ url, request }) => url.origin.includes('images.weserv.nl') || request.destination === 'image', new CacheFirst({
     cacheName: 'images',
