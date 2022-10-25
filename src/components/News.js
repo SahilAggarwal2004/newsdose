@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { Link } from 'react-router-dom';
 import { useNewsContext } from '../context/ContextProvider';
 import { useStorage } from '../hooks';
 import Loader from './Loader';
@@ -45,7 +46,8 @@ export default function News({ category }) {
             }) : category === 'saved' ? <div className="text-center">
                 You haven't saved any news till now!
             </div> : query && load[0] === 'hidden' && country.code ? <div className="text-center">
-                Seems like there is no news related to <strong>{query}</strong>
+                <div className='mb-2'>Seems like there is no news related to <strong>{query}</strong>...</div>
+                <Link to='/search' className='text-decoration-none'>Try advanced search</Link>
             </div> : load[0] === 'hidden' && country.code && error ? <div className="text-center">{error}</div> : load[0] === 'hidden' && <Loader />}
         </InfiniteScroll >
     </div >
