@@ -28,11 +28,9 @@ export default function NewsItem(props) {
         </a>
         <div className="card-body">
             <hr />
-            <a href={newsUrl} target="_blank" rel="noreferrer" className="text-black text-decoration-none">
-                <h5 className="card-title">{title}</h5>
-                <hr />
-                <p className="card-text">{description}</p>
-            </a>
+            <a href={newsUrl} target="_blank" rel="noreferrer" className="text-black text-decoration-none"><h5 className="card-title">{title}</h5></a>
+            <hr />
+            <p className="card-text">{description}</p>
             <p className="card-text mt-2"><small className="text-muted">Published {author && `by ${author}`} on {showDate}</small></p>
             <div className='position-absolute d-flex align-items-center m-1' style={{ bottom: "1rem" }}>
                 <span className="scale me-3 p-1">
