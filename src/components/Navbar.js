@@ -14,8 +14,6 @@ export default function Navbar() {
 
     useEffect(() => { window.addEventListener('resize', () => setWidth(window.outerWidth)); }, [])
 
-    function updateCategory(newCategory) { if (location.pathname !== '/' + newCategory) resetNews() }
-
     function updateCountry(event) {
         let method = '', code = '';
         const value = event.target.value
@@ -27,7 +25,10 @@ export default function Navbar() {
     function redirect(event) {
         event.preventDefault();
         const path = event.target.getAttribute("to");
-        if (load[0] === 'hidden') navigate(path || '/')
+        if (load[0] === 'hidden' && location.pathname !== path) {
+            resetNews()
+            navigate(path)
+        }
     }
 
     return (
@@ -39,7 +40,7 @@ export default function Navbar() {
                 </button>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav d-grid d-lg-flex me-auto mt-2 mb-2 mt-lg-0 mb-lg-0">
-                        {categories.map(category => <li className={`nav-item text-center ${category}`} key={category} onClick={() => updateCategory(category)}>
+                        {categories.map(category => <li className={`nav-item text-center ${category}`} key={category}>
                             <a className="nav-link d-inline-block w-auto" aria-current="page">
                                 <button className='btn shadow-none nav-link p-0 text-capitalize' data-bs-toggle='collapse' data-bs-target={width <= 991 && "#navbarSupportedContent"} to={`/${category}`} onClick={redirect}>{category || "Home"}</button>
                             </a>

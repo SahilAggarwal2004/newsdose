@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import axios from "axios";
 import { useState, useContext, useEffect, createContext } from "react";
+import { useLocation } from "react-router-dom";
 import { countries } from "../constants";
 import { useStorage } from "../hooks";
 
@@ -17,6 +18,7 @@ const ContextProvider = props => {
     const [end, setEnd] = useState(false)
     const [error, setError] = useState(false)
     const [shareUrl, setShareUrl] = useState(null)
+    const location = useLocation();
 
     useEffect(() => {
         if (country.method !== 'auto') return
@@ -41,13 +43,14 @@ const ContextProvider = props => {
     function updateData(category, parsedData, storedData) {
         const { articles, maxResults, local, error } = parsedData || {}
         const storedNews = storedData?.articles || []
+        const sameCategory = location.pathname === `/${category}`
         if (articles?.length) {
             const newsToSet = local ? articles : storedNews.concat(articles)
-            setNews(newsToSet)
+            if (sameCategory) setNews(newsToSet)
             const newsToStore = { status: "ok", totalResults: newsToSet.length, maxResults, articles: newsToSet }
             sessionStorage.setItem(`news${country.code}${category}`, JSON.stringify(newsToStore))
             localStorage.setItem(`news${country.code}${category}`, JSON.stringify(newsToStore))
-        } else setNews(storedNews)
+        } else if (sameCategory) setNews(storedNews)
         setError(error)
     }
 

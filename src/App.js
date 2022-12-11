@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar';
 import Modal from './components/Modal';
 import Search from './components/Search';
@@ -13,7 +13,7 @@ const Offline = lazy(() => import('./components/Offline'));
 function App() {
     const { country, load } = useNewsContext()
 
-    return <Router>
+    return <>
         <Navbar />
         <div className="fixed-top" style={{
             height: "0.125rem",
@@ -28,7 +28,7 @@ function App() {
             {categories.map(category => <Route key={category} path={`/${category}`} element={category === 'search' ? <Search /> : <News category={category} key={category === 'saved' ? category : country.code + category} />} />)}
             <Route path="/offline" element={<Offline />} />
         </Routes>
-    </Router>
+    </>
 }
 
 export default App;
