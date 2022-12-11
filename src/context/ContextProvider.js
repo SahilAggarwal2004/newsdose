@@ -1,14 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import axios from "axios";
 import { useState, useContext, useEffect, createContext } from "react";
+import { countries } from "../constants";
 import { useStorage } from "../hooks";
 
 const Context = createContext()
 export const useNewsContext = () => useContext(Context);
 
 const ContextProvider = props => {
-    const countries = { au: "Australia", ca: "Canada", in: "India", ie: "Ireland", my: "Malaysia", ng: "Nigeria", nz: "New Zealand", ph: "Philippines", sa: "Saudi Arabia", sg: "Singapore", za: "South Africa", gb: "United Kingdom", us: "United States" }
-    const categories = ["", "business", "entertainment", "health", "science", "sports", "technology", "search", "saved"]
     const [country, setCountry] = useStorage('country', { method: 'auto', code: '' })
     const [fetchedIfAuto, setFetchedIfAuto] = useState(false)
     const [page, setPage] = useState(1)
@@ -97,7 +96,7 @@ const ContextProvider = props => {
         setTimeout(() => setLoad(['hidden', '0vw']), 300);
     }
 
-    return <Context.Provider value={{ countries, categories, country, setCountry, news, setNews, searchNews, setSearchNews, fetchData, load, setLoad, error, setError, shareUrl, setShareUrl, end, setEnd, setPage, resetNews, fetchedIfAuto }}>
+    return <Context.Provider value={{ country, setCountry, news, setNews, searchNews, setSearchNews, fetchData, load, setLoad, error, setError, shareUrl, setShareUrl, end, setEnd, setPage, resetNews, fetchedIfAuto }}>
         {props.children}
     </Context.Provider>
 }

@@ -3,16 +3,15 @@ import Navbar from './components/Navbar';
 import Modal from './components/Modal';
 import Search from './components/Search';
 import Loader from './components/Loader';
-// import News from './components/News';
-// import Offline from './components/Offline';
 import { useNewsContext } from './context/ContextProvider';
 import { lazy, Suspense } from 'react';
+import { categories } from './constants';
 
 const News = lazy(() => import('./components/News'));
 const Offline = lazy(() => import('./components/Offline'));
 
 function App() {
-    const { country, load, categories } = useNewsContext()
+    const { country, load } = useNewsContext()
 
     return <Router>
         <Navbar />
