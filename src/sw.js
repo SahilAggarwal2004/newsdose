@@ -25,7 +25,7 @@ const urlsToCache = (self.__WB_MANIFEST || []).concat([
 ]).filter(({ url }) => url !== '/manifest.json')
 precacheAndRoute(urlsToCache)
 
-setDefaultHandler(new StaleWhileRevalidate())
+setDefaultHandler(new CacheFirst())
 offlineFallback({
     pageFallback: '/offline',
     imageFallback: '/news.webp'
