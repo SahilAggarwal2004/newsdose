@@ -67,6 +67,7 @@ const ContextProvider = props => {
     }
 
     async function fetchData(category, retryOnError, type = 'reload') {
+        console.log('Prod')
         setLoad(['visible', '33vw'])
         let parsedData
         if (category === 'saved') {
