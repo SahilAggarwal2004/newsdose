@@ -96,12 +96,9 @@ export default function Search() {
         </div>
 
         <InfiniteScroll className="panel row mt-3 mx-3 py-2 gx-4" next={() => searchBackend('new')} hasMore={!end} loader={load[0] === 'visible' && <Loader />} endMessage={Boolean(searchNews.length) && <p className='text-center fw-bold'>Yay! You have seen it all</p>} dataLength={searchNews.length}>
-            {searchNews.length ? searchNews.map(element => {
-                const { title, description, urlToImage, url, author, publishedAt, source } = element
-                return <div className="col-sm-6 col-lg-4 d-flex" key={url}>
-                    <NewsItem title={title} description={description} imgUrl={urlToImage} newsUrl={url} author={author} date={publishedAt} source={source.name} dateFormat='UTC' />
-                </div>
-            }) : !query && load[0] === 'hidden' && country.code ? <div className="text-center">
+            {searchNews.length ? searchNews.map(item => <div className="col-sm-6 col-lg-4 d-flex" key={item.url}>
+                <NewsItem {...item} dateFormat='UTC' />
+            </div>) : !query && load[0] === 'hidden' && country.code ? <div className="text-center">
                 Enter query to search for news...
             </div> : query && query.length < 3 && load[0] === 'hidden' && country.code ? <div className="text-center">
                 Please search for at least 3 characters!
