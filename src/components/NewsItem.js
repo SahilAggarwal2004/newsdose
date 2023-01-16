@@ -9,9 +9,9 @@ import { HiVolumeOff, HiVolumeUp } from 'react-icons/hi'
 import { newsImg } from '../constants'
 
 export default function NewsItem(props) {
-    const { title, description, urlToImage, newsUrl, author, date, source, dateFormat } = props
+    const { title, description, urlToImage, newsUrl, author, publishedAt, source, dateFormat } = props
     const { setShareUrl } = useNewsContext()
-    const showDate = dateFormat === 'UTC' ? new Date(date).toUTCString() : new Date(date).toLocaleString()
+    const date = dateFormat === 'UTC' ? new Date(publishedAt).toUTCString() : new Date(publishedAt).toLocaleString()
     const connectionSpeed = navigator.connection?.effectiveType
     const imgUrl = urlToImage?.match(/http/g)?.length !== 1 ? newsImg : `https://images.weserv.nl/?url=${urlToImage}&width=450&height=300&maxage=1d&output=webp&q=${connectionSpeed?.includes('2') ? 5 : connectionSpeed?.includes('3') ? 10 : 25}`
 
@@ -27,7 +27,7 @@ export default function NewsItem(props) {
             <a href={newsUrl} target="_blank" rel="noreferrer" className="text-black text-decoration-none"><h5 className="card-title">{title}</h5></a>
             <hr />
             <p className="card-text">{description}</p>
-            <p className="card-text mt-2"><small className="text-muted">Published {author && `by ${author}`} on {showDate}</small></p>
+            <p className="card-text mt-2"><small className="text-muted">Published {author && `by ${author}`} on {date}</small></p>
             <div className='position-absolute d-flex align-items-center m-1' style={{ bottom: "1rem" }}>
                 <span className="scale me-3 p-1">
                     <Speech id={title} text={`${title}. ${description ? description : ''}`} startBtn={<HiVolumeUp />} stopBtn={<HiVolumeOff />} />
