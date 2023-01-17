@@ -42,7 +42,7 @@ export default function Search() {
         if (articles?.length) {
             const newsToSet = storedNews.concat(articles)
             setNews(newsToSet)
-            const newsToStore = { status: "ok", totalResults: newsToSet.length, maxResults, articles: newsToSet }
+            const newsToStore = { totalResults: newsToSet.length, maxResults, articles: newsToSet }
             setStorage(`search${country.code}${category}${query}${date}`, newsToStore, false)
         } else setNews(storedNews)
     }

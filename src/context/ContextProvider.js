@@ -46,7 +46,7 @@ const ContextProvider = props => {
         if (articles?.length) {
             var newsToSet = local ? articles : storedNews.concat(articles)
             setNews(newsToSet)
-            const newsToStore = { status: "ok", totalResults: newsToSet.length, maxResults, articles: newsToSet }
+            const newsToStore = { totalResults: newsToSet.length, maxResults, articles: newsToSet }
             setStorage('news' + id, newsToStore)
         }
         setNews(newsToSet || storedNews)
