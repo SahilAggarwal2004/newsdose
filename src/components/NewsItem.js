@@ -15,7 +15,7 @@ export default function NewsItem(props) {
     const connectionSpeed = navigator.connection?.effectiveType
     const imgUrl = urlToImage?.match(/http/g)?.length !== 1 ? newsImg : `https://images.weserv.nl/?url=${urlToImage}&width=450&height=300&maxage=1d&output=webp&q=${connectionSpeed?.includes('2') ? 5 : connectionSpeed?.includes('3') ? 10 : 25}`
 
-    return <div className="card mt-4 mb-3" style={{ paddingBottom: "2rem" }}>
+    return <div className="card mt-4 mb-3 w-100" style={{ paddingBottom: "2rem" }}>
         <span className="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger border">{source}</span>
         <a href={url} target="_blank" rel="noreferrer" className="text-black">
             <div style={{ height: "13rem" }}>
