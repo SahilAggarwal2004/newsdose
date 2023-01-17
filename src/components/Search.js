@@ -5,11 +5,12 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 import { categories } from '../constants'
 import { useNewsContext } from '../context/ContextProvider'
 import { useDebounce, useStorage } from '../hooks'
+import { getStorage, setStorage } from '../modules/storage'
 import Loader from './Loader'
 import NewsItem from './NewsItem'
 
 export default function Search() {
-    const { country, progress, setProgress, error, setError, searchNews, setSearchNews, page, setPage, resetNews, fetchedIfAuto } = useNewsContext()
+    const { country, progress, setProgress, error, setError, news, setNews, page, setPage, resetNews, fetchedIfAuto } = useNewsContext()
     const [category, setCategory] = useStorage('category', 'all', { local: false, session: true })
     const [search, setSearch] = useStorage('query', '', { local: false, session: true })
     const [date, setDate] = useStorage('date', '', { local: false, session: true })
@@ -40,20 +41,19 @@ export default function Search() {
         const storedNews = storedData?.articles || []
         if (articles?.length) {
             const newsToSet = storedNews.concat(articles)
-            setSearchNews(newsToSet)
+            setNews(newsToSet)
             const newsToStore = { status: "ok", totalResults: newsToSet.length, maxResults, articles: newsToSet }
-            sessionStorage.setItem(`search${country.code}${category}${query}${date}`, JSON.stringify(newsToStore))
-        } else setSearchNews(storedNews)
+            setStorage(`search${country.code}${category}${query}${date}`, newsToStore, false)
+        } else setNews(storedNews)
     }
 
     async function searchBackend(type = 'reload') {
         setProgress(33)
-        let storedData = JSON.parse(sessionStorage.getItem(`search${country.code}${category}${query}${date}`))
-        const { totalResults, maxResults } = storedData || { totalResults: 0, maxResults: 1 }
+        let storedData = getStorage(`search${country.code}${category}${query}${date}`, {}, false)
+        const { totalResults = 0, maxResults = 1 } = storedData
         if (totalResults === maxResults) setEnd(true)
         else if (!storedData || type !== 'reload') {
-            let updatedPage;
-            storedData ? updatedPage = Math.ceil(totalResults / 24) + 1 : updatedPage = page
+            const updatedPage = storedData ? Math.ceil(totalResults / 24) + 1 : page
             try {
                 const { data } = await axios({
                     url: process.env.REACT_APP_URL + 'search',
@@ -65,7 +65,7 @@ export default function Search() {
                     var parsedData = data.news
                     setPage(page => page + 1)
                 }
-            } catch (error) { setError(error.response.data?.error || 'Unable to fetch news! Try again later...') }
+            } catch (e) { setError(e.response.data?.error || 'Unable to fetch news! Try again later...') }
         }
         updateData(parsedData, storedData)
         setProgress(100)
@@ -94,8 +94,8 @@ export default function Search() {
             </select>
         </div>
 
-        <InfiniteScroll className="panel row mt-3 mx-3 py-2 gx-4" next={() => searchBackend('new')} hasMore={!end} loader={progress > 0 && <Loader />} endMessage={Boolean(searchNews.length) && <p className='text-center fw-bold'>Yay! You have seen it all</p>} dataLength={searchNews.length}>
-            {searchNews.length ? searchNews.map(item => <div className="col-sm-6 col-lg-4 d-flex" key={item.url}>
+        <InfiniteScroll className="panel row mt-3 mx-3 py-2 gx-4" next={() => searchBackend('new')} hasMore={!end} loader={progress > 0 && <Loader />} endMessage={Boolean(news.length) && <p className='text-center fw-bold'>Yay! You have seen it all</p>} dataLength={news.length}>
+            {news.length ? news.map(item => <div className="col-sm-6 col-lg-4 d-flex" key={item.url}>
                 <NewsItem {...item} dateFormat='UTC' />
             </div>) : !query && !progress && country.code ? <div className="text-center">
                 Enter query to search for news...

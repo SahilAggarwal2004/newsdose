@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useState } from 'react'
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import LoadingBar from "react-top-loading-bar"
 import { countries, categories } from '../constants';
 import { useNewsContext } from '../context/ContextProvider';
@@ -8,7 +8,6 @@ import { useNewsContext } from '../context/ContextProvider';
 export default function Navbar() {
     const { country, setCountry, resetNews, progress, setProgress } = useNewsContext()
     const [width, setWidth] = useState(window.outerWidth)
-    const location = useLocation();
     const navigate = useNavigate();
     const autoCountry = country.method === 'auto' && countries[country.code] ? ` (${countries[country.code]})` : ''
     countries.auto = 'Auto' + autoCountry
@@ -26,7 +25,7 @@ export default function Navbar() {
     function redirect(event) {
         event.preventDefault();
         const path = event.target.getAttribute("to");
-        if (!progress && location.pathname !== path) {
+        if (!progress && window.location.pathname !== path) {
             resetNews()
             navigate(path)
         }

@@ -2,12 +2,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react'
 import { FaBookmark, FaRegBookmark } from 'react-icons/fa';
+import { getStorage, setStorage } from '../modules/storage';
 
 export default function Bookmark({ title, description, imgUrl, newsUrl, author, date, source }) {
     const [bookmark, setBookmark] = useState(<FaRegBookmark />)
 
     function checkBookmark() {
-        const news = JSON.parse(localStorage.getItem('news'))?.articles || []
+        const news = getStorage('news')?.articles || []
         for (let i = 0; i < news.length; i++) {
             const element = news[i];
             if (title === element?.title) return true
@@ -16,7 +17,7 @@ export default function Bookmark({ title, description, imgUrl, newsUrl, author, 
     }
 
     function saveNews() {
-        const news = JSON.parse(localStorage.getItem('news')) || { articles: [] }
+        const news = getStorage('news', { articles: [] })
         const isBoomarked = checkBookmark()
         if (isBoomarked) {
             news.articles = news.articles.filter(element => element.title !== title)
@@ -25,7 +26,7 @@ export default function Bookmark({ title, description, imgUrl, newsUrl, author, 
             news.articles.push({ title, description, urlToImage: imgUrl, url: newsUrl, author, publishedAt: date, source: { name: source } })
             setBookmark(<FaBookmark />)
         }
-        localStorage.setItem('news', JSON.stringify(news))
+        setStorage('news', news)
     }
 
     useEffect(() => {
