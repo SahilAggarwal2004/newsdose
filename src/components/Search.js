@@ -85,9 +85,9 @@ export default function Search() {
             </div>
             <select className="form-select w-auto mx-auto m-sm-0 text-capitalize" aria-label="Choose category" value={category} onChange={updateCategory}>
                 <option value='all'>All</option>
-                {categories.map(element => {
-                    if (element === 'search' || element === 'saved') return null
-                    return <option value={element} key={element}>{element || 'General'}</option>
+                {categories.map(item => {
+                    if (item === 'search' || item === 'saved') return null
+                    return <option value={item} key={item}>{item || 'General'}</option>
                 })}
             </select>
         </div>

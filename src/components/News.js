@@ -7,14 +7,18 @@ import { useStorage } from '../hooks';
 import Loader from './Loader';
 import NewsItem from './NewsItem'
 
+function includes({ title, description, author, source }, substring) {
+    substring = substring.toLowerCase()
+    return [title, description, author, source].some(item => item?.toLowerCase().includes(substring))
+}
+
 export default function News() {
     const { country, news: fullNews, fetchData, error, end, setEnd, progress, fetchedIfAuto } = useNewsContext()
     const [query, setQuery] = useStorage('query', '', { local: false, session: true })
-    const includes = ({ title, description, author, source }, substring) => [title, description, author, source].join('~~').toLowerCase().includes(substring.toLowerCase())
-    const queryFilter = element => { if (includes(element, query)) return element }
-
-    const news = query ? fullNews.filter(queryFilter) : fullNews
+    const news = query ? fullNews.filter(item => includes(item, query) && item) : fullNews
     const category = window.location.pathname.slice(1)
+
+    useEffect(() => { document.title = category ? `${category.charAt(0).toUpperCase() + category.slice(1)} | NewsDose` : 'NewsDose - Get your daily dose of news for free!' }, [])
 
     useEffect(() => {
         if (navigator.onLine) {
@@ -25,8 +29,6 @@ export default function News() {
         setEnd(false)
         fetchData(true)
     }, [country.code, fetchedIfAuto])
-
-    document.title = category ? `${category.charAt(0).toUpperCase() + category.slice(1)} | NewsDose` : 'NewsDose - Get your daily dose of news for free!'
 
     return <div style={{ marginTop: "70px" }}>
         <div className='grid container-fluid'>

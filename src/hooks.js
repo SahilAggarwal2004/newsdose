@@ -7,8 +7,8 @@ export function useStorage(key, initialValue, options = { local: true, session: 
     const [storedValue, setStoredValue] = useState(() => {
         if (typeof window === "undefined") return initialValue
         let item;
-        if (session) item = window.sessionStorage.getItem(key);
-        else if (local) item = window.localStorage.getItem(key);
+        if (session) item = sessionStorage.getItem(key);
+        else if (local) item = localStorage.getItem(key);
         return item ? JSON.parse(item) : initialValue
     });
 
@@ -17,8 +17,8 @@ export function useStorage(key, initialValue, options = { local: true, session: 
     const setValue = value => {
         setStoredValue(value);
         if (typeof window !== "undefined") {
-            if (local) window.localStorage.setItem(key, JSON.stringify(value))
-            if (session) window.sessionStorage.setItem(key, JSON.stringify(value))
+            if (local) localStorage.setItem(key, JSON.stringify(value))
+            if (session) sessionStorage.setItem(key, JSON.stringify(value))
         }
     };
     return [storedValue, setValue];

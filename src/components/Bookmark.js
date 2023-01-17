@@ -6,21 +6,12 @@ import { getStorage, setStorage } from '../modules/storage';
 
 export default function Bookmark({ title, description, urlToImage, url, author, publishedAt, source }) {
     const [bookmark, setBookmark] = useState(<FaRegBookmark />)
-
-    function checkBookmark() {
-        const news = getStorage('news')?.articles || []
-        for (let i = 0; i < news.length; i++) {
-            const element = news[i];
-            if (title === element?.title) return true
-        }
-        return false
-    }
+    const isBookmark = () => getStorage('news')?.articles?.some(item => item.title === title)
 
     function saveNews() {
         const news = getStorage('news', { articles: [] })
-        const isBoomarked = checkBookmark()
-        if (isBoomarked) {
-            news.articles = news.articles.filter(element => element.title !== title)
+        if (isBookmark()) {
+            news.articles = news.articles.filter(item => item.title !== title)
             setBookmark(<FaRegBookmark />)
         } else {
             news.articles.push({ title, description, urlToImage, url, author, publishedAt, source })
@@ -29,10 +20,7 @@ export default function Bookmark({ title, description, urlToImage, url, author, 
         setStorage('news', news)
     }
 
-    useEffect(() => {
-        const isBoomarked = checkBookmark()
-        if (isBoomarked) setBookmark(<FaBookmark />)
-    }, [])
+    useEffect(() => { if (isBookmark()) setBookmark(<FaBookmark />) }, [])
 
     return <a role='button' onClick={saveNews}>{bookmark}</a>
 }
