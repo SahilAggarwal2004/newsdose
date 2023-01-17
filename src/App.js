@@ -11,17 +11,10 @@ const News = lazy(() => import('./components/News'));
 const Offline = lazy(() => import('./components/Offline'));
 
 function App() {
-    const { country, load } = useNewsContext()
+    const { country } = useNewsContext()
 
     return <>
         <Navbar />
-        <div className="fixed-top" style={{
-            height: "0.125rem",
-            width: load[1],
-            visibility: load[0],
-            backgroundColor: "red",
-            transition: "width 0.25s"
-        }} />
         <Modal />
         <Suspense fallback={<Loader />}></Suspense>
         <Routes>

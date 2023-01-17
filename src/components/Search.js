@@ -9,7 +9,7 @@ import Loader from './Loader'
 import NewsItem from './NewsItem'
 
 export default function Search() {
-    const { country, load, setLoad, error, setError, searchNews, setSearchNews, page, setPage, resetNews, fetchedIfAuto } = useNewsContext()
+    const { country, progress, setProgress, error, setError, searchNews, setSearchNews, page, setPage, resetNews, fetchedIfAuto } = useNewsContext()
     const [category, setCategory] = useStorage('category', 'all', { local: false, session: true })
     const [search, setSearch] = useStorage('query', '', { local: false, session: true })
     const [date, setDate] = useStorage('date', '', { local: false, session: true })
@@ -47,7 +47,7 @@ export default function Search() {
     }
 
     async function searchBackend(type = 'reload') {
-        setLoad(['visible', '33vw'])
+        setProgress(33)
         let storedData = JSON.parse(sessionStorage.getItem(`search${country.code}${category}${query}${date}`))
         const { totalResults, maxResults } = storedData || { totalResults: 0, maxResults: 1 }
         if (totalResults === maxResults) setEnd(true)
@@ -68,8 +68,7 @@ export default function Search() {
             } catch (error) { setError(error.response.data?.error || 'Unable to fetch news! Try again later...') }
         }
         updateData(parsedData, storedData)
-        setLoad(['visible', '100vw'])
-        setTimeout(() => setLoad(['hidden', '0vw']), 300);
+        setProgress(100)
     }
 
     useEffect(() => {
@@ -95,14 +94,14 @@ export default function Search() {
             </select>
         </div>
 
-        <InfiniteScroll className="panel row mt-3 mx-3 py-2 gx-4" next={() => searchBackend('new')} hasMore={!end} loader={load[0] === 'visible' && <Loader />} endMessage={Boolean(searchNews.length) && <p className='text-center fw-bold'>Yay! You have seen it all</p>} dataLength={searchNews.length}>
+        <InfiniteScroll className="panel row mt-3 mx-3 py-2 gx-4" next={() => searchBackend('new')} hasMore={!end} loader={progress > 0 && <Loader />} endMessage={Boolean(searchNews.length) && <p className='text-center fw-bold'>Yay! You have seen it all</p>} dataLength={searchNews.length}>
             {searchNews.length ? searchNews.map(item => <div className="col-sm-6 col-lg-4 d-flex" key={item.url}>
                 <NewsItem {...item} dateFormat='UTC' />
-            </div>) : !query && load[0] === 'hidden' && country.code ? <div className="text-center">
+            </div>) : !query && !progress && country.code ? <div className="text-center">
                 Enter query to search for news...
-            </div> : query && query.length < 3 && load[0] === 'hidden' && country.code ? <div className="text-center">
+            </div> : query && query.length < 3 && !progress && country.code ? <div className="text-center">
                 Please search for at least 3 characters!
-            </div> : load[0] === 'hidden' && country.code && <div className="text-center">{error}</div>}
+            </div> : !progress && country.code && <div className="text-center">{error}</div>}
         </InfiniteScroll>
     </div>
 }

@@ -14,7 +14,7 @@ const ContextProvider = props => {
     const [page, setPage] = useState(1)
     const [news, setNews] = useState([])
     const [searchNews, setSearchNews] = useState([])
-    const [load, setLoad] = useState(['hidden', '0'])
+    const [progress, setProgress] = useState(0)
     const [end, setEnd] = useState(false)
     const [error, setError] = useState(false)
     const [shareUrl, setShareUrl] = useState(null)
@@ -35,7 +35,7 @@ const ContextProvider = props => {
         setPage(1)
         setNews([])
         setSearchNews([])
-        setLoad(['hidden', '0'])
+        setProgress(0)
         setEnd(false)
         setError(false)
     }
@@ -67,7 +67,7 @@ const ContextProvider = props => {
     }
 
     async function fetchData(category, retryOnError, type = 'reload') {
-        setLoad(['visible', '33vw'])
+        setProgress(33)
         let parsedData
         if (category === 'saved') {
             parsedData = JSON.parse(localStorage.getItem('news'))
@@ -95,11 +95,10 @@ const ContextProvider = props => {
             }
         }
         updateData(category, parsedData, storedData)
-        setLoad(['visible', '100vw'])
-        setTimeout(() => setLoad(['hidden', '0vw']), 300);
+        setProgress(100)
     }
 
-    return <Context.Provider value={{ country, setCountry, news, setNews, searchNews, setSearchNews, fetchData, load, setLoad, error, setError, shareUrl, setShareUrl, end, setEnd, setPage, resetNews, fetchedIfAuto }}>
+    return <Context.Provider value={{ country, setCountry, news, setNews, searchNews, setSearchNews, fetchData, progress, setProgress, error, setError, shareUrl, setShareUrl, end, setEnd, setPage, resetNews, fetchedIfAuto }}>
         {props.children}
     </Context.Provider>
 }

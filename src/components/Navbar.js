@@ -1,11 +1,12 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from "react-router-dom";
+import LoadingBar from "react-top-loading-bar"
 import { countries, categories } from '../constants';
 import { useNewsContext } from '../context/ContextProvider';
 
 export default function Navbar() {
-    const { country, setCountry, resetNews, load } = useNewsContext()
+    const { country, setCountry, resetNews, progress, setProgress } = useNewsContext()
     const [width, setWidth] = useState(window.outerWidth)
     const location = useLocation();
     const navigate = useNavigate();
@@ -25,13 +26,14 @@ export default function Navbar() {
     function redirect(event) {
         event.preventDefault();
         const path = event.target.getAttribute("to");
-        if (load[0] === 'hidden' && location.pathname !== path) {
+        if (!progress && location.pathname !== path) {
             resetNews()
             navigate(path)
         }
     }
 
-    return (
+    return <>
+        <LoadingBar color='#ff0000' progress={progress} waitingTime={300} onLoaderFinished={() => setProgress(0)} />
         <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top">
             <div className="container-fluid">
                 <a className="navbar-brand" to="/" onClick={redirect}>NewsDose</a>
@@ -52,5 +54,5 @@ export default function Navbar() {
                 </div>
             </div>
         </nav >
-    )
+    </>
 }
