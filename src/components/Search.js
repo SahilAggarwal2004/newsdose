@@ -36,8 +36,8 @@ export default function Search() {
         resetNews()
     }
 
-    function updateData(parsedData, storedData) {
-        const { articles, maxResults } = parsedData || {}
+    function updateData(data, storedData) {
+        const { articles, maxResults } = data || {}
         const storedNews = storedData?.articles || []
         if (articles?.length) {
             const newsToSet = storedNews.concat(articles)
@@ -49,25 +49,23 @@ export default function Search() {
 
     async function searchBackend(type = 'reload') {
         setProgress(33)
-        let storedData = getStorage(`search${country.code}${category}${query}${date}`, {}, false)
-        const { totalResults = 0, maxResults = 1 } = storedData
+        let storedData = getStorage(`search${country.code}${category}${query}${date}`, null, false)
+        const { totalResults = 0, maxResults = 1 } = storedData || {}
         if (totalResults === maxResults) setEnd(true)
         else if (!storedData || type !== 'reload') {
             const updatedPage = storedData ? Math.ceil(totalResults / 24) + 1 : page
             try {
-                const { data } = await axios({
-                    url: process.env.REACT_APP_URL + 'search',
-                    method: 'post',
-                    headers: { 'Content-Type': 'application/json' },
+                const { data: { success, news } } = await axios({
+                    url: process.env.REACT_APP_URL + 'search', method: 'post', headers: { 'Content-Type': 'application/json' },
                     data: { country: country.code, category: category || 'general', query, page: updatedPage, date }
                 })
-                if (data.success) {
-                    var parsedData = data.news
+                if (success) {
+                    var data = news
                     setPage(page => page + 1)
                 }
             } catch (e) { setError(e.response.data?.error || 'Unable to fetch news! Try again later...') }
         }
-        updateData(parsedData, storedData)
+        updateData(data, storedData)
         setProgress(100)
     }
 
