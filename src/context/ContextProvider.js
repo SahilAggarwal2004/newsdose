@@ -40,8 +40,8 @@ const ContextProvider = props => {
         setError(false)
     }
 
-    function updateData(parsedData, storedData) {
-        const { articles, maxResults, local, error } = parsedData || {}
+    function updateData(data, storedData) {
+        const { articles, maxResults, local, error } = data || {}
         const storedNews = storedData?.articles || []
         if (articles?.length) {
             var newsToSet = local ? articles : storedNews.concat(articles)
@@ -54,44 +54,38 @@ const ContextProvider = props => {
     }
 
     function fetchAgain(retryOnError) {
-        let parsedData;
-        if (retryOnError) {
-            parsedData = { articles: [], error: 'Unable to fetch news! Retrying...' }
-            setTimeout(() => fetchData(false), 2000);
-        } else {
-            parsedData = getStorage('news' + id) || { articles: [], error: 'Unable to fetch news! Try again later...' }
-            parsedData = { ...parsedData, local: true }
+        if (retryOnError) fetchData(false)
+        else {
+            const data = getStorage('news' + id) || { articles: [], error: 'Unable to fetch news! Try again later...' }
+            return { ...data, local: true }
         }
-        return parsedData
     }
 
     async function fetchData(retryOnError, type = 'reload') {
         setProgress(33)
         if (category === 'saved') {
-            var parsedData = getStorage('news')
+            var data = getStorage('news')
             setEnd(true)
         } else {
             var storedData = fetched.includes(id) && getStorage('news' + id)
             const { totalResults = 0, maxResults = 1 } = storedData || {}
-            if (!navigator.onLine) parsedData = fetchAgain(false)
+            if (!navigator.onLine) data = fetchAgain(false)
             else if (totalResults === maxResults) setEnd(true)
             else if (!storedData || type !== 'reload') {
                 const updatedPage = storedData ? Math.ceil(totalResults / 24) + 1 : page
                 try {
                     const { data: { success, news } } = await axios({
-                        url: process.env.REACT_APP_URL,
-                        method: 'post',
-                        headers: { 'Content-Type': 'application/json' },
+                        url: process.env.REACT_APP_URL, method: 'post', headers: { 'Content-Type': 'application/json' },
                         data: { country: country.code, category: category || 'general', page: updatedPage }
                     })
                     if (success) {
-                        parsedData = news
+                        data = news
                         setPage(page => page + 1)
-                    } else parsedData = await fetchAgain(retryOnError)
-                } catch { parsedData = await fetchAgain(retryOnError) }
+                    } else data = fetchAgain(retryOnError)
+                } catch { data = fetchAgain(retryOnError) }
             }
         }
-        updateData(parsedData, storedData)
+        updateData(data, storedData)
         setProgress(100)
     }
 
