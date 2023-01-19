@@ -13,7 +13,7 @@ function includes({ title, description, author, source }, substring) {
 }
 
 export default function News() {
-    const { country, news: fullNews, fetchData, error, end, setEnd, progress, fetchedIfAuto } = useNewsContext()
+    const { country, news: fullNews, fetchNews, error, end, setEnd, progress, fetchedIfAuto } = useNewsContext()
     const [query, setQuery] = useStorage('query', '', { local: false, session: true })
     const news = query ? fullNews.filter(item => includes(item, query) && item) : fullNews
     const category = window.location.pathname.slice(1)
@@ -27,7 +27,7 @@ export default function News() {
         }
         window.scrollTo(0, 0)
         setEnd(false)
-        fetchData(true)
+        fetchNews(true)
     }, [country.code, fetchedIfAuto])
 
     return <div style={{ marginTop: "70px" }}>
@@ -36,7 +36,7 @@ export default function News() {
             <input className="form-control w-auto" type="search" placeholder="Search" aria-label="Search" value={query} onChange={event => setQuery(event.target.value)} />
         </div>
         <hr />
-        <InfiniteScroll className="panel row mx-3 py-2 gx-4" next={() => fetchData(true, 'new')} hasMore={!end} loader={progress > 0 && <Loader />} endMessage={news.length > 0 && <p className='text-center fw-bold'>Yay! You have seen it all</p>} dataLength={fullNews.length}>
+        <InfiniteScroll className="panel row mx-3 py-2 gx-4" next={() => fetchNews(true, 'new')} hasMore={!end} loader={progress > 0 && <Loader />} endMessage={news.length > 0 && <p className='text-center fw-bold'>Yay! You have seen it all</p>} dataLength={fullNews.length}>
             {news.length ? news.map(item => <div className="col-sm-6 col-lg-4 d-flex" key={item.url}>
                 <NewsItem {...item} />
             </div>) : category === 'saved' ? <div className="text-center">

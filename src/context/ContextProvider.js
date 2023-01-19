@@ -3,6 +3,7 @@ import axios from "axios";
 import { useState, useContext, useEffect, createContext } from "react";
 import { countries } from "../constants";
 import { useStorage } from "../hooks";
+import encrypt from "../modules/encrypt";
 import { getStorage, setStorage } from "../modules/storage";
 
 const Context = createContext()
@@ -54,14 +55,14 @@ const ContextProvider = props => {
     }
 
     function fetchAgain(retryOnError) {
-        if (retryOnError) fetchData(false)
+        if (retryOnError) fetchNews(false)
         else {
             const data = getStorage('news' + id) || { articles: [], error: 'Unable to fetch news! Try again later...' }
             return { ...data, local: true }
         }
     }
 
-    async function fetchData(retryOnError, type = 'reload') {
+    async function fetchNews(retryOnError, type = 'reload') {
         setProgress(33)
         if (category === 'saved') {
             var data = getStorage('news')
@@ -75,7 +76,8 @@ const ContextProvider = props => {
                 const updatedPage = storedData ? Math.ceil(totalResults / 24) + 1 : page
                 try {
                     const { data: { success, news } } = await axios({
-                        url: process.env.REACT_APP_URL, method: 'post', headers: { 'Content-Type': 'application/json' },
+                        url: process.env.REACT_APP_URL, method: 'post',
+                        headers: { accesstoken: encrypt(Date.now()), 'Content-Type': 'application/json' },
                         data: { country: country.code, category: category || 'general', page: updatedPage }
                     })
                     if (success) {
@@ -89,7 +91,7 @@ const ContextProvider = props => {
         setProgress(100)
     }
 
-    return <Context.Provider value={{ country, setCountry, news, setNews, fetchData, progress, setProgress, error, setError, shareUrl, setShareUrl, end, setEnd, setPage, resetNews, fetchedIfAuto }}>
+    return <Context.Provider value={{ country, setCountry, news, setNews, fetchNews, progress, setProgress, error, setError, shareUrl, setShareUrl, end, setEnd, setPage, resetNews, fetchedIfAuto }}>
         {props.children}
     </Context.Provider>
 }
