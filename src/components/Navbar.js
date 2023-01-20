@@ -25,9 +25,10 @@ export default function Navbar() {
 
     function prefetch(event) {
         const category = event.target.getAttribute("to").slice(1)
+        const queryKey = ['news', code, category]
         if (!pseudoCategories.includes(category)) client.prefetchInfiniteQuery({
-            queryKey: ['news', code, category], retry: 0, enabled: method !== 'pending',
-            queryFn: async ({ queryKey }) => await queryFn(queryKey, 1, 'prefetch'),
+            queryKey, retry: 0, enabled: method !== 'pending',
+            queryFn: async () => await queryFn(queryKey, queryKey.join('-'), 1, 'prefetch')
         })
     }
 

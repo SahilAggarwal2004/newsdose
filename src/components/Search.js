@@ -4,6 +4,7 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 import { categories, pseudoCategories } from '../constants'
 import { useNewsContext } from '../context/ContextProvider'
 import { useDebounce, useStorage } from '../hooks'
+import { getStorage } from '../modules/storage'
 import Loader from './Loader'
 import NewsItem from './NewsItem'
 
@@ -18,13 +19,14 @@ export default function Search() {
     now.setDate(now.getDate() - 13); // 14 days
     const minDate = now.toLocaleDateString('en-ca');
     const queryKey = ['search', code, category, query, date]
+    const id = queryKey.join('-')
 
     const { data, isFetching, hasNextPage, fetchNextPage } = useInfiniteQuery({
-        queryKey, enabled: method !== 'pending' && query.length >= 3,
+        queryKey, enabled: method !== 'pending' && query.length >= 3, placeholderData: getStorage(id),
         getNextPageParam: ({ nextPage }) => nextPage,
-        queryFn: async ({ pageParam = 1 }) => queryFn(queryKey, pageParam, 'search'),
-        onSuccess: data => onSuccess(queryKey, data),
-        onError: e => onError(queryKey, e)
+        queryFn: async ({ pageParam = 1 }) => queryFn(queryKey, id, pageParam, 'search'),
+        onSuccess: data => onSuccess(id, data),
+        onError: e => onError(queryKey, id, e)
     })
     const news = data?.pages?.flatMap(({ news }) => news) || []
 
