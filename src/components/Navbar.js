@@ -1,15 +1,15 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from "react-router-dom";
 import LoadingBar from "react-top-loading-bar"
 import { countries, categories } from '../constants';
 import { useNewsContext } from '../context/ContextProvider';
 
 export default function Navbar() {
-    const { country, setCountry, resetNews, progress, setProgress } = useNewsContext()
+    const { country: { method, code }, setCountry, progress, setProgress } = useNewsContext()
     const [width, setWidth] = useState(window.outerWidth)
     const navigate = useNavigate();
-    const autoCountry = country.method === 'auto' && countries[country.code] ? ` (${countries[country.code]})` : ''
+    const autoCountry = method === 'auto' && countries[code] ? ` (${countries[code]})` : ''
     countries.auto = 'Auto' + autoCountry
 
     useEffect(() => { window.addEventListener('resize', () => setWidth(window.outerWidth)); }, [])
@@ -17,18 +17,14 @@ export default function Navbar() {
     function updateCountry(event) {
         let method = '', code = '';
         const value = event.target.value
-        value === 'auto' ? method = value : code = value
-        if (code !== country.code) resetNews()
+        value === 'auto' ? method = 'pending' : code = value
         setCountry({ method, code })
     }
 
     function redirect(event) {
         event.preventDefault();
         const path = event.target.getAttribute("to");
-        if (!progress && window.location.pathname !== path) {
-            resetNews()
-            navigate(path)
-        }
+        if (!progress && window.location.pathname !== path) navigate(path)
     }
 
     return <>
@@ -47,7 +43,7 @@ export default function Navbar() {
                             </a>
                         </li>)}
                     </ul>
-                    <select className="form-select w-auto" aria-label="Choose country" defaultValue={country.method || country.code} onChange={updateCountry}>
+                    <select className="form-select w-auto" aria-label="Choose country" defaultValue={method || code} onChange={updateCountry}>
                         {Object.keys(countries).map(code => <option value={code} key={code}>{countries[code]}</option>)}
                     </select>
                 </div>

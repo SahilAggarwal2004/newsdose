@@ -1,4 +1,3 @@
-import React from 'react'
 import { FacebookIcon, FacebookShareButton, LinkedinIcon, LinkedinShareButton, RedditIcon, RedditShareButton, TelegramIcon, TelegramShareButton, TwitterIcon, TwitterShareButton, WhatsappIcon } from 'react-share';
 import { title } from '../constants';
 import { useNewsContext } from '../context/ContextProvider';

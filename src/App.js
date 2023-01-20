@@ -16,7 +16,7 @@ function App() {
     return <>
         <Navbar />
         <Modal />
-        <Suspense fallback={<Loader />}>
+        <Suspense fallback={<Loader type={1} />}>
             <Routes>
                 {categories.map(category => <Route key={category} path={'/' + category} element={category === 'search' ? <Search /> : <News key={(category === 'saved' ? '' : country.code) + category} />} />)}
                 <Route path="/offline" element={<Offline />} />
