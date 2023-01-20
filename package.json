@@ -27,7 +27,7 @@
     "workbox-window": "^6.5.3"
   },
   "scripts": {
-    "dev": "react-app-rewired start",
+    "dev": "react-scripts start",
     "build": "react-app-rewired build"
   },
   "eslintConfig": {

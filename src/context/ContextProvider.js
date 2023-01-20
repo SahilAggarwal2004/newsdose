@@ -1,9 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
 import { useState, useContext, useEffect, createContext } from "react";
 import { countries } from "../constants";
 import { useStorage } from "../hooks";
-import { getStorage } from "../modules/storage";
+import encrypt from "../modules/encrypt";
+import { getStorage, setStorage } from "../modules/storage";
+
+axios.defaults.baseURL = process.env.REACT_APP_URL
 
 const Context = createContext()
 export const useNewsContext = () => useContext(Context);
@@ -15,25 +19,40 @@ const ContextProvider = props => {
     const [shareUrl, setShareUrl] = useState(null)
     const [error, setError] = useState(null)
 
-    useEffect(() => { setError() }, [window.location.pathname])
-
     useEffect(() => {
         if (country.method !== 'pending') return
-        fetch('https://feeds.intoday.in/geocheck') // process.env.REACT_APP_URL + 'location'
-            .then(response => response.json())
-            .then(({ country_code }) => {
-                const code = country_code?.toLowerCase()
-                countries[code] ? setCountry({ method: 'auto', code }) : setCountry({ method: 'auto', code: 'in' })
-            })
+        axios('https://feeds.intoday.in/geocheck').then(({ country_code }) => { // /location
+            const code = country_code?.toLowerCase()
+            countries[code] ? setCountry({ method: 'auto', code }) : setCountry({ method: 'auto', code: 'in' })
+        })
     }, [country.method])
 
-    function onError(key, id, error) {
+    async function queryFn(key, page, type = 'fetch') {
+        setError()
+        if (type !== 'prefetch') setProgress(33)
+        const category = key[2] || 'general'
+        if (category === 'saved') return { news: getStorage('news') }
+        const { data: { success, nextPage, news } } = await axios({
+            url: type === 'search' ? type : '', method: 'post',
+            headers: { accesstoken: encrypt(Date.now()), 'Content-Type': 'application/json' },
+            data: { country: key[1], category, page, query: key[3], date: key[4] }
+        })
+        if (!success) throw new Error('Something went wrong!')
         setProgress(100)
-        client.setQueryData(key, { news: getStorage(id) })
+        const data = { nextPage, news }
+        if (type === 'prefetch') onSuccess(key, { pageParams: [null], pages: [data] })
+        return data
+    }
+
+    function onSuccess(key, data) { setStorage(key.join('-'), data) }
+
+    function onError(key, error) {
+        setProgress(100)
+        client.setQueryData(key, getStorage(key.join('-')))
         setError(error?.response?.data?.error || 'Unable to fetch news! Try again later...')
     }
 
-    return <Context.Provider value={{ country, setCountry, progress, setProgress, shareUrl, setShareUrl, error, onError }}>
+    return <Context.Provider value={{ country, setCountry, progress, setProgress, shareUrl, setShareUrl, error, queryFn, onSuccess, onError }}>
         {props.children}
     </Context.Provider>
 }

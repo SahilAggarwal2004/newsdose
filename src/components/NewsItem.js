@@ -42,5 +42,5 @@ export default function NewsItem(props) {
                 </a>
             </div>
         </div>
-    </div >
+    </div>
 }
