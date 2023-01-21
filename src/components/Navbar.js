@@ -11,8 +11,7 @@ export default function Navbar() {
     const client = useQueryClient()
     const [width, setWidth] = useState(window.outerWidth)
     const navigate = useNavigate();
-    const autoCountry = method === 'auto' && countries[code] ? ` (${countries[code]})` : ''
-    countries.pending = 'Auto' + autoCountry
+    const country = countries[code]
 
     useEffect(() => { window.addEventListener('resize', () => setWidth(window.outerWidth)); }, [])
 
@@ -56,6 +55,8 @@ export default function Navbar() {
                     </ul>
                     <select className="form-select w-auto" aria-label="Choose country" defaultValue={method || code} onChange={updateCountry}>
                         {Object.keys(countries).map(code => <option value={code} key={code}>{countries[code]}</option>)}
+                        {method === 'auto' ? <option value='auto'>Auto{country && ` (${country})`}</option> :
+                            <option value='pending'>Auto</option>}
                     </select>
                 </div>
             </div>
