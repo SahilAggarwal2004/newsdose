@@ -47,8 +47,9 @@ const ContextProvider = props => {
     function onSuccess(id, data) { setStorage(id, data) }
 
     function onError(key, id, error) {
+        const data = getStorage(id)
+        if (data) client.setQueryData(key, data)
         setProgress(100)
-        client.setQueryData(key, getStorage(id))
         setError(error?.response?.data?.error || 'Unable to fetch news! Try again later...')
     }
 

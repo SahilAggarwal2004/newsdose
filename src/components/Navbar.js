@@ -12,14 +12,14 @@ export default function Navbar() {
     const [width, setWidth] = useState(window.outerWidth)
     const navigate = useNavigate();
     const autoCountry = method === 'auto' && countries[code] ? ` (${countries[code]})` : ''
-    countries.auto = 'Auto' + autoCountry
+    countries.pending = 'Auto' + autoCountry
 
     useEffect(() => { window.addEventListener('resize', () => setWidth(window.outerWidth)); }, [])
 
     function updateCountry(event) {
         let method = '', code = '';
         const value = event.target.value
-        value === 'auto' ? method = 'pending' : code = value
+        value === 'pending' ? method = 'pending' : code = value
         setCountry({ method, code })
     }
 
