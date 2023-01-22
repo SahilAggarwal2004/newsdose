@@ -19,14 +19,13 @@ export default function Search() {
     now.setDate(now.getDate() - 13); // 14 days
     const minDate = now.toLocaleDateString('en-ca');
     const queryKey = ['search', code, category, query, date]
-    const id = queryKey.join('-')
 
     const { data, isFetching, hasNextPage, fetchNextPage } = useInfiniteQuery({
-        queryKey, enabled: method !== 'pending' && query.length >= 3, placeholderData: getStorage(id),
+        queryKey, enabled: method !== 'pending' && query.length >= 3, placeholderData: getStorage(queryKey),
         getNextPageParam: ({ nextPage }) => nextPage,
-        queryFn: async ({ pageParam = 1 }) => queryFn(queryKey, id, pageParam, 'search'),
-        onSuccess: data => onSuccess(id, data),
-        onError: e => onError(queryKey, id, e)
+        queryFn: async ({ pageParam = 1 }) => queryFn(queryKey, pageParam, 'search'),
+        onSuccess: data => onSuccess(queryKey, data),
+        onError: e => onError(queryKey, e)
     })
     const news = data?.pages?.flatMap(({ news }) => news) || []
 

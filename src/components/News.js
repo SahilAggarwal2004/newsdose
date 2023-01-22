@@ -19,14 +19,13 @@ export default function News() {
     const [query, setQuery] = useStorage('query', '', { local: false, session: true })
     const category = window.location.pathname.slice(1)
     const queryKey = ['news', code, category]
-    const id = queryKey.join('-')
 
     const { data, isFetching, hasNextPage, fetchNextPage } = useInfiniteQuery({
-        queryKey, enabled: method !== 'pending', placeholderData: getStorage(id),
+        queryKey, enabled: method !== 'pending', placeholderData: getStorage(queryKey),
         getNextPageParam: ({ nextPage }) => nextPage,
-        queryFn: async ({ pageParam = 1 }) => await queryFn(queryKey, id, pageParam),
-        onSuccess: data => onSuccess(id, data),
-        onError: e => onError(queryKey, id, e)
+        queryFn: async ({ pageParam = 1 }) => await queryFn(queryKey, pageParam),
+        onSuccess: data => onSuccess(queryKey, data),
+        onError: e => onError(queryKey, e)
     })
     const fullNews = data?.pages?.flatMap(({ news }) => news) || []
     const news = query ? fullNews.filter(item => includes(item, query) && item) : fullNews

@@ -27,7 +27,7 @@ const ContextProvider = props => {
         })
     }, [country.method])
 
-    async function queryFn(key, id, page, type = 'fetch') {
+    async function queryFn(key, page, type = 'fetch') {
         setError()
         if (type !== 'prefetch') setProgress(33)
         const category = key[2] || 'general'
@@ -40,14 +40,14 @@ const ContextProvider = props => {
         if (!success) throw new Error('Something went wrong!')
         setProgress(100)
         const data = { nextPage, news }
-        if (type === 'prefetch') onSuccess(id, { pageParams: [null], pages: [data] })
+        if (type === 'prefetch') onSuccess(key, { pageParams: [null], pages: [data] })
         return data
     }
 
-    function onSuccess(id, data) { setStorage(id, data, id.startsWith('news')) }
+    function onSuccess(key, data) { setStorage(key, data, key[0] === 'news') }
 
-    function onError(key, id, error) {
-        const data = getStorage(id)
+    function onError(key, error) {
+        const data = getStorage(key)
         if (data) client.setQueryData(key, data)
         setProgress(100)
         setError(error?.response?.data?.error || 'Unable to fetch news! Try again later...')

@@ -27,7 +27,7 @@ export default function Navbar() {
         const queryKey = ['news', code, category]
         if (!pseudoCategories.includes(category)) client.prefetchInfiniteQuery({
             queryKey, retry: 0, enabled: method !== 'pending',
-            queryFn: async () => await queryFn(queryKey, queryKey.join('-'), 1, 'prefetch')
+            queryFn: async () => await queryFn(queryKey, 1, 'prefetch')
         })
     }
 
