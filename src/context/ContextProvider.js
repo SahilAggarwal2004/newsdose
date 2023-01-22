@@ -44,7 +44,7 @@ const ContextProvider = props => {
         return data
     }
 
-    function onSuccess(id, data) { setStorage(id, data) }
+    function onSuccess(id, data) { setStorage(id, data, id.startsWith('news')) }
 
     function onError(key, id, error) {
         const data = getStorage(id)
