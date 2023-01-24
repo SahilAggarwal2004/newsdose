@@ -10,9 +10,9 @@ import NewsItem from './NewsItem'
 
 export default function Search() {
     const { country: { method, code }, error, queryFn, onSuccess, onError } = useNewsContext()
-    const [category, setCategory] = useStorage('category', 'all', { local: false, session: true })
-    const [search, setSearch] = useStorage('query', '', { local: false, session: true })
-    const [date, setDate] = useStorage('date', '', { local: false, session: true })
+    const [category, setCategory] = useStorage('category', 'all', false)
+    const [search, setSearch] = useStorage('query', '', false)
+    const [date, setDate] = useStorage('date', '', false)
     const query = useDebounce(search)
     const now = new Date();
     const maxDate = now.toLocaleDateString('en-ca');
