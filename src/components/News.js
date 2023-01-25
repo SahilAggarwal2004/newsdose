@@ -28,7 +28,7 @@ export default function News() {
         onSuccess: data => onSuccess(queryKey, data),
         onError: e => onError(queryKey, e)
     })
-    const fullNews = data?.pages?.flatMap(({ news }) => news || []) || (saved ? getStorage('news') : [])
+    const fullNews = data?.pages?.flatMap(({ news }) => news || []) || (saved && getStorage('news')) || []
     const news = query ? fullNews.filter(item => includes(item, query) && item) : fullNews
 
     useEffect(() => { document.title = category ? `${category.charAt(0).toUpperCase() + category.slice(1)} | NewsDose` : 'NewsDose - Get your daily dose of news for free!' }, [])
