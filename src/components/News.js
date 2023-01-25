@@ -18,16 +18,17 @@ export default function News() {
     const { country: { method, code }, error, queryFn, onSuccess, onError } = useNewsContext()
     const [query, setQuery] = useStorage('query', '', false)
     const category = window.location.pathname.slice(1)
+    const saved = category === 'saved'
     const queryKey = ['news', code, category]
 
     const { data, isFetching, hasNextPage, fetchNextPage } = useInfiniteQuery({
-        queryKey, enabled: method !== 'pending', placeholderData: getStorage(queryKey),
+        queryKey, enabled: method !== 'pending' && !saved, placeholderData: getStorage(queryKey),
         getNextPageParam: ({ nextPage }) => nextPage,
         queryFn: async ({ pageParam = 1 }) => await queryFn(queryKey, pageParam),
         onSuccess: data => onSuccess(queryKey, data),
         onError: e => onError(queryKey, e)
     })
-    const fullNews = data?.pages?.flatMap(({ news }) => news) || []
+    const fullNews = data?.pages?.flatMap(({ news }) => news || []) || (saved ? getStorage('news') : [])
     const news = query ? fullNews.filter(item => includes(item, query) && item) : fullNews
 
     useEffect(() => { document.title = category ? `${category.charAt(0).toUpperCase() + category.slice(1)} | NewsDose` : 'NewsDose - Get your daily dose of news for free!' }, [])

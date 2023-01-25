@@ -30,12 +30,10 @@ const ContextProvider = props => {
     async function queryFn(key, page, type = 'fetch') {
         setError()
         if (type !== 'prefetch') setProgress(33)
-        const category = key[2] || 'general'
-        if (category === 'saved') return { news: getStorage('news') }
         const { data: { success, nextPage, news } } = await axios({
             url: type === 'search' ? type : '', method: 'post',
             headers: { accesstoken: encrypt(Date.now()), 'Content-Type': 'application/json' },
-            data: { country: key[1], category, page, query: key[3], date: key[4] }
+            data: { country: key[1], category: key[2] || 'general', page, query: key[3], date: key[4] }
         })
         if (!success) throw new Error('Something went wrong!')
         setProgress(100)

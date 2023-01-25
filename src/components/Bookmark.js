@@ -6,15 +6,15 @@ import { getStorage, setStorage } from '../modules/storage';
 
 export default function Bookmark({ title, description, urlToImage, url, author, publishedAt, source }) {
     const [bookmark, setBookmark] = useState(<FaRegBookmark />)
-    const isBookmark = () => getStorage('news')?.articles?.some(item => item.title === title)
+    const isBookmark = () => getStorage('news', []).some(item => item.title === title)
 
     function saveNews() {
-        const news = getStorage('news', { articles: [] })
+        let news = getStorage('news')
         if (isBookmark()) {
-            news.articles = news.articles.filter(item => item.title !== title)
+            news = news.filter(item => item.title !== title)
             setBookmark(<FaRegBookmark />)
         } else {
-            news.articles.push({ title, description, urlToImage, url, author, publishedAt, source })
+            news.push({ title, description, urlToImage, url, author, publishedAt, source })
             setBookmark(<FaBookmark />)
         }
         setStorage('news', news)
