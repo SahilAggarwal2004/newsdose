@@ -15,14 +15,13 @@ export const useNewsContext = () => useContext(Context);
 const ContextProvider = props => {
     const client = useQueryClient();
     const [country, setCountry] = useStorage('country', { method: 'auto', code: '' })
-    const auto = country.method === 'auto'
-    const [pending, setPending] = useState(auto)
+    const [pending, setPending] = useState(country.method === 'auto')
     const [progress, setProgress] = useState(0)
     const [shareUrl, setShareUrl] = useState(null)
     const [error, setError] = useState(null)
 
     useEffect(() => {
-        if (!auto || !pending) return
+        if (!pending) return
         axios('https://feeds.intoday.in/geocheck').then(({ data }) => { // /location
             const code = data.country_code?.toLowerCase()
             setCountry({ method: 'auto', code: countries[code] ? code : 'in' })
@@ -31,7 +30,7 @@ const ContextProvider = props => {
             setCountry({ method: 'auto', code: 'in' })
             setPending(false)
         })
-    }, [auto])
+    }, [pending])
 
     async function queryFn(key, page, type = 'fetch') {
         setError()
@@ -57,7 +56,7 @@ const ContextProvider = props => {
         setError(error?.response?.data?.error || 'Unable to fetch news! Try again later...')
     }
 
-    return <Context.Provider value={{ country, setCountry, pending, progress, setProgress, shareUrl, setShareUrl, error, queryFn, onSuccess, onError }}>
+    return <Context.Provider value={{ country, setCountry, pending, setPending, progress, setProgress, shareUrl, setShareUrl, error, queryFn, onSuccess, onError }}>
         {props.children}
     </Context.Provider>
 }

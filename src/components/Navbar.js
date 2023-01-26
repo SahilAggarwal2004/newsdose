@@ -7,7 +7,7 @@ import { countries, categories, pseudoCategories } from '../constants';
 import { useNewsContext } from '../context/ContextProvider';
 
 export default function Navbar() {
-    const { country: { method, code }, setCountry, pending, progress, setProgress, queryFn } = useNewsContext()
+    const { country: { method, code }, setCountry, pending, setPending, progress, setProgress, queryFn } = useNewsContext()
     const client = useQueryClient()
     const [width, setWidth] = useState(window.outerWidth)
     const country = countries[code]
@@ -15,11 +15,9 @@ export default function Navbar() {
 
     useEffect(() => { window.addEventListener('resize', () => setWidth(window.outerWidth)); }, [])
 
-    function updateCountry(event) {
-        let method = '', code = '';
-        const value = event.target.value
-        value === 'auto' ? method = value : code = value
-        setCountry({ method, code })
+    function updateCountry({ target: { value } }) {
+        if (value === 'auto') setPending(true)
+        else setCountry({ method: 'manual', code: value })
     }
 
     function prefetch(event) {
