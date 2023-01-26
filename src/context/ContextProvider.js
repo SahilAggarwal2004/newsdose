@@ -23,8 +23,8 @@ const ContextProvider = props => {
 
     useEffect(() => {
         if (!auto || !pending) return
-        axios('https://feeds.intoday.in/geocheck').then(({ country_code }) => { // /location
-            const code = country_code?.toLowerCase()
+        axios('https://feeds.intoday.in/geocheck').then(({ data }) => { // /location
+            const code = data.country_code?.toLowerCase()
             setCountry({ method: 'auto', code: countries[code] ? code : 'in' })
             setPending(false)
         }).catch(() => {
