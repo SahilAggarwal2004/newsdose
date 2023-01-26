@@ -7,17 +7,18 @@ import { countries, categories, pseudoCategories } from '../constants';
 import { useNewsContext } from '../context/ContextProvider';
 
 export default function Navbar() {
-    const { country: { method, code }, setCountry, progress, setProgress, queryFn } = useNewsContext()
+    const { country: { method, code }, setCountry, pending, progress, setProgress, queryFn } = useNewsContext()
     const client = useQueryClient()
     const [width, setWidth] = useState(window.outerWidth)
     const country = countries[code]
+    countries.auto = `Auto${country && ` (${country})`}`
 
     useEffect(() => { window.addEventListener('resize', () => setWidth(window.outerWidth)); }, [])
 
     function updateCountry(event) {
         let method = '', code = '';
         const value = event.target.value
-        value === 'pending' ? method = 'pending' : code = value
+        value === 'auto' ? method = value : code = value
         setCountry({ method, code })
     }
 
@@ -25,7 +26,7 @@ export default function Navbar() {
         const category = event.target.pathname.slice(1)
         const queryKey = ['news', code, category]
         if (!pseudoCategories.includes(category)) client.prefetchInfiniteQuery({
-            queryKey, retry: 0, enabled: method !== 'pending',
+            queryKey, retry: 0, enabled: !pending,
             queryFn: async () => await queryFn(queryKey, 1, 'prefetch')
         })
     }
@@ -48,8 +49,6 @@ export default function Navbar() {
                     </ul>
                     <select className="form-select w-auto" aria-label="Choose country" defaultValue={method || code} onChange={updateCountry}>
                         {Object.keys(countries).map(code => <option value={code} key={code}>{countries[code]}</option>)}
-                        {method === 'auto' ? <option value='auto'>Auto{country && ` (${country})`}</option> :
-                            <option value='pending'>Auto</option>}
                     </select>
                 </div>
             </div>

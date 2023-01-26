@@ -15,14 +15,14 @@ function includes({ title, description, source, author }, substring) {
 }
 
 export default function News() {
-    const { country: { method, code }, error, queryFn, onSuccess, onError } = useNewsContext()
+    const { country: { code: country }, pending, error, queryFn, onSuccess, onError } = useNewsContext()
     const [query, setQuery] = useStorage('query', '', false)
     const category = window.location.pathname.slice(1)
     const saved = category === 'saved'
-    const queryKey = ['news', code, category]
+    const queryKey = ['news', country, category]
 
     const { data, isFetching, hasNextPage, fetchNextPage } = useInfiniteQuery({
-        queryKey, enabled: method !== 'pending' && !saved, placeholderData: getStorage(queryKey),
+        queryKey, enabled: !pending && !saved, placeholderData: getStorage(queryKey),
         getNextPageParam: ({ nextPage }) => nextPage,
         queryFn: async ({ pageParam = 1 }) => await queryFn(queryKey, pageParam),
         onSuccess: data => onSuccess(queryKey, data),
@@ -32,7 +32,7 @@ export default function News() {
     const news = query ? fullNews.filter(item => includes(item, query) && item) : fullNews
 
     useEffect(() => { document.title = category ? `${category.charAt(0).toUpperCase() + category.slice(1)} | NewsDose` : 'NewsDose - Get your daily dose of news for free!' }, [])
-    useEffect(() => { window.scrollTo(0, 0) }, [code])
+    useEffect(() => { window.scrollTo(0, 0) }, [country])
 
     return <div style={{ marginTop: "70px" }}>
         <div className='grid container-fluid'>
