@@ -5,6 +5,7 @@ export const removeStorage = (key, local = true) => (local ? localStorage : sess
 export const getStorage = (key, fallbackValue, local = true) => {
     let value = (local ? localStorage : sessionStorage).getItem(key)
     try {
+        if (!value) throw new Error("Value doesn't exist")
         value = JSON.parse(value)
     } catch {
         if (fallbackValue) {
