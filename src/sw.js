@@ -6,12 +6,11 @@ import { CacheFirst, NetworkFirst, StaleWhileRevalidate } from 'workbox-strategi
 import { CacheableResponsePlugin } from 'workbox-cacheable-response'
 import { ExpirationPlugin } from 'workbox-expiration'
 import { offlineFallback } from 'workbox-recipes'
-import { nanoid } from 'nanoid'
 
 clientsClaim() // This should be at the top of the service worker
 self.skipWaiting()
 
-const revision = nanoid()
+const revision = crypto.randomUUID()
 const urlsToCache = (self.__WB_MANIFEST || []).concat([
     { url: '/', revision },
     { url: '/business', revision },

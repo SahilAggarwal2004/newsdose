@@ -1,37 +1,26 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FaBookmark, FaRegBookmark } from 'react-icons/fa';
+import { getStorage, setStorage } from '../modules/storage';
 
-export default function Bookmark({ title, description, imgUrl, newsUrl, author, date, source }) {
+export default function Bookmark({ title, description, urlToImage, url, author, publishedAt, source }) {
     const [bookmark, setBookmark] = useState(<FaRegBookmark />)
-
-    function checkBookmark() {
-        const news = JSON.parse(localStorage.getItem('news'))?.articles || []
-        for (let i = 0; i < news.length; i++) {
-            const element = news[i];
-            if (title === element?.title) return true
-        }
-        return false
-    }
+    const isBookmark = () => getStorage('news', []).some(item => item.title === title)
 
     function saveNews() {
-        const news = JSON.parse(localStorage.getItem('news')) || { articles: [] }
-        const isBoomarked = checkBookmark()
-        if (isBoomarked) {
-            news.articles = news.articles.filter(element => element.title !== title)
+        let news = getStorage('news')
+        if (isBookmark()) {
+            news = news.filter(item => item.title !== title)
             setBookmark(<FaRegBookmark />)
         } else {
-            news.articles.push({ title, description, urlToImage: imgUrl, url: newsUrl, author, publishedAt: date, source: { name: source } })
+            news.push({ title, description, urlToImage, url, author, publishedAt, source })
             setBookmark(<FaBookmark />)
         }
-        localStorage.setItem('news', JSON.stringify(news))
+        setStorage('news', news)
     }
 
-    useEffect(() => {
-        const isBoomarked = checkBookmark()
-        if (isBoomarked) setBookmark(<FaBookmark />)
-    }, [])
+    useEffect(() => { if (isBookmark()) setBookmark(<FaBookmark />) }, [])
 
     return <a role='button' onClick={saveNews}>{bookmark}</a>
 }

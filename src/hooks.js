@@ -1,14 +1,10 @@
 import { useState, useEffect } from "react";
 
-export function useStorage(key, initialValue, options = { local: true, session: false }) {
-    const { local, session } = options
-
+export function useStorage(key, initialValue, local = true) {
     // Pass initial state function to useState so logic is only executed once
     const [storedValue, setStoredValue] = useState(() => {
         if (typeof window === "undefined") return initialValue
-        let item;
-        if (session) item = window.sessionStorage.getItem(key);
-        else if (local) item = window.localStorage.getItem(key);
+        const item = (local ? localStorage : sessionStorage).getItem(key)
         return item ? JSON.parse(item) : initialValue
     });
 
@@ -16,10 +12,7 @@ export function useStorage(key, initialValue, options = { local: true, session: 
     // ... persists the new value to localStorage.
     const setValue = value => {
         setStoredValue(value);
-        if (typeof window !== "undefined") {
-            if (local) window.localStorage.setItem(key, JSON.stringify(value))
-            if (session) window.sessionStorage.setItem(key, JSON.stringify(value))
-        }
+        if (typeof window !== "undefined") (local ? localStorage : sessionStorage).setItem(key, JSON.stringify(value))
     };
     return [storedValue, setValue];
 }

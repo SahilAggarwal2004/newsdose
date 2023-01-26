@@ -1,111 +1,60 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import { useInfiniteQuery } from '@tanstack/react-query'
 import InfiniteScroll from 'react-infinite-scroll-component'
-import { categories } from '../constants'
+import { categories, pseudoCategories } from '../constants'
 import { useNewsContext } from '../context/ContextProvider'
 import { useDebounce, useStorage } from '../hooks'
+import { getStorage } from '../modules/storage'
 import Loader from './Loader'
 import NewsItem from './NewsItem'
 
 export default function Search() {
-    const { country, load, setLoad, error, setError, searchNews, setSearchNews, page, setPage, resetNews, fetchedIfAuto } = useNewsContext()
-    const [category, setCategory] = useStorage('category', 'all', { local: false, session: true })
-    const [search, setSearch] = useStorage('query', '', { local: false, session: true })
-    const [date, setDate] = useStorage('date', '', { local: false, session: true })
-    const [end, setEnd] = useState(false)
+    const { country: { method, code }, error, queryFn, onSuccess, onError } = useNewsContext()
+    const [category, setCategory] = useStorage('category', 'all', false)
+    const [search, setSearch] = useStorage('query', '', false)
+    const [date, setDate] = useStorage('date', '', false)
     const query = useDebounce(search)
     const now = new Date();
     const maxDate = now.toLocaleDateString('en-ca');
-    now.setDate(now.getDate() - 6);
+    now.setDate(now.getDate() - 13); // 14 days
     const minDate = now.toLocaleDateString('en-ca');
+    const queryKey = ['search', code, category, query, date]
 
-    function updateQuery({ target }) {
-        setSearch(target.value)
-        resetNews()
-    }
-
-    function updateCategory({ target }) {
-        setCategory(target.value)
-        resetNews()
-    }
-
-    function updateDate({ target }) {
-        setDate(target.value)
-        resetNews()
-    }
-
-    function updateData(parsedData, storedData) {
-        const { articles, maxResults } = parsedData || {}
-        const storedNews = storedData?.articles || []
-        if (articles?.length) {
-            const newsToSet = storedNews.concat(articles)
-            setSearchNews(newsToSet)
-            const newsToStore = { status: "ok", totalResults: newsToSet.length, maxResults, articles: newsToSet }
-            sessionStorage.setItem(`search${country.code}${category}${query}${date}`, JSON.stringify(newsToStore))
-        } else setSearchNews(storedNews)
-    }
-
-    async function searchBackend(type = 'reload') {
-        setLoad(['visible', '33vw'])
-        let storedData = JSON.parse(sessionStorage.getItem(`search${country.code}${category}${query}${date}`))
-        const { totalResults, maxResults } = storedData || { totalResults: 0, maxResults: 1 }
-        if (totalResults === maxResults) setEnd(true)
-        else if (!storedData || type !== 'reload') {
-            let updatedPage;
-            storedData ? updatedPage = Math.ceil(totalResults / 24) + 1 : updatedPage = page
-            try {
-                const { data } = await axios({
-                    url: process.env.REACT_APP_URL + 'search',
-                    method: 'post',
-                    headers: { 'Content-Type': 'application/json' },
-                    data: { country: country.code, category: category || 'general', query, page: updatedPage, date }
-                })
-                if (data.success) {
-                    var parsedData = data.news
-                    setPage(page => page + 1)
-                }
-            } catch (error) { setError(error.response.data?.error || 'Unable to fetch news! Try again later...') }
-        }
-        updateData(parsedData, storedData)
-        setLoad(['visible', '100vw'])
-        setTimeout(() => setLoad(['hidden', '0vw']), 300);
-    }
-
-    useEffect(() => {
-        if (!country.code) return
-        if (country.method === 'auto' && !fetchedIfAuto) return
-        setEnd(false)
-        if (query?.length >= 3) searchBackend()
-    }, [query, country.code, category, date, fetchedIfAuto])
+    const { data, isFetching, hasNextPage, fetchNextPage } = useInfiniteQuery({
+        queryKey, enabled: method !== 'pending' && query.length >= 3, placeholderData: getStorage(queryKey),
+        getNextPageParam: ({ nextPage }) => nextPage,
+        queryFn: async ({ pageParam = 1 }) => queryFn(queryKey, pageParam, 'search'),
+        onSuccess: data => onSuccess(queryKey, data),
+        onError: e => onError(queryKey, e)
+    })
+    const news = data?.pages?.flatMap(({ news }) => news) || []
 
     return <div style={{ marginTop: "70px" }}>
         <div className='container-fluid d-sm-flex justify-content-center pt-1'>
-            <input className="form-control w-auto mx-auto mb-2 m-sm-0 me-sm-3" type="search" placeholder="Search" aria-label="Search" value={search} onChange={updateQuery} />
+            <input className="form-control w-auto mx-auto mb-2 m-sm-0 me-sm-3" type="search" placeholder="Search" aria-label="Search" value={search} onChange={e => setSearch(e.target.value)} />
             <div className='d-flex align-items-center justify-content-center w-auto mx-auto mb-2 m-sm-0 me-sm-3'>
                 <label htmlFor='date' className='me-1 d-sm-none'>Date: </label>
-                <input id='date' className="form-control w-auto" type="date" value={date} onChange={updateDate} min={minDate} max={maxDate} />
+                <input id='date' className="form-control w-auto" type="date" value={date} min={minDate} max={maxDate} onChange={e => setDate(e.target.value)} />
             </div>
-            <select className="form-select w-auto mx-auto m-sm-0 text-capitalize" aria-label="Choose category" value={category} onChange={updateCategory}>
+            <select className="form-select w-auto mx-auto m-sm-0 text-capitalize" aria-label="Choose category" value={category} onChange={e => setCategory(e.target.value)}>
                 <option value='all'>All</option>
-                {categories.map(element => {
-                    if (element === 'search' || element === 'saved') return null
-                    return <option value={element} key={element}>{element || 'General'}</option>
+                {categories.map(item => {
+                    if (pseudoCategories.includes(item)) return null
+                    return <option value={item} key={item}>{item || 'General'}</option>
                 })}
             </select>
         </div>
 
-        <InfiniteScroll className="panel row mt-3 mx-3 py-2 gx-4" next={() => searchBackend('new')} hasMore={!end} loader={load[0] === 'visible' && <Loader />} endMessage={Boolean(searchNews.length) && <p className='text-center fw-bold'>Yay! You have seen it all</p>} dataLength={searchNews.length}>
-            {searchNews.length ? searchNews.map(element => {
-                const { title, description, urlToImage, url, author, publishedAt, source } = element
-                return <div className="col-sm-6 col-lg-4 d-flex" key={url}>
-                    <NewsItem title={title} description={description} imgUrl={urlToImage} newsUrl={url} author={author} date={publishedAt} source={source.name} dateFormat='UTC' />
-                </div>
-            }) : !query && load[0] === 'hidden' && country.code ? <div className="text-center">
+        <InfiniteScroll className="panel row mt-3 mx-3 py-2 gx-4" next={fetchNextPage} hasMore={hasNextPage} loader={isFetching && <Loader />} endMessage={news.length > 0 && <p className='text-center fw-bold'>Yay! You have seen it all</p>} dataLength={news.length}>
+            {news.length ? news.map(item => <div className="col-sm-6 col-lg-4 d-flex" key={item.url}>
+                <NewsItem {...item} dateFormat='UTC' />
+            </div>) : category === 'saved' ? <div className="text-center">
+                You haven't saved any news till now!
+            </div> : !query ? <div className="text-center">
                 Enter query to search for news...
-            </div> : query && query.length < 3 && load[0] === 'hidden' && country.code ? <div className="text-center">
+            </div> : query.length < 3 ? <div className="text-center">
                 Please search for at least 3 characters!
-            </div> : load[0] === 'hidden' && country.code && <div className="text-center">{error}</div>}
+            </div> : error ? <div className="text-center">{error}</div> : <Loader />}
         </InfiniteScroll>
     </div>
 }
