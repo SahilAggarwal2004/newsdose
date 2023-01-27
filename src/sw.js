@@ -31,8 +31,8 @@ offlineFallback({
     imageFallback: '/news.webp'
 });
 
-registerRoute(({ url }) => url.pathname === '/manifest.json', new NetworkFirst({
-    cacheName: 'manifest',
+registerRoute(({ url: { pathname, } }) => pathname === '/manifest.json' || pathname === '/geocheck', new NetworkFirst({
+    cacheName: 'network-first',
     plugins: [new CacheableResponsePlugin({ statuses: [200] })]
 }))
 
