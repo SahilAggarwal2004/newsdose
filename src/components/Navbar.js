@@ -17,7 +17,7 @@ export default function Navbar() {
 
     function updateCountry({ target: { value } }) {
         if (value === 'auto') setPending(true)
-        else setCountry({ method: 'manual', code: value })
+        else setCountry({ method: '', code: value })
     }
 
     function prefetch(event) {

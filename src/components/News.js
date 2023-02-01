@@ -17,7 +17,7 @@ function includes({ title, description, source, author }, substring) {
 export default function News() {
     const { country: { code: country }, pending, error, queryFn, onSuccess, onError } = useNewsContext()
     const [query, setQuery] = useStorage('query', '', false)
-    const category = window.location.pathname.slice(1)
+    const category = window.location.pathname?.slice(1) || ''
     const saved = category === 'saved'
     const queryKey = ['news', country, category]
 
