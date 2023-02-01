@@ -16,7 +16,7 @@ export default function Search() {
     const query = useDebounce(search)
     const now = new Date();
     const maxDate = now.toLocaleDateString('en-ca');
-    now.setDate(now.getDate() - 13); // 14 days
+    now.setMonth(now.getMonth() - 1); // Upto 1 month
     const minDate = now.toLocaleDateString('en-ca');
     const queryKey = ['search', country, category, query, date]
 
