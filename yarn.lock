@@ -7662,10 +7662,10 @@ react-share@^4.4.1:
     classnames "^2.3.2"
     jsonp "^0.2.1"
 
-react-text-to-speech@^0.3.12:
-  version "0.3.12"
-  resolved "https://registry.yarnpkg.com/react-text-to-speech/-/react-text-to-speech-0.3.12.tgz#a0d8840e941773791ad4218c32ae751a23e3d5c1"
-  integrity sha512-CCGOx9WsUr4mjk86xrMjThx8m3CcjDAdiT6PU4zIIw2vu0yjbWcuy1DcJSLB6VvK3fU3APT+yKPFZoQjSIcxEw==
+react-text-to-speech@^0.3.13:
+  version "0.3.13"
+  resolved "https://registry.yarnpkg.com/react-text-to-speech/-/react-text-to-speech-0.3.13.tgz#64af912e694576cdf57fdbeb06c403b23f6558f9"
+  integrity sha512-7879yhpxsVCvItxOFRZ5MTf0FJxl08Z3mjvJQhk/YyXPDOiROA+32daWWFTyb0VibdL9ii7VmEPw0nyaiYCMbQ==
 
 react-top-loading-bar@^2.3.1:
   version "2.3.1"
