@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import { sign } from "mini-jwt";
 import { useState, useContext, useEffect, createContext } from "react";
 import { countries } from "../constants";
 import { useStorage } from "../hooks";
-import encrypt from "../modules/encrypt";
 import { getStorage, setStorage } from "../modules/storage";
 
 axios.defaults.baseURL = process.env.REACT_APP_URL
@@ -37,8 +37,8 @@ const ContextProvider = props => {
         if (type !== 'prefetch') setProgress(33)
         let data = key[0] === 'news' ? { country: key[1], category: key[2] || 'general', page } : { country: key[1], page, query: key[2], date: key[3] }
         const { data: { success, nextPage, news } } = await axios({
-            url: type === 'search' ? type : '', method: 'post', data,
-            headers: { accesstoken: encrypt(Date.now()), 'Content-Type': 'application/json' }
+            url: type === 'search' ? type : '', method: 'post',
+            headers: { datatoken: sign(data, process.env.REACT_APP_SECRET), 'Content-Type': 'application/json' }
         })
         if (!success) throw new Error('Something went wrong!')
         setProgress(100)
