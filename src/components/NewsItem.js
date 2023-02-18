@@ -1,11 +1,11 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
+import Speech from 'react-text-to-speech';
 import { BsFillInfoSquareFill } from 'react-icons/bs'
 import { FaShareAlt } from 'react-icons/fa'
-import { useNewsContext } from '../context/ContextProvider'
-import Bookmark from './Bookmark'
-import Speech from 'react-text-to-speech';
 import { HiVolumeOff, HiVolumeUp } from 'react-icons/hi'
+import { useNewsContext } from '../context/ContextProvider'
 import { newsImg } from '../constants'
+import Bookmark from './Bookmark'
 
 export default function NewsItem(props) {
     const { title, description, urlToImage, url, author, publishedAt, source, dateFormat } = props
