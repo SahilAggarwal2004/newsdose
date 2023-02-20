@@ -38,7 +38,7 @@ const ContextProvider = props => {
         let data = key[0] === 'news' ? { country: key[1], category: key[2] || 'general', page } : { country: key[1], page, query: key[2], date: key[3] }
         const { data: { success, nextPage, news } } = await axios({
             url: type === 'search' ? type : '', method: 'post',
-            headers: { datatoken: sign(data, process.env.REACT_APP_SECRET, 30000), 'Content-Type': 'application/json' }
+            headers: { datatoken: sign(process.env.REACT_APP_SECRET, data, { expiresIn: 30000 }), 'Content-Type': 'application/json' }
         })
         if (!success) throw new Error('Something went wrong!')
         setProgress(100)
