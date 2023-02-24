@@ -47,7 +47,7 @@ export default function Navbar() {
                         </li>)}
                     </ul>
                     <div className='d-flex justify-content-center align-items-center'>
-                        <select className="form-select w-auto ms-0 me-2" aria-label="Choose country" defaultValue={method || code} onChange={updateCountry}>
+                        <select className="form-select w-auto ms-0 me-3" aria-label="Choose country" defaultValue={method || code} onChange={updateCountry}>
                             {Object.keys(countries).map(code => <option value={code} key={code}>{countries[code]}</option>)}
                         </select>
                         <Link to='/search' className='text-black mb-1'><FaSearch /></Link>

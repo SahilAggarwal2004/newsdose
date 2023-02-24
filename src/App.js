@@ -18,7 +18,8 @@ function App() {
         <Modal />
         <Suspense fallback={<Loader type={1} />}>
             <Routes>
-                {categories.map(category => <Route key={category} path={'/' + category} element={category === 'search' ? <Search /> : <News key={(category === 'saved' ? '' : country.code) + category} />} />)}
+                {categories.map(category => <Route key={category} path={'/' + category} element={<News key={(category === 'saved' ? '' : country.code) + category} />} />)}
+                <Route path="/search" element={<Search />} />
                 <Route path="/offline" element={<Offline />} />
             </Routes>
         </Suspense>
