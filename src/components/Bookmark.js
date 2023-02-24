@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { FaBookmark, FaRegBookmark } from 'react-icons/fa';
 import { getStorage, setStorage } from '../modules/storage';
 
-export default function Bookmark({ title, description, urlToImage, url, author, publishedAt, source }) {
+export default function Bookmark({ title, description, urlToImage, url, publishedAt, source }) {
     const [bookmark, setBookmark] = useState(<FaRegBookmark />)
     const isBookmark = () => getStorage('news', []).some(item => item.title === title)
 
@@ -14,7 +14,7 @@ export default function Bookmark({ title, description, urlToImage, url, author, 
             news = news.filter(item => item.title !== title)
             setBookmark(<FaRegBookmark />)
         } else {
-            news.push({ title, description, urlToImage, url, author, publishedAt, source })
+            news.push({ title, description, urlToImage, url, publishedAt, source })
             setBookmark(<FaBookmark />)
         }
         setStorage('news', news)

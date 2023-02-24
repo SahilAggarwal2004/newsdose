@@ -35,7 +35,9 @@ const ContextProvider = props => {
     async function queryFn(key, page, type = 'fetch') {
         setError()
         if (type !== 'prefetch') setProgress(33)
-        let data = key[0] === 'news' ? { country: key[1], category: key[2] || 'general', page } : { country: key[1], page, query: key[2], date: key[3] }
+        const language = navigator.language.slice(0, 2)
+        let data = { country: key[1], language, page }
+        data = key[0] === 'news' ? { ...data, category: key[2] || 'top' } : { ...data, query: key[2], date: key[3] }
         const { data: { success, nextPage, news } } = await axios({
             url: type === 'search' ? type : '', method: 'post',
             headers: { datatoken: sign(process.env.REACT_APP_SECRET, data, { expiresIn: 30000 }), 'Content-Type': 'application/json' }

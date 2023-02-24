@@ -9,9 +9,9 @@ import Loader from './Loader';
 import NewsItem from './NewsItem'
 import { getStorage } from '../modules/storage';
 
-function includes({ title, description, source, author }, substring) {
+function includes({ title, description, source }, substring) {
     substring = substring.toLowerCase()
-    return [title, description, source, author].some(item => item?.toLowerCase().includes(substring))
+    return [title, description, source].some(item => item?.toLowerCase().includes(substring))
 }
 
 export default function News() {

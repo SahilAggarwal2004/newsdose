@@ -21,7 +21,7 @@ export default function Navbar() {
     }
 
     function prefetch(event) {
-        const category = event.target.pathname.slice(1)
+        const category = event.target.pathname?.slice(1) || ''
         const queryKey = ['news', code, category]
         if (!pseudoCategories.includes(category)) client.prefetchInfiniteQuery({
             queryKey, retry: 0, enabled: !pending,
