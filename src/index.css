@@ -67,9 +67,4 @@ img {
     nav ul {
         grid-template-columns: 1fr 1fr !important;
     }
-
-    nav .saved {
-        grid-column-start: 1;
-        grid-column-end: 3;
-    }
 }

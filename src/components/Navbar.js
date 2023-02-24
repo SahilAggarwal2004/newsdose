@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react'
+import { FaSearch } from 'react-icons/fa';
 import { Link } from "react-router-dom";
 import LoadingBar from "react-top-loading-bar"
 import { countries, categories, pseudoCategories } from '../constants';
@@ -39,15 +40,18 @@ export default function Navbar() {
                 </button>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav d-grid d-lg-flex me-auto mt-2 mb-2 mt-lg-0 mb-lg-0">
-                        {categories.map(category => <li className={`nav-item text-center ${category} `} key={category}>
-                            <Link to={`/${category} `} className="nav-link d-inline-block w-auto" aria-current="page" onMouseEnter={prefetch}>
+                        {categories.map(category => <li className='nav-item text-center' key={category}>
+                            <Link to={`/${category} `} className="nav-link d-inline-block p-1" aria-current="page" onMouseEnter={prefetch}>
                                 <button className='btn shadow-none nav-link p-0 text-capitalize' data-bs-toggle='collapse' data-bs-target={width <= 991 && "#navbarSupportedContent"}>{category || "Home"}</button>
                             </Link>
                         </li>)}
                     </ul>
-                    <select className="form-select w-auto" aria-label="Choose country" defaultValue={method || code} onChange={updateCountry}>
-                        {Object.keys(countries).map(code => <option value={code} key={code}>{countries[code]}</option>)}
-                    </select>
+                    <div className='d-flex justify-content-center align-items-center'>
+                        <select className="form-select w-auto ms-0 me-2" aria-label="Choose country" defaultValue={method || code} onChange={updateCountry}>
+                            {Object.keys(countries).map(code => <option value={code} key={code}>{countries[code]}</option>)}
+                        </select>
+                        <Link to='/search' className='text-black mb-1'><FaSearch /></Link>
+                    </div>
                 </div>
             </div>
         </nav>
