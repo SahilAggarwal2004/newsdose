@@ -1,8 +1,9 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useQueryClient } from '@tanstack/react-query';
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { FaSearch } from 'react-icons/fa';
 import { Link } from "react-router-dom";
+import ReactSelect from 'react-select';
 import LoadingBar from "react-top-loading-bar"
 import { countries, categories, pseudoCategories } from '../constants';
 import { useNewsContext } from '../context/ContextProvider';
@@ -13,10 +14,11 @@ export default function Navbar() {
     const [width, setWidth] = useState(window.outerWidth)
     const country = countries[code]
     countries.auto = 'Auto' + (method === 'auto' && country ? ` (${country})` : '')
+    const options = useMemo(() => Object.entries(countries).reduce((arr, [value, label]) => arr.concat({ value, label }), []), [])
 
     useEffect(() => { window.addEventListener('resize', () => setWidth(window.outerWidth)); }, [])
 
-    function updateCountry({ target: { value } }) {
+    function updateCountry({ value }) {
         if (value === 'auto') setPending(true)
         else setCountry({ method: '', code: value })
     }
@@ -47,11 +49,9 @@ export default function Navbar() {
                         </li>)}
                     </ul>
                     <div className='d-flex justify-content-center align-items-center'>
-                        <select className="form-select w-auto ms-0 me-3" aria-label="Choose country" defaultValue={method || code} onChange={updateCountry}>
-                            {Object.keys(countries).map(code => <option value={code} key={code}>{countries[code]}</option>)}
-                        </select>
+                        <ReactSelect options={options} defaultValue={options[Object.keys(countries).indexOf(method || code)]} onChange={updateCountry} className="me-3" />
                         <Link to='/search' className='text-black mb-1'>
-                            <FaSearch data-bs-toggle='collapse' data-bs-target={width <= 991 && "#navbarSupportedContent"} />
+                            <FaSearch title='search' data-bs-toggle='collapse' data-bs-target={width <= 991 && "#navbarSupportedContent"} />
                         </Link>
                     </div>
                 </div>
