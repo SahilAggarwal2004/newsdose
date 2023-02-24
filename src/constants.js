@@ -1,4 +1,4 @@
-export const countries = { au: "Australia", ca: "Canada", cn: "China", in: "India", jp: "Japan", kp: "North Korea", pk: "Pakistan", sa: "Saudi Arabia", gb: "United Kingdom", us: "United States" }
+export const countries = { au: "Australia", ca: "Canada", cn: "China", in: "India", jp: "Japan", pk: "Pakistan", sa: "Saudi Arabia", sg: "Singapore", gb: "United Kingdom", us: "United States" }
 export const pseudoCategories = ["search", "saved"]
 export const categories = ["", "world", "business", "entertainment", "environment", "health", "politics", "science", "sports", "technology", ...pseudoCategories]
 export const newsImg = '/news.webp'
