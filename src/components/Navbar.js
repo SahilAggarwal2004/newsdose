@@ -49,7 +49,7 @@ export default function Navbar() {
                         </li>)}
                     </ul>
                     <div className='d-flex justify-content-center align-items-center'>
-                        <ReactSelect options={options} defaultValue={options[Object.keys(countries).indexOf(method || code)]} onChange={updateCountry} className="me-3" />
+                        <ReactSelect options={options} defaultValue={options[Object.keys(countries).indexOf(method || code)]} onChange={updateCountry} className="me-3" isSearchable={false} />
                         <Link to='/search' className='text-black mb-1'>
                             <FaSearch title='search' data-bs-toggle='collapse' data-bs-target={width <= 991 && "#navbarSupportedContent"} />
                         </Link>
