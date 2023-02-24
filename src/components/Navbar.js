@@ -50,7 +50,9 @@ export default function Navbar() {
                         <select className="form-select w-auto ms-0 me-3" aria-label="Choose country" defaultValue={method || code} onChange={updateCountry}>
                             {Object.keys(countries).map(code => <option value={code} key={code}>{countries[code]}</option>)}
                         </select>
-                        <Link to='/search' className='text-black mb-1'><FaSearch /></Link>
+                        <Link to='/search' className='text-black mb-1'>
+                            <FaSearch data-bs-toggle='collapse' data-bs-target={width <= 991 && "#navbarSupportedContent"} />
+                        </Link>
                     </div>
                 </div>
             </div>
