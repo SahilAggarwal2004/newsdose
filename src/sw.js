@@ -6,23 +6,16 @@ import { CacheFirst, NetworkFirst, StaleWhileRevalidate } from 'workbox-strategi
 import { CacheableResponsePlugin } from 'workbox-cacheable-response'
 import { ExpirationPlugin } from 'workbox-expiration'
 import { offlineFallback } from 'workbox-recipes'
-import { imageFallback } from './constants'
+import { categories, imageFallback } from './constants'
 
 clientsClaim() // This should be at the top of the service worker
 self.skipWaiting()
 
 const revision = crypto.randomUUID()
-const urlsToCache = (self.__WB_MANIFEST || []).concat([
-    { url: '/', revision },
-    { url: '/business', revision },
-    { url: '/entertainment', revision },
-    { url: '/health', revision },
-    { url: '/science', revision },
-    { url: '/sports', revision },
-    { url: '/technology', revision },
-    { url: '/search', revision },
-    { url: '/saved', revision }
-]).filter(({ url }) => url !== '/manifest.json')
+const urlsToCache = (self.__WB_MANIFEST || [])
+    .concat(categories.map(category => ({ url: `/${category}`, revision })))
+    .push({ url: '/search', revision })
+    .filter(({ url }) => url !== '/manifest.json')
 precacheAndRoute(urlsToCache)
 cleanupOutdatedCaches()
 
