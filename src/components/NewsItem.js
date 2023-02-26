@@ -3,22 +3,23 @@ import Speech from 'react-text-to-speech';
 import { BsFillInfoSquareFill } from 'react-icons/bs'
 import { FaShareAlt } from 'react-icons/fa'
 import { HiVolumeOff, HiVolumeUp } from 'react-icons/hi'
-import { useNewsContext } from '../context/ContextProvider'
-import { newsImg } from '../constants'
 import Bookmark from './Bookmark'
+import { useNewsContext } from '../context/ContextProvider'
+import { imageFallback } from '../constants';
 
 export default function NewsItem(props) {
-    const { title, description, urlToImage, url, publishedAt, source, dateFormat } = props
+    const { title, description, urlToImage, url, publishedAt, source, dateFormat, index } = props
     const { setShareUrl } = useNewsContext()
     const date = dateFormat === 'UTC' ? new Date(publishedAt).toUTCString() : new Date(publishedAt).toLocaleString()
     const connectionSpeed = navigator.connection?.effectiveType
-    const imgUrl = urlToImage?.match(/http/g)?.length !== 1 ? newsImg : `https://images.weserv.nl/?url=${urlToImage}&width=450&height=300&maxage=1d&output=webp&q=${connectionSpeed?.includes('2') ? 5 : connectionSpeed?.includes('3') ? 10 : 25}`
+    const backupImg = imageFallback[index]
+    const imgUrl = urlToImage?.match(/http/g)?.length !== 1 ? backupImg : `https://images.weserv.nl/?url=${urlToImage}&width=450&height=300&maxage=1d&output=webp&q=${connectionSpeed?.includes('2') ? 5 : connectionSpeed?.includes('3') ? 10 : 25}`
 
     return <div className="card mt-4 mb-3 w-100" style={{ paddingBottom: "2rem" }}>
         <span className="position-absolute text-capitalize top-0 start-50 translate-middle badge rounded-pill bg-danger border">{source}</span>
         <a href={url} target="_blank" rel="noreferrer" className="text-black">
             <div style={{ height: "13rem" }}>
-                <img src={imgUrl} onError={event => event.target.src = newsImg} loading='lazy' className="card-img-top h-100" alt='' />
+                <img src={imgUrl} onError={event => event.target.src = backupImg} loading='lazy' className="card-img-top h-100" alt='' />
             </div>
         </a>
         <div className="card-body">
