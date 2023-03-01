@@ -38,13 +38,20 @@ img {
     max-width: 75%;
 }
 
-@media (max-width: 991px) {
+@media (max-width: 992px) {
     nav ul {
         grid-template-columns: 1fr 1fr 1fr !important;
     }
 
-    nav select {
-        margin: 6px auto;
+    nav ul li:last-child {
+        grid-column-end: 3;
+    }
+
+}
+
+@media (max-width: 991px) {
+    #countries {
+        margin-left: 0 !important;
     }
 }
 
