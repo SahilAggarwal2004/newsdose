@@ -20,7 +20,10 @@ precacheAndRoute(urlsToCache)
 cleanupOutdatedCaches()
 
 setDefaultHandler(new CacheFirst())
-offlineFallback({ pageFallback: '/offline' });
+offlineFallback({
+    pageFallback: '/offline',
+    imageFallback: imageFallback[1]
+});
 
 registerRoute(({ url: { pathname } }) => pathname === '/manifest.json' || pathname === '/geocheck', new NetworkFirst({
     cacheName: 'network-first',
