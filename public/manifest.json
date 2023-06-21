@@ -3,7 +3,7 @@
   "name": "NewsDose - Daily dose of news for free!",
   "version": "1.0.1",
   "manifest_version": 2,
-  "description": "NewsDose is an online platform which provides quick daily news bites for free. Interested in weather, politics, sports news, etc? NewsDose is here for you!",
+  "description": "NewsDose is an online platform which provides quick daily news bites in different categories for free.",
   "author": "Sahil Aggarwal",
   "icons": [
     {
