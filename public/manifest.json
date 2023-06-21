@@ -1,6 +1,8 @@
 {
   "short_name": "NewsDose",
-  "name": "NewsDose - Get your daily dose of news for free!",
+  "name": "NewsDose - Daily dose of news for free!",
+  "version": "1.0.1",
+  "manifest_version": 2,
   "description": "NewsDose is an online platform which provides quick daily news bites for free. Interested in weather, politics, sports news, etc? NewsDose is here for you!",
   "author": "Sahil Aggarwal",
   "icons": [
@@ -46,5 +48,23 @@
   ],
   "display": "standalone",
   "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "background_color": "#ffffff",
+  "dir": "auto",
+  "scope": "/",
+  "lang": "en",
+  "prefer_related_applications": false,
+  "categories": [
+    "magazines",
+    "news",
+    "politics",
+    "social",
+    "utilities"
+  ],
+  "display_override": [
+    "standalone",
+    "window-controls-overlay"
+  ],
+  "edge_side_panel": {
+    "preferred_width": 500
+  }
 }

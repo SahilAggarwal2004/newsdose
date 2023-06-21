@@ -32,7 +32,7 @@ export default function News() {
     const fullNews = data?.pages?.flatMap(({ news }) => news || []) || (saved && getStorage('news')) || []
     const news = query ? fullNews.filter(item => includes(item, query) && item) : fullNews
 
-    useEffect(() => { document.title = category ? `${category.charAt(0).toUpperCase() + category.slice(1)} | NewsDose` : 'NewsDose - Get your daily dose of news for free!' }, [])
+    useEffect(() => { document.title = category ? `${category.charAt(0).toUpperCase() + category.slice(1)} | NewsDose` : 'NewsDose - Daily dose of news for free!' }, [])
     useEffect(() => { window.scrollTo(0, 0) }, [country])
 
     return <div style={{ marginTop: "70px" }}>
