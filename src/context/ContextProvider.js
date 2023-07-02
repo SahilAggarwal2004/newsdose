@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import { sign } from "mini-jwt";
+import { sign } from "jssign";
 import { useState, useContext, useEffect, createContext } from "react";
 import { countries } from "../constants";
 import { useStorage } from "../hooks";
@@ -40,7 +40,7 @@ const ContextProvider = props => {
         data = key[0] === 'news' ? { ...data, category: key[2] || 'top' } : { ...data, query: key[2], date: key[3] }
         const { data: { success, nextPage, news } } = await axios({
             url: type === 'search' ? type : '', method: 'post',
-            headers: { datatoken: sign(process.env.REACT_APP_SECRET, data, { expiresIn: 300000 }), 'Content-Type': 'application/json' }
+            headers: { datatoken: sign(data, process.env.REACT_APP_SECRET, { expiresIn: 300000 }), 'Content-Type': 'application/json' }
         })
         if (!success) throw new Error('Something went wrong!')
         setProgress(100)
