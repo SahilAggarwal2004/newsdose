@@ -2,7 +2,6 @@
 import Speech from 'react-text-to-speech';
 import { BsFillInfoSquareFill } from 'react-icons/bs'
 import { FaShareAlt } from 'react-icons/fa'
-import { HiVolumeOff, HiVolumeUp } from 'react-icons/hi'
 import Bookmark from './Bookmark'
 import { useNewsContext } from '../context/ContextProvider'
 import { imageFallback } from '../constants';
