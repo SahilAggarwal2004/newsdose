@@ -6199,10 +6199,10 @@ jsonpointer@^5.0.0:
   resolved "https://registry.yarnpkg.com/jsonpointer/-/jsonpointer-5.0.1.tgz#2110e0af0900fd37467b5907ecd13a7884a1b559"
   integrity sha512-p/nXbhSEcu3pZRdkW1OfJhpsVtW1gd4Wa1fnQc9YLiTfAjn0312eMKimbdIQzuZl9aa9xUGaRlP9T/CJE/ditQ==
 
-jssign@^0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/jssign/-/jssign-0.2.1.tgz#2aa9afcc239541a933e51ce57da89909f533a611"
-  integrity sha512-2kpnZZNs0WuKe1bcAp5f6pIUnzzxFC5fefVkXCE6NPZ/D5Cw2zPUJo4AHqDksUiE1GR5P9YkkrDVjaG19kuANA==
+jssign@^0.2.4:
+  version "0.2.4"
+  resolved "https://registry.yarnpkg.com/jssign/-/jssign-0.2.4.tgz#bd426d170d68b078bc0ff833d2506eceec8347b3"
+  integrity sha512-yGPzeipPX3gSqVvRzhK2pOBr3158HdbIT3pT2KBNy6kL8Y9nAvYMQQv8zTrFCgzZbO3NSAI6GSW76hsyIoInCg==
   dependencies:
     sjcl "^1.0.8"
 
@@ -7802,10 +7802,10 @@ react-scripts@^5.0.1:
   optionalDependencies:
     fsevents "^2.3.2"
 
-react-select@^5.7.4:
-  version "5.7.4"
-  resolved "https://registry.yarnpkg.com/react-select/-/react-select-5.7.4.tgz#d8cad96e7bc9d6c8e2709bdda8f4363c5dd7ea7d"
-  integrity sha512-NhuE56X+p9QDFh4BgeygHFIvJJszO1i1KSkg/JPcIJrbovyRtI+GuOEa4XzFCEpZRAEoEI8u/cAHK+jG/PgUzQ==
+react-select@^5.7.5:
+  version "5.7.5"
+  resolved "https://registry.yarnpkg.com/react-select/-/react-select-5.7.5.tgz#d2d0f29994e0f06000147bfb2adf58324926c2fd"
+  integrity sha512-jgYZa2xgKP0DVn5GZk7tZwbRx7kaVz1VqU41S8z1KWmshRDhlrpKS0w80aS1RaK5bVIXpttgSou7XCjWw1ncKA==
   dependencies:
     "@babel/runtime" "^7.12.0"
     "@emotion/cache" "^11.4.0"
@@ -7825,10 +7825,10 @@ react-share@^4.4.1:
     classnames "^2.3.2"
     jsonp "^0.2.1"
 
-react-text-to-speech@^0.4.3:
-  version "0.4.3"
-  resolved "https://registry.yarnpkg.com/react-text-to-speech/-/react-text-to-speech-0.4.3.tgz#ce0a1ddc369e7927738a0e2a9288bcb5e3d2f358"
-  integrity sha512-EI4wabbMYzFNthIXHtr1wH7nvnFydZn1Twn4jC2QBGKfzBAcPKAqaXg8IaX8LGeA3eGNIMIriS5A1xoMfujDkQ==
+react-text-to-speech@^0.4.5:
+  version "0.4.5"
+  resolved "https://registry.yarnpkg.com/react-text-to-speech/-/react-text-to-speech-0.4.5.tgz#f29ed690cee7dde9d462720cb527c068d15fbfc5"
+  integrity sha512-bRnWlGklwg2WyIe+HY30/7pdVfZ0um8CJPWs9G8ou6fAZbtzBOYUr/HPkHmt6UikWbGBPajtrqGngOa2NTpeIw==
 
 react-top-loading-bar@^2.3.1:
   version "2.3.1"
