@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect } from 'react'
+import { useEffect, useLayoutEffect } from 'react'
 import { useInfiniteQuery } from '@tanstack/react-query';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Link } from 'react-router-dom';
@@ -16,24 +16,25 @@ function includes({ title, description, source }, substring) {
 }
 
 export default function News() {
-    const { country: { code: country }, pending, error, queryFn, onSuccess, onError } = useNewsContext()
+    const { country: { code: country }, pending, error, queryFn, onError } = useNewsContext()
     const [query, setQuery] = useStorage('query', '', false)
     const category = window.location.pathname?.slice(1) || ''
     const saved = category === 'saved'
     const queryKey = ['news', country, category]
 
-    const { data, isFetching, hasNextPage, fetchNextPage } = useInfiniteQuery({
+    const { data, error: e, isFetching, hasNextPage, fetchNextPage } = useInfiniteQuery({
         queryKey, enabled: !pending && !saved, placeholderData: getStorage(queryKey),
         getNextPageParam: ({ nextPage }) => nextPage,
-        queryFn: async ({ pageParam = 1 }) => await queryFn(queryKey, pageParam),
-        onSuccess: data => onSuccess(queryKey, data),
-        onError: e => onError(queryKey, e)
+        queryFn: async ({ pageParam = 1 }) => queryFn(queryKey, pageParam)
     })
     const fullNews = data?.pages?.flatMap(({ news }) => news || []) || (saved && getStorage('news')) || []
     const news = query ? fullNews.filter(item => includes(item, query) && item) : fullNews
 
     useEffect(() => { document.title = category ? `${category.charAt(0).toUpperCase() + category.slice(1)} | NewsDose` : 'NewsDose - Daily dose of news for free!' }, [])
+
     useEffect(() => { window.scrollTo(0, 0) }, [country])
+
+    useLayoutEffect(() => { if (e) onError(queryKey, e) }, [e])
 
     return <div style={{ marginTop: "70px" }}>
         <div className='grid container-fluid'>

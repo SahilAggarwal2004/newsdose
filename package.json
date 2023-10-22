@@ -3,17 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@tanstack/react-query": "^4.36.1",
+    "@tanstack/react-query": "^5.0.0",
     "@testing-library/jest-dom": "^6.1.4",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.5.1",
     "axios": "^1.5.1",
-    "jssign": "^0.2.4",
+    "jssign": "^0.2.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.11.0",
     "react-infinite-scroll-component": "^6.1.0",
-    "react-router-dom": "^6.16.0",
+    "react-router-dom": "^6.17.0",
     "react-select": "^5.7.7",
     "react-share": "^4.4.1",
     "react-text-to-speech": "^0.5.2",
@@ -51,7 +51,7 @@
     ]
   },
   "devDependencies": {
-    "@tanstack/react-query-devtools": "^4.36.1",
+    "@tanstack/react-query-devtools": "^5.0.3",
     "react-app-rewired": "^2.2.1",
     "react-scripts": "^5.0.1",
     "workbox-webpack-plugin": "^7.0.0"

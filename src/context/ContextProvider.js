@@ -45,11 +45,9 @@ const ContextProvider = props => {
         if (!success) throw new Error('Something went wrong!')
         setProgress(100)
         const pageData = { nextPage, news }
-        if (type === 'prefetch') onSuccess(key, { pageParams: [null], pages: [pageData] })
+        setStorage(key, { pageParams: [null], pages: [pageData] }, key[0] === 'news')
         return pageData
     }
-
-    function onSuccess(key, data) { setStorage(key, data, key[0] === 'news') }
 
     function onError(key, error) {
         const data = getStorage(key)
@@ -58,7 +56,7 @@ const ContextProvider = props => {
         setError(error?.response?.data?.error || 'Unable to fetch news! Try again later...')
     }
 
-    return <Context.Provider value={{ country, setCountry, pending, setPending, progress, setProgress, shareUrl, setShareUrl, error, queryFn, onSuccess, onError }}>
+    return <Context.Provider value={{ country, setCountry, pending, setPending, progress, setProgress, shareUrl, setShareUrl, error, queryFn, onError }}>
         {props.children}
     </Context.Provider>
 }
