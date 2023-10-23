@@ -10,7 +10,7 @@ import NewsItem from './NewsItem'
 import { fallbackCount } from '../constants'
 
 export default function Search() {
-    const { country: { code: country }, pending, error, queryFn, onError } = useNewsContext()
+    const { country: { code: country }, pending, queryFn, onError } = useNewsContext()
     const [search, setSearch] = useStorage('query', '', false)
     const [date, setDate] = useStorage('date', '', false)
     const query = useDebounce(search)
@@ -20,14 +20,14 @@ export default function Search() {
     const minDate = now.toLocaleDateString('en-ca');
     const queryKey = ['search', country, query, date]
 
-    const { data, error: e, isFetching, hasNextPage, fetchNextPage } = useInfiniteQuery({
+    const { data, error, isFetching, hasNextPage, fetchNextPage } = useInfiniteQuery({
         queryKey, enabled: !pending && query.length >= 3, placeholderData: getStorage(queryKey),
         getNextPageParam: ({ nextPage }) => nextPage,
         queryFn: async ({ pageParam = 1 }) => queryFn(queryKey, pageParam, 'search')
     })
     const news = data?.pages?.flatMap(({ news }) => news) || []
 
-    useLayoutEffect(() => { if (e) onError(queryKey, e) }, [e])
+    useLayoutEffect(() => { if (error) onError(queryKey) }, [error])
 
     return <div style={{ marginTop: "70px" }}>
         <div className='container-fluid d-sm-flex justify-content-center pt-1'>
@@ -45,7 +45,7 @@ export default function Search() {
                 Enter query to search for news...
             </div> : query.length < 3 ? <div className="text-center">
                 Please search for at least 3 characters!
-            </div> : error ? <div className="text-center">{error}</div> : <Loader />}
+            </div> : error ? <div className="text-center">{error.response?.data?.error || 'Unable to search news! Try again later...'}</div> : <Loader />}
         </InfiniteScroll>
     </div>
 }

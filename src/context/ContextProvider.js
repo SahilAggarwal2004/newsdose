@@ -18,7 +18,6 @@ const ContextProvider = props => {
     const [pending, setPending] = useState(country.method === 'auto')
     const [progress, setProgress] = useState(0)
     const [shareUrl, setShareUrl] = useState(null)
-    const [error, setError] = useState(null)
 
     useEffect(() => {
         if (!pending) return
@@ -33,7 +32,6 @@ const ContextProvider = props => {
     }, [pending])
 
     async function queryFn(key, page, type = 'fetch') {
-        setError()
         if (type !== 'prefetch') setProgress(33)
         const language = navigator.language.slice(0, 2)
         let data = { country: key[1], language, page }
@@ -49,14 +47,13 @@ const ContextProvider = props => {
         return pageData
     }
 
-    function onError(key, error) {
+    function onError(key) {
         const data = getStorage(key)
         if (data) client.setQueryData(key, data)
         setProgress(100)
-        setError(error?.response?.data?.error || 'Unable to fetch news! Try again later...')
     }
 
-    return <Context.Provider value={{ country, setCountry, pending, setPending, progress, setProgress, shareUrl, setShareUrl, error, queryFn, onError }}>
+    return <Context.Provider value={{ country, setCountry, pending, setPending, progress, setProgress, shareUrl, setShareUrl, queryFn, onError }}>
         {props.children}
     </Context.Provider>
 }

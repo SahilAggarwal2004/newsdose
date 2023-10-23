@@ -16,13 +16,13 @@ function includes({ title, description, source }, substring) {
 }
 
 export default function News() {
-    const { country: { code: country }, pending, error, queryFn, onError } = useNewsContext()
+    const { country: { code: country }, pending, queryFn, onError } = useNewsContext()
     const [query, setQuery] = useStorage('query', '', false)
     const category = window.location.pathname?.slice(1) || ''
     const saved = category === 'saved'
     const queryKey = ['news', country, category]
 
-    const { data, error: e, isFetching, hasNextPage, fetchNextPage } = useInfiniteQuery({
+    const { data, error, isFetching, hasNextPage, fetchNextPage } = useInfiniteQuery({
         queryKey, enabled: !pending && !saved, placeholderData: getStorage(queryKey),
         getNextPageParam: ({ nextPage }) => nextPage,
         queryFn: async ({ pageParam = 1 }) => queryFn(queryKey, pageParam)
@@ -34,7 +34,7 @@ export default function News() {
 
     useEffect(() => { window.scrollTo(0, 0) }, [country])
 
-    useLayoutEffect(() => { if (e) onError(queryKey, e) }, [e])
+    useLayoutEffect(() => { if (error) onError(queryKey) }, [error])
 
     return <div style={{ marginTop: "70px" }}>
         <div className='grid container-fluid'>
@@ -50,7 +50,7 @@ export default function News() {
             </div> : query ? <div className="text-center">
                 <div className='mb-2'>Seems like there is no news related to <strong>{query}</strong>...</div>
                 <Link to='/search' className='text-decoration-none'>Try advanced search</Link>
-            </div> : error ? <div className="text-center">{error}</div> : <Loader />}
+            </div> : error ? <div className="text-center">{error.response?.data?.error || 'Unable to fetch news! Try again later...'}</div> : <Loader />}
         </InfiniteScroll>
     </div>
 }
