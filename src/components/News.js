@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useLayoutEffect } from 'react'
+import { useEffect, useLayoutEffect, useMemo } from 'react'
 import { useInfiniteQuery } from '@tanstack/react-query';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Link } from 'react-router-dom';
@@ -27,8 +27,8 @@ export default function News() {
         getNextPageParam: ({ nextPage }) => nextPage,
         queryFn: async ({ pageParam = 1 }) => queryFn(queryKey, pageParam)
     })
-    const fullNews = data?.pages?.flatMap(({ news }) => news || []) || (saved && getStorage('news')) || []
-    const news = query ? fullNews.filter(item => includes(item, query) && item) : fullNews
+    const fullNews = useMemo(() => data?.pages?.flatMap(({ news }) => news || []) || (saved && getStorage('news')) || [], [data, saved])
+    const news = useMemo(() => query ? fullNews.filter(item => includes(item, query) && item) : fullNews, [fullNews, query])
 
     useEffect(() => { document.title = category ? `${category.charAt(0).toUpperCase() + category.slice(1)} | NewsDose` : 'NewsDose - Daily dose of news for free!' }, [])
 
