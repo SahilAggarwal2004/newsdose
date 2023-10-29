@@ -7,7 +7,7 @@ import { useNewsContext } from '../context/ContextProvider';
 import { useStorage } from '../hooks';
 import Loader from './Loader';
 import NewsItem from './NewsItem'
-import { getStorage } from '../modules/storage';
+import { getStorage, setStorage } from '../modules/storage';
 import { fallbackCount } from '../constants';
 
 function includes({ title, description, source }, substring) {
@@ -24,10 +24,13 @@ export default function News() {
 
     const { data, error, isFetching, hasNextPage, fetchNextPage } = useInfiniteQuery({
         queryKey, enabled: !pending && !saved, placeholderData: getStorage(queryKey),
-        getNextPageParam: ({ nextPage }) => nextPage,
+        getNextPageParam: ({ nextPage }) => nextPage || undefined,
         queryFn: async ({ pageParam = 1 }) => queryFn(queryKey, pageParam)
     })
-    const fullNews = useMemo(() => data?.pages?.flatMap(({ news }) => news || []) || (saved && getStorage('news')) || [], [data, saved])
+    const fullNews = useMemo(() => {
+        if (data && !saved) setStorage(queryKey, data)
+        return data?.pages?.flatMap(({ news }) => news || []) || (saved && getStorage('news')) || []
+    }, [data, saved])
     const news = useMemo(() => query ? fullNews.filter(item => includes(item, query) && item) : fullNews, [fullNews, query])
 
     useEffect(() => { document.title = category ? `${category.charAt(0).toUpperCase() + category.slice(1)} | NewsDose` : 'NewsDose - Daily dose of news for free!' }, [])

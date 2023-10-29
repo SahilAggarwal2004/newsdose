@@ -5,7 +5,7 @@ import { sign } from "jssign";
 import { useState, useContext, useEffect, createContext } from "react";
 import { countries } from "../constants";
 import { useStorage } from "../hooks";
-import { getStorage, setStorage } from "../modules/storage";
+import { getStorage } from "../modules/storage";
 
 axios.defaults.baseURL = process.env.REACT_APP_URL
 
@@ -42,13 +42,11 @@ const ContextProvider = props => {
         })
         if (!success) throw new Error('Something went wrong!')
         setProgress(100)
-        const pageData = { nextPage, news }
-        setStorage(key, { pageParams: [null], pages: [pageData] }, key[0] === 'news')
-        return pageData
+        return { nextPage, news }
     }
 
     function onError(key) {
-        const data = getStorage(key)
+        const data = getStorage(key, undefined, key[0] === 'news')
         if (data) client.setQueryData(key, data)
         setProgress(100)
     }

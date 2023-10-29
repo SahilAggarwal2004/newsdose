@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useLayoutEffect } from 'react'
+import { useLayoutEffect, useMemo } from 'react'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { useNewsContext } from '../context/ContextProvider'
 import { useDebounce, useStorage } from '../hooks'
-import { getStorage } from '../modules/storage'
+import { getStorage, setStorage } from '../modules/storage'
 import Loader from './Loader'
 import NewsItem from './NewsItem'
 import { fallbackCount } from '../constants'
@@ -21,11 +21,14 @@ export default function Search() {
     const queryKey = ['search', country, query, date]
 
     const { data, error, isFetching, hasNextPage, fetchNextPage } = useInfiniteQuery({
-        queryKey, enabled: !pending && query.length >= 3, placeholderData: getStorage(queryKey),
-        getNextPageParam: ({ nextPage }) => nextPage,
+        queryKey, enabled: !pending && query.length >= 3, placeholderData: getStorage(queryKey, undefined, false),
+        getNextPageParam: ({ nextPage }) => nextPage || undefined,
         queryFn: async ({ pageParam = 1 }) => queryFn(queryKey, pageParam, 'search')
     })
-    const news = data?.pages?.flatMap(({ news }) => news) || []
+    const news = useMemo(() => {
+        if (data) setStorage(queryKey, data, false)
+        return data?.pages?.flatMap(({ news }) => news) || []
+    }, [data])
 
     useLayoutEffect(() => { if (error) onError(queryKey) }, [error])
 
