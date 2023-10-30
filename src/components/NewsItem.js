@@ -2,6 +2,7 @@
 import Speech from 'react-text-to-speech';
 import { BsFillInfoSquareFill } from 'react-icons/bs'
 import { FaShareAlt } from 'react-icons/fa'
+import { HiVolumeOff } from 'react-icons/hi'
 import Bookmark from './Bookmark'
 import { useNewsContext } from '../context/ContextProvider'
 import { imageFallback } from '../constants';
@@ -29,7 +30,7 @@ export default function NewsItem(props) {
             <p className="card-text mt-2"><small className="text-muted">Published on {date}</small></p>
             <div className='position-absolute d-flex align-items-center m-1' style={{ bottom: "1rem" }}>
                 <span className="scale me-3 p-1">
-                    <Speech text={`${title}. ${description || ''}`} lang={navigator.language} stopBtn={null} />
+                    <Speech text={`${title}. ${description || ''}`} lang={navigator.language} stopBtn={<HiVolumeOff />} useStopOverPause={true} />
                 </span>
                 <span className="scale me-3 p-1">
                     <Bookmark {...props} />
