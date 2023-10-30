@@ -30,7 +30,7 @@ export default function NewsItem(props) {
             <p className="card-text mt-2"><small className="text-muted">Published on {date}</small></p>
             <div className='position-absolute d-flex align-items-center m-1' style={{ bottom: "1rem" }}>
                 <span className="scale me-3 p-1">
-                    <Speech text={`${title}. ${description || ''}`} lang={navigator.language} stopBtn={<HiVolumeOff style={{ scale: 1.25 }} />} useStopOverPause={true} />
+                    <Speech text={`${title}. ${description || ''}`} lang={navigator.language} stopBtn={<HiVolumeOff size='1.25rem' />} useStopOverPause={true} />
                 </span>
                 <span className="scale me-3 p-1">
                     <Bookmark {...props} />
