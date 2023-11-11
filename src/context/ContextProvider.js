@@ -6,6 +6,7 @@ import { useState, useContext, useEffect, createContext } from "react";
 import { countries } from "../constants";
 import { useStorage } from "../hooks";
 import { getStorage } from "../modules/storage";
+import { getFirstUrl } from "../modules/functions";
 
 axios.defaults.baseURL = process.env.REACT_APP_URL
 
@@ -34,13 +35,17 @@ const ContextProvider = props => {
     async function queryFn(key, page, type = 'fetch') {
         if (type !== 'prefetch') setProgress(33)
         const language = navigator.language.slice(0, 2)
-        let data = { country: key[1], language, page }
-        data = key[0] === 'news' ? { ...data, category: key[2] || 'top' } : { ...data, query: key[2], date: key[3] }
+        const data = { country: key[1], language, page, firstUrl: getFirstUrl(key, page) }
+        if (key[0] === 'news') data.category = key[2] || 'top'
+        else {
+            data.query = key[2]
+            data.date = key[3]
+        }
         const { data: { success, nextPage, news } } = await axios({
             url: type === 'search' ? type : '', method: 'post',
             headers: { datatoken: sign(data, process.env.REACT_APP_SECRET, { expiresIn: 300000 }), 'Content-Type': 'application/json' }
         })
-        if (!success) throw new Error('Something went wrong!')
+        if (!success || nextPage === undefined) throw new Error('Something went wrong!')
         setProgress(100)
         return { nextPage, news }
     }

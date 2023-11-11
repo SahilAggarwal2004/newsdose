@@ -20,10 +20,11 @@ export default function News() {
     const [query, setQuery] = useStorage('query', '', false)
     const category = window.location.pathname?.slice(1) || ''
     const saved = category === 'saved'
-    const queryKey = ['news', country, category]
+    const queryKey = useMemo(() => ['news', country, category], [country, category])
+    const placeholderData = useMemo(() => getStorage(queryKey), [queryKey]) // Avoiding multiple localStorage calls on re-renders as well as we need the old cached data for retry param
 
     const { data, error, isFetching, hasNextPage, fetchNextPage } = useInfiniteQuery({
-        queryKey, enabled: !pending && !saved, placeholderData: getStorage(queryKey),
+        queryKey, enabled: !pending && !saved, placeholderData, retry: placeholderData ? 0 : 1,
         getNextPageParam: ({ nextPage }) => nextPage || undefined,
         queryFn: async ({ pageParam = 1 }) => queryFn(queryKey, pageParam)
     })
