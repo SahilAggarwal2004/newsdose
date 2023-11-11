@@ -18,10 +18,11 @@ export default function Search() {
     const maxDate = now.toLocaleDateString('en-ca');
     now.setMonth(now.getMonth() - 1); // Upto 1 month
     const minDate = now.toLocaleDateString('en-ca');
-    const queryKey = ['search', country, query, date]
+    const queryKey = useMemo(() => ['search', country, query, date], [country, query, date])
+    const placeholderData = useMemo(() => getStorage(queryKey, undefined, false), [queryKey])
 
     const { data, error, isFetching, hasNextPage, fetchNextPage } = useInfiniteQuery({
-        queryKey, enabled: !pending && query.length >= 3, placeholderData: getStorage(queryKey, undefined, false),
+        queryKey, enabled: !pending && query.length >= 3, placeholderData, retry: placeholderData ? 0 : 1,
         getNextPageParam: ({ nextPage }) => nextPage || undefined,
         queryFn: async ({ pageParam = 1 }) => queryFn(queryKey, pageParam, 'search')
     })

@@ -7,6 +7,7 @@ import ReactSelect from 'react-select';
 import LoadingBar from "react-top-loading-bar"
 import { countries, categories, pseudoCategories } from '../constants';
 import { useNewsContext } from '../context/ContextProvider';
+import { getStorage, setStorage } from '../modules/storage';
 
 export default function Navbar() {
     const { country: { method, code }, setCountry, pending, setPending, progress, setProgress, queryFn } = useNewsContext()
@@ -23,13 +24,16 @@ export default function Navbar() {
         else setCountry({ method: '', code: value })
     }
 
-    function prefetch(event) {
+    async function prefetch(event) {
         const category = event.target.pathname?.slice(1) || ''
         const queryKey = ['news', code, category]
-        if (!pseudoCategories.includes(category)) client.prefetchInfiniteQuery({
+        if (getStorage(queryKey, undefined, false)) return;
+        if (!pseudoCategories.includes(category)) await client.prefetchInfiniteQuery({
             queryKey, retry: 0, enabled: !pending,
-            queryFn: async () => await queryFn(queryKey, 1, 'prefetch')
+            queryFn: async () => await queryFn(queryKey, 1, 'prefetch'),
         })
+        setStorage(queryKey, client.getQueryData(queryKey))
+        setStorage(queryKey, true, false)
     }
 
     return <>
