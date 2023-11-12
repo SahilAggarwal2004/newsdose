@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useLayoutEffect, useMemo } from 'react'
+import { useEffect, useLayoutEffect, useMemo } from 'react'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { useNewsContext } from '../context/ContextProvider'
@@ -30,6 +30,8 @@ export default function Search() {
         if (data) setStorage(queryKey, data, false)
         return data?.pages?.flatMap(({ news }) => news) || []
     }, [data])
+
+    useEffect(() => { window.scrollTo(0, 0) }, [country])
 
     useLayoutEffect(() => { if (error) onError(queryKey) }, [error])
 
