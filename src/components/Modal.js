@@ -1,4 +1,4 @@
-import { FacebookIcon, FacebookShareButton, LinkedinIcon, LinkedinShareButton, RedditIcon, RedditShareButton, TelegramIcon, TelegramShareButton, TwitterIcon, TwitterShareButton, WhatsappIcon } from 'react-share';
+import { FacebookIcon, FacebookShareButton, LinkedinIcon, LinkedinShareButton, RedditIcon, RedditShareButton, TelegramIcon, TelegramShareButton, XIcon, TwitterShareButton, WhatsappIcon } from 'react-share';
 import { title } from '../constants';
 import { useNewsContext } from '../context/ContextProvider';
 
@@ -15,23 +15,23 @@ export default function Modal() {
                 </div>
                 <div className="modal-body d-flex flex-column">
                     <div className='m-auto mb-3 text-center'>
-                        <a href={shareWhatsapp} target='_blank' rel='noreferrer' style={{ outline: 'none' }}>
-                            <WhatsappIcon size={40} className="mx-1 p-1" />
+                        <a href={shareWhatsapp} target='_blank' rel='noreferrer'>
+                            <WhatsappIcon size={32} className="mx-2" />
                         </a>
-                        <TelegramShareButton url={shareUrl} title={title} style={{ outline: 'none' }}>
-                            <TelegramIcon size={40} className="mx-1 p-1" />
+                        <TelegramShareButton url={shareUrl} title={title}>
+                            <TelegramIcon size={32} className="mx-2" />
                         </TelegramShareButton>
-                        <LinkedinShareButton url={shareUrl} style={{ outline: 'none' }}>
-                            <LinkedinIcon size={40} className="mx-1 p-1" />
-                        </LinkedinShareButton>
-                        <RedditShareButton url={shareUrl} title={title} style={{ outline: 'none' }}>
-                            <RedditIcon size={40} className="mx-1 p-1" />
+                        <RedditShareButton url={shareUrl} title={title}>
+                            <RedditIcon size={32} className="mx-2" />
                         </RedditShareButton>
-                        <TwitterShareButton url={shareUrl} title={title} style={{ outline: 'none' }}>
-                            <TwitterIcon size={40} className="mx-1 p-1" />
+                        <LinkedinShareButton url={shareUrl}>
+                            <LinkedinIcon size={32} className="mx-2" />
+                        </LinkedinShareButton>
+                        <TwitterShareButton url={shareUrl} title={title}>
+                            <XIcon size={32} className="mx-2" />
                         </TwitterShareButton>
-                        <FacebookShareButton url={shareUrl} quote={title} style={{ outline: 'none' }}>
-                            <FacebookIcon size={40} className="mx-1 p-1" />
+                        <FacebookShareButton url={shareUrl}>
+                            <FacebookIcon size={32} className="mx-2" />
                         </FacebookShareButton>
                     </div>
                     <button type="button" className="btn btn-dark px-2 py-1 align-self-end" data-bs-dismiss="modal">Close</button>
