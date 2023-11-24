@@ -29,7 +29,7 @@ export default function RootLayout({ Component, pageProps }) {
             <meta name="viewport" content="width=device-width, initial-scale=1" />
             <meta name="theme-color" content="#000000" />
             <meta name="keywords"
-                content="news, dose, newsdose, newsdoseweb, web, platform, quick, quick news, daily new, daily news, daily dose, news bites, free, netlify, reactjs, online, online platform, home, about, general, top, world, business, entertainment, environment, health, politics, science, sports, sports news, technology, access, anywhere, anytime, fast, independent, web app, world, provides" />
+                content="news, dose, newsdose, newsdoseweb, web, platform, quick, quick news, daily new, daily news, daily dose, news bites, free, vercel, reactjs, online, online platform, home, about, general, top, world, business, entertainment, environment, health, politics, science, sports, sports news, technology, access, anywhere, anytime, fast, independent, web app, world, provides" />
             <meta name="description"
                 content="NewsDose is an online platform which provides quick daily news bites for free. Interested in weather, politics, sports news, etc? NewsDose is here for you!" />
             <link rel="manifest" href="/manifest.json" />

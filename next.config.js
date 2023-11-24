@@ -1,15 +1,17 @@
 /** @type {import('next').NextConfig} */
 
+const revision = `${Date.now()}`
 const pages = ['/', '/search', '/saved']
 const images = ['/news/0.webp', '/news/1.webp', '/news/2.webp', '/news/3.webp', '/news/4.webp', '/news/5.webp', '/news/6.webp', '/news/7.webp', '/news/8.webp', '/news/9.webp']
-const revision = `${Date.now()}`
+const categories = ["world", "business", "entertainment", "health", "politics", "science", "sports", "technology"].map(category => ({ url: `/?category=${category}`, revision }))
+const additionalManifestEntries = pages.concat(images).map(url => ({ url, revision })).concat(categories)
 
 const withPWA = require('@ducanh2912/next-pwa').default({
   dest: 'public',
   disable: process.env.NODE_ENV === 'development',
   cacheStartUrl: false,
   workboxOptions: {
-    additionalManifestEntries: pages.concat(images).map(url => ({ url, revision })),
+    additionalManifestEntries,
     offlineGoogleAnalytics: true,
     runtimeCaching: [
       {
