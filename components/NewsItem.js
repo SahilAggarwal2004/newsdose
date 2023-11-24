@@ -1,5 +1,4 @@
 /* eslint-disable @next/next/no-img-element */
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import Speech from 'react-text-to-speech';
 import { BsFillInfoSquareFill } from 'react-icons/bs'
 import { FaShareAlt } from 'react-icons/fa'
@@ -14,7 +13,7 @@ export default function NewsItem(props) {
     const date = dateFormat === 'UTC' ? new Date(publishedAt).toUTCString() : new Date(publishedAt).toLocaleString()
     const connectionSpeed = navigator.connection?.effectiveType
     const backupImg = imageFallback[index]
-    const imgUrl = urlToImage?.match(/http/g)?.length !== 1 ? backupImg : `https://images.weserv.nl/?url=${urlToImage}&width=450&height=300&maxage=1d&output=webp&q=${connectionSpeed?.includes('2') ? 5 : connectionSpeed?.includes('3') ? 10 : 25}`
+    const imgUrl = urlToImage?.match(/http/g)?.length !== 1 ? backupImg : `https://wsrv.nl/?url=${urlToImage}&width=450&height=300&maxage=1d&output=webp&q=${connectionSpeed?.includes('2') ? 5 : connectionSpeed?.includes('3') ? 10 : 25}`
 
     return <div className="card mt-4 mb-3 w-100" style={{ paddingBottom: "2rem" }}>
         <span className="position-absolute text-capitalize top-0 start-50 translate-middle badge rounded-pill bg-danger border">{source}</span>
