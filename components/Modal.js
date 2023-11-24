@@ -1,11 +1,9 @@
 import { FacebookIcon, FacebookShareButton, LinkedinIcon, LinkedinShareButton, RedditIcon, RedditShareButton, TelegramIcon, TelegramShareButton, XIcon, TwitterShareButton, WhatsappIcon } from 'react-share';
 import { title } from '../constants';
-import { useNewsContext } from '../context/ContextProvider';
+import { useNewsContext } from '../contexts/ContextProvider';
 
 export default function Modal() {
     const { shareUrl } = useNewsContext()
-    const share = `${shareUrl}%0a%0a${title}`
-    const shareWhatsapp = `whatsapp://send?text=${share}`
 
     return <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div className="modal-dialog modal-dialog-centered">
@@ -15,7 +13,7 @@ export default function Modal() {
                 </div>
                 <div className="modal-body d-flex flex-column">
                     <div className='m-auto mb-3 text-center'>
-                        <a href={shareWhatsapp} target='_blank' rel='noreferrer'>
+                        <a href={`whatsapp://send?text=${shareUrl}%0a%0a${title}`} target='_blank' rel='noreferrer'>
                             <WhatsappIcon size={32} className="mx-2" />
                         </a>
                         <TelegramShareButton url={shareUrl} title={title}>

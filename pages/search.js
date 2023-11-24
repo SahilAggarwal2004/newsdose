@@ -2,12 +2,13 @@
 import { useEffect, useLayoutEffect, useMemo } from 'react'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import InfiniteScroll from 'react-infinite-scroll-component'
-import { useNewsContext } from '../context/ContextProvider'
-import { useDebounce, useStorage } from '../hooks'
+import { useNewsContext } from '../contexts/ContextProvider'
 import { getStorage, setStorage } from '../modules/storage'
-import Loader from './Loader'
-import NewsItem from './NewsItem'
+import Loader from '../components/Loader'
+import NewsItem from '../components/NewsItem'
 import { fallbackCount } from '../constants'
+import useStorage from '../hooks/useStorage'
+import useDebounce from '../hooks/useDebounce'
 
 export default function Search() {
     const { country: { code: country }, pending, queryFn, onError } = useNewsContext()

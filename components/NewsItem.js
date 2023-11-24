@@ -1,10 +1,11 @@
+/* eslint-disable @next/next/no-img-element */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import Speech from 'react-text-to-speech';
 import { BsFillInfoSquareFill } from 'react-icons/bs'
 import { FaShareAlt } from 'react-icons/fa'
 import { HiVolumeOff } from 'react-icons/hi'
 import Bookmark from './Bookmark'
-import { useNewsContext } from '../context/ContextProvider'
+import { useNewsContext } from '../contexts/ContextProvider'
 import { imageFallback } from '../constants';
 
 export default function NewsItem(props) {

@@ -34,15 +34,15 @@
   "start_url": "/",
   "shortcuts": [
     {
-      "name": "Headlines",
+      "name": "Top Headlines",
       "url": "/"
     },
     {
-      "name": "Search news",
+      "name": "Search News",
       "url": "/search"
     },
     {
-      "name": "Saved news",
+      "name": "Saved News",
       "url": "/saved"
     }
   ],
