@@ -7,7 +7,6 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import ContextProvider from '../contexts/ContextProvider';
 import Navbar from '../components/Navbar';
 import Modal from '../components/Modal';
-import Loader from '../components/Loader';
 import { hideNavbar } from '../constants';
 import '../styles/globals.css'
 
@@ -106,7 +105,7 @@ export default function RootLayout({ Component, pageProps }) {
 
         <QueryClientProvider client={client}>
             <ContextProvider>
-                {loading || !router.isReady ? <Loader /> : <>
+                {!loading && router.isReady && <>
                     {!hideNavbar.includes(router.pathname) && <Navbar />}
                     <Modal />
                     <Component {...pageProps} />
