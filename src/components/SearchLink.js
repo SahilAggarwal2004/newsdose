@@ -3,13 +3,15 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 
+const objectify = search => Object.fromEntries(new URLSearchParams(search).entries())
+
 export default function SearchLink({ children, href, search, preserve = ['query', 'date'], ...props }) {
     const searchParams = useSearchParams()
     const paramString = searchParams.toString()
     const query = useMemo(() => {
-        if (search && typeof search === 'string') search = Object.fromEntries(new URLSearchParams(search).entries())
+        if (search && typeof search === 'string') search = objectify(search)
         if (preserve) {
-            var paramObj = Object.fromEntries(new URLSearchParams(paramString).entries())
+            var paramObj = objectify(paramString)
             if (Array.isArray(preserve)) {
                 const filtered = Object.keys(paramObj).filter(key => preserve.includes(key)).reduce((obj, key) => {
                     obj[key] = paramObj[key];
