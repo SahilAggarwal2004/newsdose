@@ -7,7 +7,7 @@ export default function SearchLink({ children, href, search, preserve = ['query'
     const searchParams = useSearchParams()
     const paramString = searchParams.toString()
     const query = useMemo(() => {
-        if (search) var searchObj = Object.fromEntries(new URLSearchParams(search).entries())
+        if (search && typeof search === 'string') search = Object.fromEntries(new URLSearchParams(search).entries())
         if (preserve) {
             var paramObj = Object.fromEntries(new URLSearchParams(paramString).entries())
             if (Array.isArray(preserve)) {
@@ -18,7 +18,7 @@ export default function SearchLink({ children, href, search, preserve = ['query'
                 paramObj = filtered
             }
         }
-        return { ...paramObj, ...searchObj }
+        return { ...paramObj, ...search }
     }, [paramString])
 
     return <Link {...props} href={{ pathname: href, query }}>{children}</Link>

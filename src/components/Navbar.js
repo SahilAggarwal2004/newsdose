@@ -48,7 +48,7 @@ export default function Navbar() {
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav d-grid d-lg-flex me-auto mt-2 mb-2 mt-lg-0 mb-lg-0">
                         {categories.map(category => <li className='nav-item text-center' key={category}>
-                            <SearchLink href='/' search={category && `category=${category}`} className="nav-link d-inline-block px-1" aria-current="page" onMouseEnter={prefetch}>
+                            <SearchLink href='/' search={category && { category }} className="nav-link d-inline-block px-1" aria-current="page" onMouseEnter={prefetch}>
                                 <button className='btn shadow-none nav-link p-0 text-capitalize' data-bs-toggle='collapse' data-bs-target={width <= 991 && "#navbarSupportedContent"}>{category || "Home"}</button>
                             </SearchLink>
                         </li>)}
