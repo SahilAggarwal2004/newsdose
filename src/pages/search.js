@@ -7,13 +7,13 @@ import { getStorage, setStorage } from '../modules/storage'
 import Loader from '../components/Loader'
 import NewsItem from '../components/NewsItem'
 import { fallbackCount } from '../constants'
-import useStorage from '../hooks/useStorage'
 import useDebounce from '../hooks/useDebounce'
+import useURLState from '../hooks/useURLState'
 
 export default function Search() {
     const { country: { code: country }, pending, queryFn, onError } = useNewsContext()
-    const [search, setSearch] = useStorage('query', '', false)
-    const [date, setDate] = useStorage('date', '', false)
+    const [search, setSearch] = useURLState('query', '')
+    const [date, setDate] = useURLState('date', '')
     const query = useDebounce(search)
     const now = new Date();
     const maxDate = now.toLocaleDateString('en-ca');

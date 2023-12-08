@@ -2,19 +2,19 @@
 import { useEffect, useLayoutEffect, useMemo } from 'react'
 import { useInfiniteQuery } from '@tanstack/react-query';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import Link from 'next/link';
 import { useNewsContext } from '../contexts/ContextProvider';
-import useStorage from '../hooks/useStorage';
 import Loader from '../components/Loader';
 import NewsItem from '../components/NewsItem'
 import { getStorage, setStorage } from '../modules/storage';
 import { categories, fallbackCount } from '../constants';
 import { includes } from '../modules/functions';
 import Head from 'next/head';
+import useURLState from '../hooks/useURLState';
+import SearchLink from '../components/SearchLink';
 
 export default function News({ router }) {
     const { country: { code: country }, pending, queryFn, onError } = useNewsContext()
-    const [query, setQuery] = useStorage('query', '', false)
+    const [query, setQuery] = useURLState('query', '')
     const category = useMemo(() => categories.includes(router.query.category) ? router.query.category : '', [router.query])
     const queryKey = useMemo(() => ['news', country, category], [country, category])
     const placeholderData = useMemo(() => getStorage(queryKey), [queryKey]) // Avoiding multiple localStorage calls on re-renders as well as we need only old cached data for retry param
@@ -47,7 +47,7 @@ export default function News({ router }) {
                     <NewsItem index={i % fallbackCount} {...item} />
                 </div>) : query ? <div className="text-center">
                     <div className='mb-2'>Seems like there is no news related to <strong>{query}</strong>...</div>
-                    <Link href='/search' className='text-decoration-none'>Try advanced search</Link>
+                    <SearchLink href='/search' className='text-decoration-none'>Try advanced search</SearchLink>
                 </div> : error ? <div className="text-center">{error.response?.data?.error || 'Unable to fetch news! Try again later...'}</div> : <Loader />}
             </InfiniteScroll>
         </div>

@@ -1,14 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useMemo } from 'react'
 import Head from 'next/head';
-import useStorage from '../hooks/useStorage';
 import NewsItem from '../components/NewsItem'
 import { getStorage } from '../modules/storage';
 import { fallbackCount } from '../constants';
 import { includes } from '../modules/functions';
+import useURLState from '../hooks/useURLState';
 
 export default function News() {
-    const [query, setQuery] = useStorage('query', '', false)
+    const [query, setQuery] = useURLState('query', '')
     const fullNews = getStorage('news', [])
     const news = useMemo(() => query ? fullNews.filter(item => includes(item, query) && item) : fullNews, [query])
 
