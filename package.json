@@ -9,9 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@serwist/next": "^8.0.2",
-    "@serwist/sw": "^8.0.2",
-    "@tanstack/react-query": "^5.12.2",
+    "@serwist/next": "^8.0.4",
+    "@serwist/sw": "^8.0.4",
+    "@tanstack/react-query": "^5.14.0",
     "axios": "^1.6.2",
     "jssign": "^0.2.5",
     "next": "^14.0.4",
@@ -26,7 +26,7 @@
   },
   "devDependencies": {
     "@builder.io/partytown": "^0.8.1",
-    "eslint": "^8.55.0",
+    "eslint": "^8.56.0",
     "eslint-config-next": "^14.0.4"
   }
 }

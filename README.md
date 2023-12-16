@@ -1,9 +1,4 @@
-This project is made while following the react course of Code With Harry. But personally, I made some changes which are as follows:
-a) I added a country option which shows the news of selected country, unlike the course project which was showin news of India only.
-b) I added a search bar which searches for a particular term entered by the user inside the news.
-c) For adding the horizontal loading bar at the top, Harry used a npm module but I wrote my own logic for that.
-d) For infinite scroll till the news ends, Harry used another npm module but I wrote my own logic there also.
+# NewsDose - Daily dose of news for free!
+NewsDose is your go-to platform for staying informed with quick, daily news bites—all at no cost to you. Whether your interests lie in weather forecasts, political developments, sports highlights, or a range of other topics, NewsDose has a diverse array of news from 13 different countries. With coverage spanning 9 distinct categories, you can easily navigate and explore the latest updates that matter most to you. Stay in the loop and broaden your perspective with the comprehensive and accessible news coverage provided by NewsDose!
 
-The points mentioned above justify that I create unique things from what I learn instead of copy pasting.
-
-Don't forget to checkout more of my projects on github :)
+This project was inspired from a React Tutorial with many features added additionally.
