@@ -9,6 +9,19 @@ installSerwist({
     precacheOptions: { ignoreURLParametersMatching: [/.*/] },
     runtimeCaching: [
         {
+            urlPattern: ({ request }) => request.destination === 'document',
+            handler: 'NetworkOnly',
+            options: {
+                cacheName: 'fallback-documents',
+                plugins: [{
+                    handlerDidError: async () => {
+                        const fallbackResponse = await caches.match('/_offline', { ignoreSearch: true });
+                        return fallbackResponse || Response.error();
+                    }
+                }]
+            }
+        },
+        {
             urlPattern: /\.(?:eot|otf|ttc|ttf|woff|woff2|font.css)$/i,
             handler: 'CacheFirst',
             options: { cacheName: 'static-font-assets' }
