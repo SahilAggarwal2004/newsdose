@@ -34,8 +34,11 @@ export default function Navbar() {
             queryKey, retry: 0, enabled: !pending,
             queryFn: async ({ queryKey }) => await queryFn({ queryKey, type: 'prefetch' }),
         })
-        setStorage(queryKey, client.getQueryData(queryKey))
-        setStorage(queryKey, true, false)
+        const data = client.getQueryData(queryKey)
+        if (data) {
+            setStorage(queryKey, data)
+            setStorage(queryKey, true, false)
+        }
     }
 
     return <>
