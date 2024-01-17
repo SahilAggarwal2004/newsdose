@@ -49,7 +49,7 @@ export default function ContextProvider({ children }) {
         if (!token || Date.now() > expiry) [token] = setStorage('token', await newToken())
         const { data: { success, nextPage, news } } = await axios({
             url: type === 'search' ? type : '', method: 'post', data,
-            headers: { token: '1', 'Content-Type': 'application/json' }
+            headers: { token, 'Content-Type': 'application/json' }
         })
         if (!success || nextPage === undefined) throw new Error()
         setProgress(100)
