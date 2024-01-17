@@ -37,9 +37,9 @@ export default function ContextProvider({ children }) {
         })
     }, [pending])
 
-    async function queryFn({ queryKey, pageParam = 1, type = 'prefetch' }) {
+    async function queryFn({ queryKey, page = 1, type = 'prefetch' }) {
         if (type !== 'prefetch') setProgress(33)
-        const data = { country: queryKey[1], language: navigator.language.slice(0, 2), pageParam, firstUrl: getFirstUrl(queryKey, pageParam) }
+        const data = { country: queryKey[1], language: navigator.language.slice(0, 2), page, firstUrl: getFirstUrl(queryKey, page) }
         if (queryKey[0] === 'news') data.category = queryKey[2] || 'top'
         else {
             data.query = queryKey[2]

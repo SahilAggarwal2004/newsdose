@@ -13,7 +13,7 @@ export default function useCustomInfiniteQuery({ queryKey, query }) {
     const { data, error, isFetching, hasNextPage, fetchNextPage } = useInfiniteQuery({
         queryKey, enabled: !pending && (type === 'news' || query.length >= 3), placeholderData, retry: placeholderData ? 0 : 1,
         getNextPageParam: ({ nextPage }) => nextPage || undefined,
-        queryFn: async ({ pageParam }) => queryFn({ queryKey, pageParam, type })
+        queryFn: async ({ pageParam }) => queryFn({ queryKey, page: pageParam, type })
     })
     const fullNews = useMemo(() => {
         if (data) setStorage(queryKey, data, type === 'news')
