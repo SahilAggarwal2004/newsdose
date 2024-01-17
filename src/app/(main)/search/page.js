@@ -39,7 +39,7 @@ export default function Search() {
                 Enter query to search for news...
             </div> : query.length < 3 ? <div className="text-center">
                 Please search for at least 3 characters!
-            </div> : isFetching ? <Loader /> : <div className="text-center">{error?.response?.data?.error || 'Unable to search news! Try again later...'}</div>}
+            </div> : error ? <div className="text-center">{error.response?.data?.error || 'Unable to search news! Try again later...'}</div> : <Loader />}
         </InfiniteScroll>
     </div>
 }

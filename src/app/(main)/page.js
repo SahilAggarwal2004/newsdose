@@ -35,7 +35,7 @@ export default function News() {
                 </div>) : query ? <div className="text-center">
                     <div className='mb-2'>Seems like there is no news related to <strong>{query}</strong>...</div>
                     <SearchLink href='/search' className='text-decoration-none'>Try advanced search</SearchLink>
-                </div> : isFetching ? <Loader /> : <div className="text-center">{error?.response?.data?.error || 'Unable to fetch news! Try again later...'}</div>}
+                </div> : error ? <div className="text-center">{error.response?.data?.error || 'Unable to fetch news! Try again later...'}</div> : <Loader />}
             </InfiniteScroll>
         </div>
     </>
