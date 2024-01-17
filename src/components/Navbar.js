@@ -1,13 +1,15 @@
+"use client"
+
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useMemo, useState } from 'react'
 import { FaSearch } from 'react-icons/fa';
 import ReactSelect from 'react-select';
 import LoadingBar from "react-top-loading-bar"
-import { countries as importedCountries, categories, pseudoCategories } from '../constants';
-import { useNewsContext } from '../contexts/ContextProvider';
-import { getStorage, setStorage } from '../modules/storage';
-import SearchLink from './SearchLink';
+import { countries as importedCountries, categories, pseudoCategories } from '@/constants';
+import { useNewsContext } from '@/contexts/ContextProvider';
+import { getStorage, setStorage } from '@/modules/storage';
+import SearchLink from '@/components/SearchLink';
 
 export default function Navbar() {
     const { country: { method, code }, setCountry, pending, setPending, progress, setProgress, queryFn } = useNewsContext()
@@ -30,7 +32,7 @@ export default function Navbar() {
         if (getStorage(queryKey, undefined, false)) return;
         await client.prefetchInfiniteQuery({
             queryKey, retry: 0, enabled: !pending,
-            queryFn: async () => await queryFn(queryKey, 1, 'prefetch'),
+            queryFn: async ({ queryKey }) => await queryFn({ queryKey, type: 'prefetch' }),
         })
         setStorage(queryKey, client.getQueryData(queryKey))
         setStorage(queryKey, true, false)

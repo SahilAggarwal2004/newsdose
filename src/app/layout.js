@@ -1,27 +1,8 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { useRouter } from 'next/router';
-import Head from 'next/head';
-import Script from 'next/script';
-import { useEffect, useState } from 'react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import ContextProvider from '../contexts/ContextProvider';
-import Navbar from '../components/Navbar';
-import Modal from '../components/Modal';
-import { hideNavbar } from '../constants';
-import '../styles/globals.css'
+import Script from "next/script"
 
-const api = process.env.NEXT_PUBLIC_API
-const client = new QueryClient({ defaultOptions: { queries: { staleTime: 600000 } } })
-
-export default function RootLayout({ Component, pageProps }) {
-    const router = useRouter()
-    const [loading, setLoading] = useState(true)
-    pageProps.router = router;
-
-    useEffect(() => { setLoading(false) }, []);
-
-    return <>
-        <Head>
+export default function RootLayout({ children }) {
+    return <html lang="en">
+        <head>
             <meta charSet="utf-8" />
             <title>NewsDose - Daily dose of news for free!</title>
             <link rel="icon" href="/favicon.ico" />
@@ -33,7 +14,7 @@ export default function RootLayout({ Component, pageProps }) {
                 content="NewsDose is an online platform which provides quick daily news bites for free. Interested in weather, politics, sports news, etc? NewsDose is here for you!" />
             <link rel="manifest" href="/manifest.json" />
 
-            <link rel='preconnect' href={api} />
+            <link rel='preconnect' href={process.env.NEXT_PUBLIC_API} />
 
             <link rel="apple-touch-icon" href="icons/apple-icon-180.png" />
             <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -89,9 +70,9 @@ export default function RootLayout({ Component, pageProps }) {
                 media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" />
             <link rel="apple-touch-startup-image" href="icons/apple-splash-1136-640.jpg"
                 media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" />
-        </Head>
 
-        <Script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossOrigin="anonymous" strategy='lazyOnload' />
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossOrigin="anonymous" />
+        </head>
 
         {/* Global site tag (gtag.js) - Google Analytics */}
         <Script src="https://www.googletagmanager.com/gtag/js?id=G-6WZPD076ZK" strategy='worker' />
@@ -103,14 +84,6 @@ export default function RootLayout({ Component, pageProps }) {
                 gtag('config', 'G-6WZPD076ZK');`}
         </Script>
 
-        <QueryClientProvider client={client}>
-            <ContextProvider>
-                {!loading && router.isReady && <>
-                    {!hideNavbar.includes(router.pathname) && <Navbar />}
-                    <Modal />
-                    <Component {...pageProps} />
-                </>}
-            </ContextProvider>
-        </QueryClientProvider>
-    </>
+        <body>{children}</body>
+    </html>
 }

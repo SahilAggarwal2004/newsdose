@@ -1,8 +1,8 @@
-import { useRouter } from "next/router"
-import { useSearchParams } from "next/navigation"
+import { useRouter, usePathname, useSearchParams } from "next/navigation"
 
 export default function useURLState(param, defaultValue) {
     const router = useRouter()
+    const pathname = usePathname()
     const searchParams = useSearchParams()
     const value = searchParams.get(param) || defaultValue
 
@@ -10,7 +10,7 @@ export default function useURLState(param, defaultValue) {
         const newParams = new URLSearchParams(searchParams.toString())
         if (value) newParams.set(param, value)
         else newParams.delete(param)
-        const url = router.pathname + '?' + newParams.toString()
+        const url = pathname + '?' + newParams.toString()
         router.replace(url)
     }
 

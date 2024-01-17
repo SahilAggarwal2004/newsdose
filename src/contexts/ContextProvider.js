@@ -1,24 +1,29 @@
+"use client"
+
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import { sign } from "jssign";
 import { useState, useContext, useEffect, createContext } from "react";
-import { countries } from "../constants";
-import useStorage from "../hooks/useStorage";
-import { getStorage } from "../modules/storage";
-import { getFirstUrl } from "../modules/functions";
+import { countries } from "@/constants";
+import useStorage from "@/hooks/useStorage";
+import { getStorage, setStorage } from "@/modules/storage";
+import { getFirstUrl } from "@/modules/functions";
+import { genToken } from "@/modules/token";
 
 axios.defaults.baseURL = process.env.NEXT_PUBLIC_URL
 
 const Context = createContext()
 export const useNewsContext = () => useContext(Context);
 
-const ContextProvider = props => {
+export default function ContextProvider({ children }) {
     const client = useQueryClient();
     const [country, setCountry] = useStorage('country', { method: 'auto', code: '' })
+    const [loading, setLoading] = useState(true)
     const [pending, setPending] = useState(country.method === 'auto')
     const [progress, setProgress] = useState(0)
     const [shareUrl, setShareUrl] = useState(null)
+
+    useEffect(() => { setLoading(false) }, [])
 
     useEffect(() => {
         if (!pending) return
@@ -32,33 +37,32 @@ const ContextProvider = props => {
         })
     }, [pending])
 
-    async function queryFn(key, page, type = 'fetch') {
+    async function queryFn({ queryKey, pageParam = 1, type = 'fetch' }) {
         if (type !== 'prefetch') setProgress(33)
-        const language = navigator.language.slice(0, 2)
-        const data = { country: key[1], language, page, firstUrl: getFirstUrl(key, page) }
-        if (key[0] === 'news') data.category = key[2] || 'top'
+        const data = { country: queryKey[1], language: navigator.language.slice(0, 2), pageParam, firstUrl: getFirstUrl(queryKey, pageParam) }
+        if (queryKey[0] === 'news') data.category = queryKey[2] || 'top'
         else {
-            data.query = key[2]
-            data.date = key[3]
+            data.query = queryKey[2]
+            data.date = queryKey[3]
         }
+        let [datatoken, expiry] = getStorage('token', [])
+        if (!datatoken || Date.now() > expiry) [datatoken] = setStorage('token', await genToken(data))
         const { data: { success, nextPage, news } } = await axios({
             url: type === 'search' ? type : '', method: 'post',
-            headers: { datatoken: sign(data, process.env.NEXT_PUBLIC_SECRET, { expiresIn: 300000 }), 'Content-Type': 'application/json' }
+            headers: { datatoken, 'Content-Type': 'application/json' }
         })
-        if (!success || nextPage === undefined) throw new Error('Something went wrong!')
+        if (!success || nextPage === undefined) throw new Error()
         setProgress(100)
         return { nextPage, news }
     }
 
-    function onError(key) {
-        const data = getStorage(key, undefined, key[0] === 'news')
-        if (data) client.setQueryData(key, data)
+    function onError(queryKey) {
+        const data = getStorage(queryKey, undefined, queryKey[0] === 'news')
+        if (data) client.setQueryData(queryKey, data)
         setProgress(100)
     }
 
-    return <Context.Provider value={{ country, setCountry, pending, setPending, progress, setProgress, shareUrl, setShareUrl, queryFn, onError }}>
-        {props.children}
+    return !loading && <Context.Provider value={{ country, setCountry, pending, setPending, progress, setProgress, shareUrl, setShareUrl, queryFn, onError }}>
+        {children}
     </Context.Provider>
 }
-
-export default ContextProvider;

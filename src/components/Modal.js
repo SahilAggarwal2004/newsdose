@@ -1,6 +1,8 @@
+"use client"
+
 import { FacebookIcon, FacebookShareButton, LinkedinIcon, LinkedinShareButton, RedditIcon, RedditShareButton, TelegramIcon, TelegramShareButton, XIcon, TwitterShareButton, WhatsappIcon } from 'react-share';
-import { title } from '../constants';
-import { useNewsContext } from '../contexts/ContextProvider';
+import { title } from '@/constants';
+import { useNewsContext } from '@/contexts/ContextProvider';
 
 export default function Modal() {
     const { shareUrl } = useNewsContext()

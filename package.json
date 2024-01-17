@@ -9,15 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@serwist/next": "^8.4.0",
-    "@serwist/sw": "^8.4.0",
-    "@tanstack/react-query": "^5.17.9",
+    "@serwist/next": "^8.4.3",
+    "@serwist/sw": "^8.4.3",
+    "@tanstack/react-query": "^5.17.15",
     "axios": "^1.6.5",
     "jssign": "^0.2.6",
     "next": "^14.0.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-icons": "^4.12.0",
+    "react-icons": "^5.0.1",
     "react-infinite-scroll-component": "^6.1.0",
     "react-select": "^5.8.0",
     "react-share": "^5.0.3",
@@ -25,7 +25,7 @@
     "react-top-loading-bar": "^2.3.1"
   },
   "devDependencies": {
-    "@builder.io/partytown": "^0.8.1",
+    "@builder.io/partytown": "^0.8.2",
     "eslint": "^8.56.0",
     "eslint-config-next": "^14.0.4"
   }

@@ -1,4 +1,4 @@
-import { getStorage } from "./storage"
+import { getStorage } from "@/modules/storage"
 
 export function getFirstUrl(key, page) {
     const data = getStorage(key, undefined, key[0] === 'news')

@@ -6,8 +6,7 @@ import { useMemo } from "react";
 const objectify = search => Object.fromEntries(new URLSearchParams(search).entries())
 
 export default function SearchLink({ children, href, search, preserve = ['query', 'date'], ...props }) {
-    const searchParams = useSearchParams()
-    const paramString = searchParams.toString()
+    const paramString = useSearchParams().toString()
     const query = useMemo(() => {
         if (search && typeof search === 'string') search = objectify(search)
         if (preserve) {
@@ -23,5 +22,5 @@ export default function SearchLink({ children, href, search, preserve = ['query'
         return { ...paramObj, ...search }
     }, [paramString])
 
-    return <Link {...props} href={{ pathname: href, query }}>{children}</Link>
+    return <Link {...props} href={{ pathname: href, query }} prefetch={false}>{children}</Link>
 }

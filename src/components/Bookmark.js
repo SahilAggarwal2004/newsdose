@@ -2,7 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react'
 import { FaBookmark, FaRegBookmark } from 'react-icons/fa';
-import { getStorage, setStorage } from '../modules/storage';
+import { getStorage, setStorage } from '@/modules/storage';
 
 export default function Bookmark({ title, description, urlToImage, url, publishedAt, source }) {
     const [bookmark, setBookmark] = useState(<FaRegBookmark />)

@@ -3,9 +3,9 @@ import Speech from 'react-text-to-speech';
 import { BsFillInfoSquareFill } from 'react-icons/bs'
 import { FaShareAlt } from 'react-icons/fa'
 import { HiVolumeOff } from 'react-icons/hi'
-import Bookmark from './Bookmark'
-import { useNewsContext } from '../contexts/ContextProvider'
-import { imageFallback } from '../constants';
+import Bookmark from '@/components/Bookmark'
+import { useNewsContext } from '@/contexts/ContextProvider'
+import { imageFallback } from '@/constants';
 
 export default function NewsItem(props) {
     const { title, description, urlToImage, url, publishedAt, source, dateFormat, index } = props

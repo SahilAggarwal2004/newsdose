@@ -9,7 +9,7 @@ installSerwist({
     offlineAnalyticsConfig: true,
     precacheEntries: self.__SW_MANIFEST,
     precacheOptions: { ignoreURLParametersMatching: [/.*/] },
-    fallbacks: { entries: [{ url: '/_offline', revision: `${Date.now()}`, matcher }] },
+    fallbacks: { entries: [{ url: '/~offline', revision: `${Date.now()}`, matcher }] },
     runtimeCaching: [
         {
             urlPattern: matcher,
@@ -76,6 +76,15 @@ installSerwist({
             urlPattern: () => true,
             handler: 'NetworkOnly',
             options: { cacheName: 'others' }
+        },
+        {
+            urlPattern: ({ sameOrigin }) => sameOrigin,
+            method: 'POST',
+            handler: 'NetworkOnly',
+            options: {
+                cacheName: 'server-action',
+                plugins: [{ handlerDidError: () => new Response() }]
+            }
         }
     ]
 });

@@ -1,14 +1,16 @@
+"use client"
+
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useLayoutEffect, useMemo } from 'react'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import InfiniteScroll from 'react-infinite-scroll-component'
-import { useNewsContext } from '../contexts/ContextProvider'
-import { getStorage, setStorage } from '../modules/storage'
-import Loader from '../components/Loader'
-import NewsItem from '../components/NewsItem'
-import { fallbackCount } from '../constants'
-import useDebounce from '../hooks/useDebounce'
-import useURLState from '../hooks/useURLState'
+import { useNewsContext } from '@/contexts/ContextProvider'
+import { getStorage, setStorage } from '@/modules/storage'
+import Loader from '@/components/Loader'
+import NewsItem from '@/components/NewsItem'
+import { fallbackCount } from '@/constants'
+import useDebounce from '@/hooks/useDebounce'
+import useURLState from '@/hooks/useURLState'
 
 export default function Search() {
     const { country: { code: country }, pending, queryFn, onError } = useNewsContext()
@@ -22,10 +24,10 @@ export default function Search() {
     const queryKey = useMemo(() => ['search', country, query, date], [country, query, date])
     const placeholderData = useMemo(() => getStorage(queryKey, undefined, false), [queryKey])
 
-    const { data, error, isFetching, hasNextPage, fetchNextPage } = useInfiniteQuery({
+    const { data, error, isFetching, isFetched, hasNextPage, fetchNextPage } = useInfiniteQuery({
         queryKey, enabled: !pending && query.length >= 3, placeholderData, retry: placeholderData ? 0 : 1,
         getNextPageParam: ({ nextPage }) => nextPage || undefined,
-        queryFn: async ({ pageParam = 1 }) => queryFn(queryKey, pageParam, 'search')
+        queryFn: async ({ queryKey, pageParam }) => queryFn({ queryKey, pageParam, type: 'search' })
     })
     const news = useMemo(() => {
         if (data) setStorage(queryKey, data, false)
@@ -34,7 +36,7 @@ export default function Search() {
 
     useEffect(() => { window.scrollTo(0, 0) }, [country])
 
-    useLayoutEffect(() => { if (error) onError(queryKey) }, [error])
+    useLayoutEffect(() => { if (isFetched && !data) onError(queryKey) }, [isFetched])
 
     return <div style={{ marginTop: "70px" }}>
         <div className='container-fluid d-sm-flex justify-content-center pt-1'>
@@ -52,7 +54,7 @@ export default function Search() {
                 Enter query to search for news...
             </div> : query.length < 3 ? <div className="text-center">
                 Please search for at least 3 characters!
-            </div> : error ? <div className="text-center">{error.response?.data?.error || 'Unable to search news! Try again later...'}</div> : <Loader />}
+            </div> : isFetching ? <Loader /> : <div className="text-center">{error?.response?.data?.error || 'Unable to search news! Try again later...'}</div>}
         </InfiniteScroll>
     </div>
 }
