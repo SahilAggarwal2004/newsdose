@@ -30,10 +30,7 @@ export default function Navbar() {
     async function prefetch(category) {
         const queryKey = ['news', code, category]
         if (getStorage(queryKey, undefined, false)) return;
-        await client.prefetchInfiniteQuery({
-            queryKey, retry: 0, enabled: !pending,
-            queryFn: async ({ queryKey }) => await queryFn({ queryKey, type: 'prefetch' }),
-        })
+        await client.prefetchInfiniteQuery({ queryKey, retry: 0, enabled: !pending, queryFn })
         const data = client.getQueryData(queryKey)
         if (data) {
             setStorage(queryKey, data)

@@ -8,7 +8,7 @@ import { countries } from "@/constants";
 import useStorage from "@/hooks/useStorage";
 import { getStorage, setStorage } from "@/modules/storage";
 import { getFirstUrl } from "@/modules/functions";
-import { genToken } from "@/modules/token";
+import { newToken } from "@/modules/token";
 
 axios.defaults.baseURL = process.env.NEXT_PUBLIC_URL
 
@@ -37,7 +37,7 @@ export default function ContextProvider({ children }) {
         })
     }, [pending])
 
-    async function queryFn({ queryKey, pageParam = 1, type = 'fetch' }) {
+    async function queryFn({ queryKey, pageParam = 1, type = 'prefetch' }) {
         if (type !== 'prefetch') setProgress(33)
         const data = { country: queryKey[1], language: navigator.language.slice(0, 2), pageParam, firstUrl: getFirstUrl(queryKey, pageParam) }
         if (queryKey[0] === 'news') data.category = queryKey[2] || 'top'
@@ -45,11 +45,11 @@ export default function ContextProvider({ children }) {
             data.query = queryKey[2]
             data.date = queryKey[3]
         }
-        let [datatoken, expiry] = getStorage('token', [])
-        if (!datatoken || Date.now() > expiry) [datatoken] = setStorage('token', await genToken(data))
+        let [token, expiry] = getStorage('token', [])
+        if (!token || Date.now() > expiry) [token] = setStorage('token', await newToken())
         const { data: { success, nextPage, news } } = await axios({
-            url: type === 'search' ? type : '', method: 'post',
-            headers: { datatoken, 'Content-Type': 'application/json' }
+            url: type === 'search' ? type : '', method: 'post', data,
+            headers: { token: '1', 'Content-Type': 'application/json' }
         })
         if (!success || nextPage === undefined) throw new Error()
         setProgress(100)
