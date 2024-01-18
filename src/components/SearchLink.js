@@ -22,5 +22,5 @@ export default function SearchLink({ children, href, search, preserve = ['query'
         return { ...paramObj, ...search }
     }, [paramString])
 
-    return <Link {...props} href={{ pathname: href, query }} prefetch={false}>{children}</Link>
+    return <Link {...props} href={{ pathname: href, query }}>{children}</Link>
 }

@@ -75,8 +75,8 @@ export default function RootLayout({ children }) {
         </head>
 
         {/* Global site tag (gtag.js) - Google Analytics */}
-        <Script src="https://www.googletagmanager.com/gtag/js?id=G-6WZPD076ZK" strategy='worker' />
-        <Script id='google-analytics' strategy='worker'>
+        <Script src="https://www.googletagmanager.com/gtag/js?id=G-6WZPD076ZK" strategy='lazyOnload' />
+        <Script id='google-analytics' strategy='lazyOnload'>
             {`window.dataLayer = window.dataLayer || [];
                 function gtag() {dataLayer.push(arguments); }
                 gtag('js', new Date());

@@ -7,14 +7,14 @@ installSerwist({
     clientsClaim: true,
     cleanupOutdatedCaches: true,
     offlineAnalyticsConfig: true,
+    navigateFallback: false,
     precacheEntries: self.__SW_MANIFEST,
     precacheOptions: { ignoreURLParametersMatching: [/.*/] },
-    fallbacks: { entries: [{ url: '/~offline', revision: `${Date.now()}`, matcher }] },
     runtimeCaching: [
         {
             urlPattern: matcher,
             handler: 'NetworkOnly',
-            options: { cacheName: 'documents' }
+            options: { cacheName: 'documents', precacheFallback: { fallbackURL: '/~offline' } }
         },
         {
             urlPattern: /\.(?:eot|otf|ttc|ttf|woff|woff2|font.css)$/i,
@@ -68,14 +68,9 @@ installSerwist({
             options: { cacheName: 'static-data-assets' }
         },
         {
-            urlPattern: /^\/geocheck/,
+            urlPattern: ({ url }) => url.pathname === '/geocheck',
             handler: 'NetworkFirst',
             options: { cacheName: 'location' }
-        },
-        {
-            urlPattern: () => true,
-            handler: 'NetworkOnly',
-            options: { cacheName: 'others' }
         },
         {
             urlPattern: ({ sameOrigin }) => sameOrigin,
@@ -85,6 +80,11 @@ installSerwist({
                 cacheName: 'server-action',
                 plugins: [{ handlerDidError: () => new Response() }]
             }
+        },
+        {
+            urlPattern: () => true,
+            handler: 'NetworkOnly',
+            options: { cacheName: 'others' }
         }
     ]
 });

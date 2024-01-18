@@ -49,9 +49,6 @@ dependencies:
     version: 2.3.1(react@18.2.0)
 
 devDependencies:
-  '@builder.io/partytown':
-    specifier: ^0.8.2
-    version: 0.8.2
   eslint:
     specifier: ^8.56.0
     version: 8.56.0
@@ -126,12 +123,6 @@ packages:
       '@babel/helper-validator-identifier': 7.22.20
       to-fast-properties: 2.0.0
     dev: false
-
-  /@builder.io/partytown@0.8.2:
-    resolution: {integrity: sha512-WKGE+SO0qUGirW8J+xOWkHeCkfFEoPPvHnFkcdMl+MY3kDbAcTwjZCzjg27JCvoD0h8fH47FR7DSIss0/S5lyg==}
-    engines: {node: '>=18.0.0'}
-    hasBin: true
-    dev: true
 
   /@emotion/babel-plugin@11.11.0:
     resolution: {integrity: sha512-m4HEDZleaaCH+XgDDsPF15Ht6wTLsgDTeR3WYj9Q/k76JtWhrJjcP4+/XlG8LGT/Rol9qUfOIztXeA84ATpqPQ==}

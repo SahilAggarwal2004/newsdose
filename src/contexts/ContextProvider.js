@@ -30,9 +30,9 @@ export default function ContextProvider({ children }) {
         axios('https://feeds.intoday.in/geocheck').then(({ data }) => { // /location
             const code = data.country_code?.toLowerCase()
             setCountry({ method: 'auto', code: countries[code] ? code : 'in' })
-            setPending(false)
         }).catch(() => {
             setCountry({ method: 'auto', code: 'in' })
+        }).finally(() => {
             setPending(false)
         })
     }, [pending])
