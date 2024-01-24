@@ -1,3 +1,5 @@
+import Script from "next/script";
+
 export default function RootLayout({ children }) {
     return <html lang="en">
         <head>
@@ -73,13 +75,13 @@ export default function RootLayout({ children }) {
 
             {/* Global site tag (gtag.js) - Google Analytics */}
             <link rel="preload" href="https://www.googletagmanager.com/gtag/js?id=G-6WZPD076ZK" as="script"/>
-            <script id='google-analytics' async>
+            <Script id='google-analytics' async strategy="beforeInteractive">
                 {`window.dataLayer = window.dataLayer || [];
                 function gtag() {dataLayer.push(arguments); }
                 gtag('js', new Date());
 
                 gtag('config', 'G-6WZPD076ZK');`}
-            </script>
+            </Script>
         </head>
 
         <body>{children}</body>
