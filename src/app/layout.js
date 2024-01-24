@@ -1,4 +1,4 @@
-import { GoogleTagManager } from '@next/third-parties/google'
+import Script from 'next/script'
 
 export default function RootLayout({ children }) {
     return <html lang="en">
@@ -72,10 +72,18 @@ export default function RootLayout({ children }) {
                 media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" />
 
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossOrigin="anonymous" />
+
+            {/* Global site tag (gtag.js) - Google Analytics */}
+            <Script src="https://www.googletagmanager.com/gtag/js?id=G-6WZPD076ZK" strategy='worker' />
+            <Script id='google-analytics' strategy='worker'>
+                {`window.dataLayer = window.dataLayer || [];
+                function gtag() {dataLayer.push(arguments); }
+                gtag('js', new Date());
+
+                gtag('config', 'G-6WZPD076ZK');`}
+            </Script>
         </head>
 
         <body>{children}</body>
-
-        <GoogleTagManager gtmId='G-6WZPD076ZK' />
     </html>
 }

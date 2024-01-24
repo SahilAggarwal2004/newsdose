@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@next/third-parties": "^14.1.0",
     "@serwist/next": "^8.4.3",
     "@serwist/sw": "^8.4.3",
     "@tanstack/react-query": "^5.17.19",
