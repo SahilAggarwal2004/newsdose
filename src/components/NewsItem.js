@@ -14,6 +14,13 @@ export default function NewsItem(props) {
     const connectionSpeed = navigator.connection?.effectiveType
     const backupImg = imageFallback[index]
     const imgUrl = urlToImage?.match(/http/g)?.length !== 1 ? backupImg : `https://wsrv.nl/?url=${urlToImage}&width=450&height=300&maxage=1d&output=webp&q=${connectionSpeed?.includes('2') ? 5 : connectionSpeed?.includes('3') ? 10 : 25}`
+    const text = <>
+        <a href={url} target="_blank" rel="noreferrer" className="text-black text-decoration-none">
+            <h5 className="card-title">{title}</h5>
+        </a>
+        <hr />
+        <p className="card-text">{description}</p>
+    </>
 
     return <div className="card mt-4 mb-3 w-100" style={{ paddingBottom: "2rem" }}>
         <span className="position-absolute text-capitalize top-0 start-50 translate-middle badge rounded-pill bg-danger border">{source}</span>
@@ -24,21 +31,11 @@ export default function NewsItem(props) {
         </a>
         <div className="card-body">
             <hr />
-            <HighlightedText id={url} />
+            <HighlightedText id={url}>{text}</HighlightedText>
             <p className="card-text mt-2"><small className="text-muted">Published on {date}</small></p>
             <div className='position-absolute d-flex align-items-center m-1' style={{ bottom: "1rem" }}>
                 <span className="scale me-3 p-1">
-                    <Speech
-                        id={url} useStopOverPause highlightText lang={navigator.language} stopBtn={<HiVolumeOff size='1.25rem' />}
-                        highlightProps={{ style: { backgroundColor: 'yellow' } }}
-                        text={<>
-                            <a href={url} target="_blank" rel="noreferrer" className="text-black text-decoration-none">
-                                <h5 className="card-title">{title}</h5>
-                            </a>
-                            <hr />
-                            <p className="card-text">{description}</p>
-                        </>}
-                    />
+                    <Speech id={url} text={text} useStopOverPause highlightText lang={navigator.language} stopBtn={<HiVolumeOff size='1.25rem' />} highlightProps={{ style: { backgroundColor: 'yellow' } }} />
                 </span>
                 <span className="scale me-3 p-1">
                     <Bookmark {...props} />
