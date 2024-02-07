@@ -1,8 +1,5 @@
-"use client"
-
 /* eslint-disable react-hooks/exhaustive-deps */
 import Head from 'next/head';
-import { useSearchParams } from 'next/navigation';
 import { useMemo } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useNewsContext } from '@/contexts/ContextProvider';
@@ -13,10 +10,10 @@ import useURLState from '@/hooks/useURLState';
 import SearchLink from '@/components/SearchLink';
 import useCustomInfiniteQuery from '@/hooks/useCustomInfiniteQuery';
 
-export default function News() {
+export default function News({ router }) {
     const { country: { code: country } } = useNewsContext()
     const [query, setQuery] = useURLState('query', '')
-    const searchCategory = useSearchParams().get('category')
+    const searchCategory = router.query.category
     const category = useMemo(() => categories.includes(searchCategory) ? searchCategory : '', [searchCategory])
     const queryKey = useMemo(() => ['news', country, category], [country, category])
     const { news, length, error, isFetching, hasNextPage, fetchNextPage } = useCustomInfiniteQuery({ queryKey, query })

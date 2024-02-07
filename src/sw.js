@@ -14,7 +14,7 @@ installSerwist({
         {
             urlPattern: matcher,
             handler: 'NetworkOnly',
-            options: { cacheName: 'documents', precacheFallback: { fallbackURL: '/~offline' } }
+            options: { cacheName: 'documents', precacheFallback: { fallbackURL: '/_offline' } }
         },
         {
             urlPattern: /\.(?:eot|otf|ttc|ttf|woff|woff2|font.css)$/i,

@@ -1,5 +1,3 @@
-"use client"
-
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
@@ -17,12 +15,9 @@ export const useNewsContext = () => useContext(Context);
 export default function ContextProvider({ children }) {
     const client = useQueryClient();
     const [country, setCountry] = useStorage('country', { method: 'auto', code: '' })
-    const [loading, setLoading] = useState(true)
     const [pending, setPending] = useState(country.method === 'auto')
     const [progress, setProgress] = useState(0)
     const [shareUrl, setShareUrl] = useState(null)
-
-    useEffect(() => { setLoading(false) }, [])
 
     useEffect(() => {
         if (!pending) return
@@ -59,7 +54,7 @@ export default function ContextProvider({ children }) {
         setProgress(100)
     }
 
-    return !loading && <Context.Provider value={{ country, setCountry, pending, setPending, progress, setProgress, shareUrl, setShareUrl, queryFn, onError }}>
+    return <Context.Provider value={{ country, setCountry, pending, setPending, progress, setProgress, shareUrl, setShareUrl, queryFn, onError }}>
         {children}
     </Context.Provider>
 }

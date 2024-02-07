@@ -1,5 +1,3 @@
-"use client"
-
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useMemo } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'

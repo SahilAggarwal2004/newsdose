@@ -1,9 +1,6 @@
-export const removeStorage = (key, local = true) => (local ? localStorage : sessionStorage).removeItem(key)
+export const setStorage = (key, value, local = true) => (local ? localStorage : sessionStorage).setItem(key, JSON.stringify(value))
 
-export const setStorage = (key, value, local = true) => {
-    (local ? localStorage : sessionStorage).setItem(key, JSON.stringify(value))
-    return value
-}
+export const removeStorage = (key, local = true) => (local ? localStorage : sessionStorage).removeItem(key)
 
 export const getStorage = (key, fallbackValue, local = true) => {
     let value = (local ? localStorage : sessionStorage).getItem(key)
