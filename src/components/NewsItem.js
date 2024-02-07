@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import Speech from 'react-text-to-speech';
+import Speech, { HighlightedText } from 'react-text-to-speech';
 import { BsFillInfoSquareFill } from 'react-icons/bs'
 import { FaShareAlt } from 'react-icons/fa'
 import { HiVolumeOff } from 'react-icons/hi'
@@ -24,13 +24,21 @@ export default function NewsItem(props) {
         </a>
         <div className="card-body">
             <hr />
-            <a href={url} target="_blank" rel="noreferrer" className="text-black text-decoration-none"><h5 className="card-title">{title}</h5></a>
-            <hr />
-            <p className="card-text">{description}</p>
+            <HighlightedText id={url} />
             <p className="card-text mt-2"><small className="text-muted">Published on {date}</small></p>
             <div className='position-absolute d-flex align-items-center m-1' style={{ bottom: "1rem" }}>
                 <span className="scale me-3 p-1">
-                    <Speech text={`${title}. ${description || ''}`} lang={navigator.language} stopBtn={<HiVolumeOff size='1.25rem' />} useStopOverPause={true} />
+                    <Speech
+                        id={url} useStopOverPause highlightText lang={navigator.language} stopBtn={<HiVolumeOff size='1.25rem' />}
+                        highlightProps={{ style: { backgroundColor: 'yellow' } }}
+                        text={<>
+                            <a href={url} target="_blank" rel="noreferrer" className="text-black text-decoration-none">
+                                <h5 className="card-title">{title}</h5>
+                            </a>
+                            <hr />
+                            <p className="card-text">{description}</p>
+                        </>}
+                    />
                 </span>
                 <span className="scale me-3 p-1">
                     <Bookmark {...props} />

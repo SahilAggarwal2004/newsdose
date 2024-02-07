@@ -73,15 +73,6 @@ installSerwist({
             options: { cacheName: 'location' }
         },
         {
-            urlPattern: ({ sameOrigin }) => sameOrigin,
-            method: 'POST',
-            handler: 'NetworkOnly',
-            options: {
-                cacheName: 'server-action',
-                plugins: [{ handlerDidError: () => new Response() }]
-            }
-        },
-        {
             urlPattern: () => true,
             handler: 'NetworkOnly',
             options: { cacheName: 'others' }

@@ -6,9 +6,8 @@ import axios from "axios";
 import { useState, useContext, useEffect, createContext } from "react";
 import { countries } from "@/constants";
 import useStorage from "@/hooks/useStorage";
-import { getStorage, setStorage } from "@/modules/storage";
-import { getFirstUrl } from "@/modules/functions";
-import { newToken } from "@/modules/token";
+import { getStorage } from "@/modules/storage";
+import { genToken, getFirstUrl } from "@/modules/functions";
 
 axios.defaults.baseURL = process.env.NEXT_PUBLIC_URL
 
@@ -45,11 +44,9 @@ export default function ContextProvider({ children }) {
             data.query = queryKey[2]
             data.date = queryKey[3]
         }
-        let [token, expiry] = getStorage('token', [])
-        if (!token || Date.now() > expiry) [token] = setStorage('token', await newToken())
         const { data: { success, nextPage, news } } = await axios({
             url: type === 'search' ? type : '', method: 'post', data,
-            headers: { token, 'Content-Type': 'application/json' }
+            headers: { token: genToken(), 'Content-Type': 'application/json' }
         })
         if (!success || nextPage === undefined) throw new Error()
         setProgress(100)
