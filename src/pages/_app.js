@@ -10,7 +10,6 @@ import Modal from '@/components/Modal';
 import { hideNavbar } from '@/constants';
 import '@/styles/globals.css'
 
-const api = process.env.NEXT_PUBLIC_API
 const client = new QueryClient({ defaultOptions: { queries: { staleTime: 600000 } } })
 
 export default function RootLayout({ Component, pageProps }) {
@@ -33,7 +32,7 @@ export default function RootLayout({ Component, pageProps }) {
                 content="NewsDose is an online platform which provides quick daily news bites for free. Interested in weather, politics, sports news, etc? NewsDose is here for you!" />
             <link rel="manifest" href="/manifest.json" />
 
-            <link rel='preconnect' href={api} />
+            <link rel='preconnect' href={process.env.NEXT_PUBLIC_API} />
 
             <link rel="apple-touch-icon" href="icons/apple-icon-180.png" />
             <meta name="apple-mobile-web-app-capable" content="yes" />
