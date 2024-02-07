@@ -3,9 +3,7 @@ import { getStorage } from "@/modules/storage"
 
 const getTime = Date.now
 
-const getSecret = () => process.env.NEXT_PUBLIC_SECRET
-
-export const genToken = () => sign(getTime(), getSecret())
+export const genToken = () => sign(getTime(), process.env.NEXT_PUBLIC_SECRET)
 
 export function getFirstUrl(key, page) {
     const data = getStorage(key, undefined, key[0] === 'news')
