@@ -1,9 +1,7 @@
 import { sign } from "jssign"
 import { getStorage } from "@/modules/storage"
 
-const getTime = Date.now
-
-export const genToken = () => sign(getTime(), process.env.NEXT_PUBLIC_SECRET)
+export const genToken = () => sign(Date.now(), process.env.NEXT_PUBLIC_SECRET)
 
 export function getFirstUrl(key, page) {
     const data = getStorage(key, undefined, key[0] === 'news')
