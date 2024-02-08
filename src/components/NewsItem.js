@@ -18,6 +18,7 @@ export default function NewsItem(props) {
         <a href={url} target="_blank" rel="noreferrer" className="text-black text-decoration-none">
             <h5 className="card-title">{title}</h5>
         </a>
+        <span className='d-none'>.</span>
         <hr />
         <p className="card-text">{description}</p>
     </>
