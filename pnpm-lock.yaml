@@ -42,8 +42,8 @@ dependencies:
     specifier: ^5.0.3
     version: 5.0.3(react@18.2.0)
   react-text-to-speech:
-    specifier: ^0.8.11
-    version: 0.8.11(react-dom@18.2.0)(react@18.2.0)
+    specifier: ^0.8.12
+    version: 0.8.12(react-dom@18.2.0)(react@18.2.0)
   react-top-loading-bar:
     specifier: ^2.3.1
     version: 2.3.1(react@18.2.0)
@@ -2979,11 +2979,11 @@ packages:
       - supports-color
     dev: false
 
-  /react-text-to-speech@0.8.11(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-+xpIo+ywuDQf1+wnuv9Egfy7/7ZTNcCR/1EpL8LC4xQbgjXQLCQnxRHEIB6AZzjLTHcZRlzMurlXTSqiJwWRww==}
+  /react-text-to-speech@0.8.12(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-RZdIKndG8518/Qv13Eb4MNP/MnVnBBQsRc3pdmPowGzsXf56/Yv2/0YoqlkaXzy5jaBg4mkzS4tHUicLA3YflA==}
     peerDependencies:
-      react: '>=16.0.0'
-      react-dom: '>=16.0.0'
+      react: '>=17.0.0'
+      react-dom: '>=17.0.0'
     dependencies:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
