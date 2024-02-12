@@ -12,8 +12,8 @@ dependencies:
     specifier: ^8.4.4
     version: 8.4.4
   '@tanstack/react-query':
-    specifier: ^5.18.1
-    version: 5.18.1(react@18.2.0)
+    specifier: ^5.20.1
+    version: 5.20.1(react@18.2.0)
   axios:
     specifier: ^1.6.7
     version: 1.6.7
@@ -39,11 +39,11 @@ dependencies:
     specifier: ^5.8.0
     version: 5.8.0(react-dom@18.2.0)(react@18.2.0)
   react-share:
-    specifier: ^5.0.3
-    version: 5.0.3(react@18.2.0)
+    specifier: ^5.1.0
+    version: 5.1.0(react@18.2.0)
   react-text-to-speech:
-    specifier: ^0.8.12
-    version: 0.8.12(react-dom@18.2.0)(react@18.2.0)
+    specifier: ^0.8.13
+    version: 0.8.13(react-dom@18.2.0)(react@18.2.0)
   react-top-loading-bar:
     specifier: ^2.3.1
     version: 2.3.1(react@18.2.0)
@@ -707,16 +707,16 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /@tanstack/query-core@5.18.1:
-    resolution: {integrity: sha512-fYhrG7bHgSNbnkIJF2R4VUXb4lF7EBiQjKkDc5wOlB7usdQOIN4LxxHpDxyE3qjqIst1WBGvDtL48T0sHJGKCw==}
+  /@tanstack/query-core@5.20.1:
+    resolution: {integrity: sha512-OONHHYG5vzjob4An+EfzbW7TRyb+sCA0AEgHzUIMlV9NYlF7wIwbla3PUfB3ocnaK1gZyROf0Lux/CBSu0exBQ==}
     dev: false
 
-  /@tanstack/react-query@5.18.1(react@18.2.0):
-    resolution: {integrity: sha512-PdI07BbsahZ+04PxSuDQsQvBWe008eWFk/YYWzt8fvzt2sALUM0TpAJa/DFpqa7+SSo7j1EQR6Jx6znXNHyaXw==}
+  /@tanstack/react-query@5.20.1(react@18.2.0):
+    resolution: {integrity: sha512-KRkOtJ47tv9B3EXfjHkbPkiFzOzYCOid8BrYBozk0rm9JpDB2xSf71q8w1PRudlQW6QUQIEDI9E6NIMh6AlLUw==}
     peerDependencies:
       react: ^18.0.0
     dependencies:
-      '@tanstack/query-core': 5.18.1
+      '@tanstack/query-core': 5.20.1
       react: 18.2.0
     dev: false
 
@@ -2967,8 +2967,8 @@ packages:
       - '@types/react'
     dev: false
 
-  /react-share@5.0.3(react@18.2.0):
-    resolution: {integrity: sha512-8BFkzfd8zNrO6JMP4Dwrt2sTSrRGQ9bNrU3K0riAwRJe4U/Z8/ryjKuhP2jLoHsfxj38MsPuyEQiVlIHVIICvw==}
+  /react-share@5.1.0(react@18.2.0):
+    resolution: {integrity: sha512-OvyfMtj/0UzH1wi90OdHhZVJ6WUC/+IeWvBwppeZozwIGyAjQgyR0QXlHOrxVHVECqnGvcpBaFTXVrqouTieaw==}
     peerDependencies:
       react: ^17 || ^18
     dependencies:
@@ -2979,8 +2979,8 @@ packages:
       - supports-color
     dev: false
 
-  /react-text-to-speech@0.8.12(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-RZdIKndG8518/Qv13Eb4MNP/MnVnBBQsRc3pdmPowGzsXf56/Yv2/0YoqlkaXzy5jaBg4mkzS4tHUicLA3YflA==}
+  /react-text-to-speech@0.8.13(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-I6IAosn2gUd/hoxsbeCRkmmVCff9L96v+H4LcoylWrq0uIh+JjKvjxMhOpHDr34MGsdSNe6MMIxP0okO1oopSg==}
     peerDependencies:
       react: '>=17.0.0'
       react-dom: '>=17.0.0'
