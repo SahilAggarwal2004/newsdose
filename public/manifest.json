@@ -53,17 +53,8 @@
   "scope": "/",
   "lang": "en",
   "prefer_related_applications": false,
-  "categories": [
-    "magazines",
-    "news",
-    "politics",
-    "social",
-    "utilities"
-  ],
-  "display_override": [
-    "standalone",
-    "window-controls-overlay"
-  ],
+  "categories": ["magazines", "news", "politics", "social", "utilities"],
+  "display_override": ["standalone", "window-controls-overlay"],
   "edge_side_panel": {
     "preferred_width": 500
   }
