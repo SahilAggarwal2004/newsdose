@@ -72,10 +72,5 @@ installSerwist({
       handler: "NetworkFirst",
       options: { cacheName: "location" },
     },
-    {
-      urlPattern: () => true,
-      handler: "NetworkOnly",
-      options: { cacheName: "others" },
-    },
   ],
 });
