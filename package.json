@@ -21,7 +21,7 @@
     "react-infinite-scroll-component": "^6.1.0",
     "react-select": "^5.8.0",
     "react-share": "^5.1.0",
-    "react-text-to-speech": "^0.12.2",
+    "react-text-to-speech": "^0.12.3",
     "react-top-loading-bar": "^2.3.1"
   },
   "devDependencies": {

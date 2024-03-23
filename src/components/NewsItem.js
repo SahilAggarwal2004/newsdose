@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import { useMemo } from "react";
 import Speech, { HighlightedText } from "react-text-to-speech";
 import { BsFillInfoSquareFill } from "react-icons/bs";
 import { FaShareAlt } from "react-icons/fa";
@@ -14,15 +15,18 @@ export default function NewsItem(props) {
   const connectionSpeed = navigator.connection?.effectiveType;
   const backupImg = imageFallback[index];
   const imgUrl = urlToImage?.match(/http/g)?.length !== 1 ? backupImg : `https://wsrv.nl/?url=${urlToImage}&width=450&height=300&maxage=1d&output=webp&q=${connectionSpeed?.includes("2") ? 5 : connectionSpeed?.includes("3") ? 10 : 25}`;
-  const text = (
-    <>
-      <a href={url} target="_blank" rel="noreferrer" className="text-black text-decoration-none">
-        <h5 className="card-title">{title}</h5>
-      </a>
-      <span className="d-none">.</span>
-      <hr />
-      <p className="card-text">{description}</p>
-    </>
+  const text = useMemo(
+    () => (
+      <>
+        <a href={url} target="_blank" rel="noreferrer" className="text-black text-decoration-none">
+          <h5 className="card-title">{title}</h5>
+        </a>
+        <span className="d-none">.</span>
+        <hr />
+        <p className="card-text">{description}</p>
+      </>
+    ),
+    [title, description, url]
   );
 
   return (
