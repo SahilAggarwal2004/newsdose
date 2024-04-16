@@ -21,9 +21,8 @@ export default function ContextProvider({ children }) {
 
   useEffect(() => {
     if (!pending) return;
-    axios("https://feeds.intoday.in/geocheck")
+    axios("https://feeds.intoday.in/geocheck") // /location
       .then(({ data }) => {
-        // /location
         const code = data.country_code?.toLowerCase();
         setCountry({ method: "auto", code: countries[code] ? code : "in" });
       })
