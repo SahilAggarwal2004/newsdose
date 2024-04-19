@@ -20,7 +20,7 @@ export default function News() {
       <div style={{ marginTop: "70px" }}>
         <div className="grid container-fluid">
           <h1 className="text-center fs-3 text-capitalize mb-0">Top Headlines - Saved</h1>
-          <input className="form-control w-auto" type="search" placeholder="Search" aria-label="Search" value={query} onChange={(e) => setQuery(e.target.value.substring(0, 100))} />
+          <input className="form-control w-auto" type="search" placeholder="Search" aria-label="Search" defaultValue={query} onChange={(e) => setQuery(e.target.value.substring(0, 100))} />
         </div>
         <hr />
         <div className="panel row mx-3 py-2 gx-4">
