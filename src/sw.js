@@ -51,7 +51,7 @@ const serwist = new Serwist({
       handler: new NetworkFirst({ cacheName: "static-data-assets" }),
     },
     {
-      urlPattern: ({ url }) => url.pathname === "/geocheck",
+      matcher: ({ url }) => url.pathname === "/geocheck",
       handler: new NetworkFirst({ cacheName: "location" }),
     },
   ],
