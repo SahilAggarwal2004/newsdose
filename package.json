@@ -9,24 +9,24 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@tanstack/react-query": "^5.56.2",
+    "@tanstack/react-query": "^5.59.0",
     "axios": "^1.7.7",
     "jssign": "^0.3.6",
-    "next": "^14.2.11",
+    "next": "^14.2.14",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-icons": "^5.3.0",
     "react-infinite-scroll-component": "^6.1.0",
-    "react-select": "^5.8.0",
+    "react-select": "^5.8.1",
     "react-share": "^5.1.0",
-    "react-text-to-speech": "^0.19.2",
+    "react-text-to-speech": "^0.19.3",
     "react-top-loading-bar": "^2.3.1"
   },
   "devDependencies": {
     "@builder.io/partytown": "^0.10.2",
-    "@serwist/next": "^9.0.7",
+    "@serwist/next": "^9.0.9",
     "eslint": "^8.57.0",
-    "eslint-config-next": "^14.2.11",
-    "serwist": "^9.0.7"
+    "eslint-config-next": "^14.2.14",
+    "serwist": "^9.0.9"
   }
 }
