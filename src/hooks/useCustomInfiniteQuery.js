@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useLayoutEffect, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useNewsContext } from "@/contexts/ContextProvider";
 import { getStorage, setStorage } from "@/modules/storage";
@@ -33,7 +33,7 @@ export default function useCustomInfiniteQuery({ queryKey, query }) {
     window.scrollTo(0, 0);
   }, [country]);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (isFetching) return;
     if (error || !data) onError(queryKey);
   }, [isFetching]);

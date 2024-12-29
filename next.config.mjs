@@ -8,7 +8,7 @@ const revision = Date.now().toString();
 const withPWA = withSerwistInit({
   swSrc: "src/sw.js",
   swDest: "public/sw.js",
-  exclude: [/public\/sw.js/],
+  exclude: [/public\/sw.js/, /dynamic-css-manifest.json/],
   disable: process.env.NODE_ENV === "development",
   additionalPrecacheEntries: pages.concat(news, extras).map((url) => ({ url, revision })),
 });
