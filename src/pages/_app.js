@@ -21,9 +21,7 @@ export default function RootLayout({ Component, pageProps }) {
 
   useEffect(() => {
     setLoading(false);
-    if ("serviceWorker" in navigator) {
-      window.serwist.register().then(handleVersionUpdate);
-    }
+    if ("serviceWorker" in navigator) window.serwist.register().then(handleVersionUpdate);
   }, []);
 
   return (

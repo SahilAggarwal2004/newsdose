@@ -1,6 +1,6 @@
 {
   "name": "newsdose",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
@@ -9,24 +9,24 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@tanstack/react-query": "^5.66.5",
+    "@tanstack/react-query": "^5.66.9",
     "axios": "^1.7.9",
     "jssign": "^0.3.6",
     "next": "^15.1.7",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-icons": "^5.4.0",
+    "react-icons": "^5.5.0",
     "react-infinite-scroll-component": "^6.1.0",
     "react-select": "^5.10.0",
-    "react-share": "^5.2.0",
-    "react-text-to-speech": "^1.2.4",
+    "react-share": "^5.2.1",
+    "react-text-to-speech": "^1.2.5",
     "react-top-loading-bar": "^3.0.2"
   },
   "devDependencies": {
     "@builder.io/partytown": "^0.10.3",
-    "@serwist/next": "^9.0.11",
-    "eslint": "^9.20.1",
+    "@serwist/next": "^9.0.12",
+    "eslint": "^9.21.0",
     "eslint-config-next": "^15.1.7",
-    "serwist": "^9.0.11"
+    "serwist": "^9.0.12"
   }
 }

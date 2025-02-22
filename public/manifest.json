@@ -1,7 +1,7 @@
 {
   "short_name": "NewsDose",
   "name": "NewsDose - Daily dose of news for free!",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "manifest_version": 2,
   "description": "NewsDose is an online platform which provides quick daily news bites in different categories for free.",
   "author": "Sahil Aggarwal",
@@ -67,5 +67,5 @@
   "edge_side_panel": {
     "preferred_width": 500
   },
-  "id": "1.1.0"
+  "id": "1.1.1"
 }
