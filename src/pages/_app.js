@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -46,6 +45,8 @@ export default function RootLayout({ Component, pageProps }) {
         <link rel="manifest" href="/manifest.json" />
 
         <link rel="preconnect" href={process.env.NEXT_PUBLIC_API} />
+
+        <meta name="google-site-verification" content="5_rdfkDpTLo7tXDzIkEfmQb1wH_0AmpbcQOAPhLNBLQ" />
 
         <link rel="apple-touch-icon" href="icons/apple-icon-180.png" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
