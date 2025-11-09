@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useNewsContext } from "@/contexts/ContextProvider";
 import { getStorage, setStorage } from "@/modules/storage";
@@ -13,7 +13,7 @@ export default function useCustomInfiniteQuery({ queryKey, query }) {
     onError,
   } = useNewsContext();
   const type = queryKey[0];
-  const placeholderData = useMemo(() => getStorage(queryKey, undefined, type === "news"), [queryKey]); // Avoiding multiple getStorage calls on re-renders as well as we need only old cached data for retry param
+  const placeholderData = getStorage(queryKey, undefined, type === "news");
 
   const { data, error, isFetching, hasNextPage, fetchNextPage } = useInfiniteQuery({
     queryKey,
@@ -23,15 +23,16 @@ export default function useCustomInfiniteQuery({ queryKey, query }) {
     getNextPageParam: ({ nextPage }) => nextPage || undefined,
     queryFn: async ({ pageParam }) => queryFn({ queryKey, page: pageParam, type }),
   });
-  const fullNews = useMemo(() => {
-    if (data) setStorage(queryKey, data, type === "news");
-    return data?.pages?.flatMap(({ news }) => news || []) || [];
-  }, [data]);
+  const fullNews = data?.pages?.flatMap(({ news }) => news || []) || [];
   const news = type === "news" && query ? fullNews.filter((item) => includes(item, query) && item) : fullNews;
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [country]);
+
+  useEffect(() => {
+    if (data) setStorage(queryKey, data, type === "news");
+  }, [data]);
 
   useEffect(() => {
     if (isFetching) return;

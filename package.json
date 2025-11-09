@@ -4,29 +4,30 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "build": "next build --webpack",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
-    "@tanstack/react-query": "^5.80.7",
-    "axios": "^1.9.0",
+    "@tanstack/react-query": "^5.90.7",
+    "axios": "^1.13.2",
     "jssign": "^0.3.6",
-    "next": "^15.3.3",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
+    "next": "^16.0.1",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
     "react-icons": "^5.5.0",
     "react-infinite-scroll-component": "^6.1.0",
-    "react-select": "^5.10.1",
+    "react-select": "^5.10.2",
     "react-share": "^5.2.2",
-    "react-text-to-speech": "^2.0.3",
+    "react-text-to-speech": "^5.0.2",
     "react-top-loading-bar": "^3.0.2"
   },
   "devDependencies": {
     "@builder.io/partytown": "^0.10.3",
-    "@serwist/next": "^9.0.15",
-    "eslint": "^9.29.0",
-    "eslint-config-next": "^15.3.3",
-    "serwist": "^9.0.15"
+    "@serwist/next": "^9.2.1",
+    "babel-plugin-react-compiler": "^1.0.0",
+    "eslint": "^9.39.1",
+    "eslint-config-next": "^16.0.1",
+    "serwist": "^9.2.1"
   }
 }

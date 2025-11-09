@@ -11,13 +11,14 @@ const withPWA = withSerwistInit({
   swSrc: "src/sw.js",
   swDest: "public/sw.js",
   exclude: [/public\/sw.js/],
-  disable: process.env.NODE_ENV === "development",
+  disable: process.env.NODE_ENV !== "production",
   register: false,
   additionalPrecacheEntries: pages.concat(news, extras).map((url) => ({ url, revision })),
 });
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  reactCompiler: true,
   experimental: {
     nextScriptWorkers: true,
   },
@@ -33,7 +34,7 @@ const updateManifestVersion = () => {
     fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2) + "\n");
     console.log(`✅ Manifest version updated to ${packageJSON.version}`);
   } else {
-    console.warn("⚠️  manifest.json not found!");
+    console.warn("⚠️ manifest.json not found!");
   }
 };
 

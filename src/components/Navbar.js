@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useQueryClient } from "@tanstack/react-query";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import ReactSelect from "react-select";
 import LoadingBar from "react-top-loading-bar";
@@ -22,9 +22,8 @@ export default function Navbar() {
   const client = useQueryClient();
   const [width, setWidth] = useState(window.outerWidth);
   const country = importedCountries[code];
-  const countries = useMemo(() => ({ ...importedCountries, auto: "Auto" + (method === "auto" && country ? ` (${country})` : "") }), [method, code]);
-  const options = useMemo(() => Object.entries(countries).reduce((arr, [value, label]) => arr.concat({ value, label }), []), [countries]);
-  const defaultCountry = useMemo(() => options[Object.keys(countries).indexOf(method || code)], [options]);
+  const countries = { ...importedCountries, auto: "Auto" + (method === "auto" && country ? ` (${country})` : "") };
+  const options = Object.entries(countries).reduce((arr, [value, label]) => arr.concat({ value, label }), []);
 
   useEffect(() => {
     window.addEventListener("resize", () => setWidth(window.outerWidth));
@@ -54,7 +53,15 @@ export default function Navbar() {
           <SearchLink href="/" className="navbar-brand">
             NewsDose
           </SearchLink>
-          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
             <span className="navbar-toggler-icon" />
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
@@ -79,7 +86,14 @@ export default function Navbar() {
               ))}
             </ul>
             <div className="d-flex justify-content-center align-items-center">
-              <ReactSelect id="countries" options={options} defaultValue={defaultCountry} onChange={updateCountry} className="ms-4 me-3" isSearchable={false} />
+              <ReactSelect
+                id="countries"
+                options={options}
+                defaultValue={options[Object.keys(countries).indexOf(method || code)]}
+                onChange={updateCountry}
+                className="ms-4 me-3"
+                isSearchable={false}
+              />
               <SearchLink href="/search" className="text-black mb-1">
                 <FaSearch title="Search" data-bs-toggle="collapse" data-bs-target={width <= 991 && "#navbarSupportedContent"} />
               </SearchLink>
