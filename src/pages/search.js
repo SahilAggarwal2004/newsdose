@@ -16,9 +16,9 @@ export default function Search() {
   const [search, setSearch] = useURLState("query", "");
   const [date, setDate] = useURLState("date", "");
   const query = useDebounce(search);
+  const queryKey = useMemo(() => ["search", country, query, date], [country, query, date]);
+  const { news, length, error, isFetching, hasNextPage, fetchNextPage } = useCustomInfiniteQuery({ queryKey, query });
   const { min: minDate, max: maxDate } = getDateRange();
-
-  const { news, length, error, isFetching, hasNextPage, fetchNextPage } = useCustomInfiniteQuery({ queryKey: ["search", country, query, date], query });
 
   return (
     <div style={{ marginTop: "70px" }}>

@@ -10,7 +10,7 @@ import useURLState from "@/hooks/useURLState";
 export default function News() {
   const [query, setQuery] = useURLState("query", "");
   const fullNews = useMemo(() => getStorage("news", []), []);
-  const news = query ? fullNews.filter((item) => includes(item, query) && item) : fullNews;
+  const news = useMemo(() => (query ? fullNews.filter((item) => includes(item, query) && item) : fullNews), [query, fullNews]);
 
   return (
     <>

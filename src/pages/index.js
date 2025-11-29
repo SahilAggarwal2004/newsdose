@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import Head from "next/head";
+import { useMemo } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useNewsContext } from "@/contexts/ContextProvider";
 import Loader from "@/components/Loader";
@@ -16,7 +17,8 @@ export default function News({ router }) {
   const [query, setQuery] = useURLState("query", "");
   const searchCategory = router.query.category;
   const category = categories.includes(searchCategory) ? searchCategory : "";
-  const { news, length, error, isFetching, hasNextPage, fetchNextPage } = useCustomInfiniteQuery({ queryKey: ["news", country, category], query });
+  const queryKey = useMemo(() => ["news", country, category], [country, category]);
+  const { news, length, error, isFetching, hasNextPage, fetchNextPage } = useCustomInfiniteQuery({ queryKey, query });
 
   return (
     <>

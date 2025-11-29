@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import ReactSelect from "react-select";
 import LoadingBar from "react-top-loading-bar";
@@ -22,8 +22,8 @@ export default function Navbar() {
   const client = useQueryClient();
   const [width, setWidth] = useState(window.outerWidth);
   const country = importedCountries[code];
-  const countries = { ...importedCountries, auto: "Auto" + (method === "auto" && country ? ` (${country})` : "") };
-  const options = Object.entries(countries).reduce((arr, [value, label]) => arr.concat({ value, label }), []);
+  const countries = useMemo(() => ({ ...importedCountries, auto: "Auto" + (method === "auto" && country ? ` (${country})` : "") }), [method, code]);
+  const options = useMemo(() => Object.entries(countries).reduce((arr, [value, label]) => arr.concat({ value, label }), []), [countries]);
 
   useEffect(() => {
     window.addEventListener("resize", () => setWidth(window.outerWidth));

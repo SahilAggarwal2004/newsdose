@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useNewsContext } from "@/contexts/ContextProvider";
 import { getStorage, setStorage } from "@/modules/storage";
@@ -13,7 +13,7 @@ export default function useCustomInfiniteQuery({ queryKey, query }) {
     onError,
   } = useNewsContext();
   const type = queryKey[0];
-  const placeholderData = getStorage(queryKey, undefined, type === "news");
+  const placeholderData = useMemo(() => getStorage(queryKey, undefined, type === "news"), [queryKey]);
 
   const { data, error, isFetching, hasNextPage, fetchNextPage } = useInfiniteQuery({
     queryKey,
@@ -23,7 +23,7 @@ export default function useCustomInfiniteQuery({ queryKey, query }) {
     getNextPageParam: ({ nextPage }) => nextPage || undefined,
     queryFn: async ({ pageParam }) => queryFn({ queryKey, page: pageParam, type }),
   });
-  const fullNews = data?.pages?.flatMap(({ news }) => news || []) || [];
+  const fullNews = useMemo(() => data?.pages?.flatMap(({ news }) => news || []) || [], [data]);
   const news = type === "news" && query ? fullNews.filter((item) => includes(item, query) && item) : fullNews;
 
   useEffect(() => {
