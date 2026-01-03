@@ -48,8 +48,8 @@ export default function RootLayout({ Component, pageProps }) {
 
         <meta name="google-site-verification" content="5_rdfkDpTLo7tXDzIkEfmQb1wH_0AmpbcQOAPhLNBLQ" />
 
+        <meta name="mobile-web-app-capable" content="yes" />
         <link rel="apple-touch-icon" href="icons/apple-icon-180.png" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
         <link
           rel="apple-touch-startup-image"
           href="icons/apple-splash-2048-2732.jpg"

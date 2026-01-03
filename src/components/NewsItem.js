@@ -48,7 +48,7 @@ export default function NewsItem(props) {
         </p>
         <div className="position-absolute d-flex align-items-center m-1" style={{ bottom: "1rem" }}>
           <span className="scale me-3 p-1">
-            <Speech id={url} text={text} useStopOverPause highlightText lang={navigator.language} stopBtn={<HiVolumeOff size="1.25rem" />} />
+            <Speech id={url} text={text} useStopOverPause stableText highlightText lang={navigator.language} stopBtn={<HiVolumeOff size="1.25rem" />} />
           </span>
           <span className="scale me-3 p-1">
             <Bookmark {...props} />
