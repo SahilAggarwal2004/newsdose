@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -16,7 +17,6 @@ const client = new QueryClient({ defaultOptions: { queries: { staleTime: 600000 
 export default function RootLayout({ Component, pageProps }) {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
-  pageProps.router = router;
 
   useEffect(() => {
     setLoading(false);
@@ -224,7 +224,7 @@ export default function RootLayout({ Component, pageProps }) {
             <>
               {!hideNavbar.includes(router.pathname) && <Navbar />}
               <Modal />
-              <Component {...pageProps} />
+              <Component {...pageProps} router={router} />
             </>
           )}
         </ContextProvider>

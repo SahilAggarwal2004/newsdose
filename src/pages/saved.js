@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useMemo } from "react";
 import Head from "next/head";
 import NewsItem from "@/components/NewsItem";

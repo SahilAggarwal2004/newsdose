@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import Head from "next/head";
 import { useMemo } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";

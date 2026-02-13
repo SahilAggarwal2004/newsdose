@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useNewsContext } from "@/contexts/ContextProvider";
 import Loader from "@/components/Loader";
